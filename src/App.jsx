@@ -13,13 +13,14 @@ const App = () => {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [newPost, setNewPost] = useState(null);
+  const [DeletedPost, setDeletedPost] = useState(null);
 
   useEffect(() => {
     const fetchFunc = async () => {
       await api
         .get("/posts")
         .then((data) => {
-          // console.log("get\n" + data);
+          console.log("get\n" + data);
           if (data.status == 200) {
             setPosts(data.data);
           }
@@ -30,6 +31,22 @@ const App = () => {
     };
     fetchFunc();
   }, []);
+  useEffect(() => {
+    const deletePost = async () => {
+      await api
+        .delete(`/posts:${DeletedPost.id}`)
+        .then((data) => setPosts(data.data))
+        .catch((e) => {
+          console.log("could not delete");
+          console.log(e);
+        });
+    };
+
+    if (DeletedPost != null) {
+      console.log(DeletedPost);
+      deletePost();
+    }
+  }, [DeletedPost]);
 
   useEffect(() => {
     const updateFunc = async (obj) => {
@@ -73,7 +90,13 @@ const App = () => {
         />
         <Route
           path="/posts/:id"
-          element={<PostPage posts={posts} setPosts={setPosts} />}
+          element={
+            <PostPage
+              posts={posts}
+              setPosts={setPosts}
+              setDeletedPost={setDeletedPost}
+            />
+          }
         />
         <Route path="*" element={<Missing />} />
       </Routes>

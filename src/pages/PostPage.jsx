@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const PostPage = ({ posts, setPosts }) => {
+const PostPage = ({ posts, setPosts, setDeletedPost }) => {
   const navigate = useNavigate();
   const params = useParams();
   const post = posts.find((post) => post.id.toString() === params.id);
   const handleDelete = () => {
+    setDeletedPost(posts.filter((item) => item.id.toString() == params.id)[0]);
     setPosts(posts.filter((item) => item.id.toString() != params.id));
     navigate("/");
   };
