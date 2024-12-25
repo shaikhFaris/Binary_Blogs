@@ -1,7 +1,10 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useContext } from "react";
+import DataContext from "../context/DataContext";
 
-const PostPage = ({ posts, setPosts, setDeletedPost }) => {
+const PostPage = () => {
+  const { posts, setPosts, setDeletedPost } = useContext(DataContext);
   const navigate = useNavigate();
   const params = useParams();
   const post = posts.find((post) => post.id.toString() === params.id);

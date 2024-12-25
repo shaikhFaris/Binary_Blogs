@@ -1,6 +1,10 @@
 import { MdOutlineLightMode } from "react-icons/md";
 import { Link } from "react-router-dom";
-const Navbar = ({ setSearch }) => {
+import { useContext } from "react";
+import DataContext from "../context/DataContext";
+
+const Navbar = () => {
+  const { setSearch } = useContext(DataContext);
   const handleMode = () => {
     const mode = document.querySelector("html").className;
     if (mode == "light") {

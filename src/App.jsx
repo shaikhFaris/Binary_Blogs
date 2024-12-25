@@ -9,98 +9,22 @@ import PostPage from "./pages/PostPage";
 import CreateBlogPage from "./pages/CreateBlogPage";
 import api from "./api/posts.api.js";
 import useAxiosFetch from "./hooks/useAxiosFetch.jsx";
+import { DataProvider } from "./context/DataContext.jsx";
 
 const App = () => {
-  const [posts, setPosts] = useState([]);
-  const [search, setSearch] = useState("");
-  const [newPost, setNewPost] = useState(null);
-  const [DeletedPost, setDeletedPost] = useState(null);
-  const { Data, FetchErr, IsLoading } = useAxiosFetch(
-    "http://localhost:3000/posts"
-  );
-
-  useEffect(() => {
-    setPosts(Data);
-  }, [Data]);
-
-  useEffect(() => {
-    const deletePost = async () => {
-      await api
-        .delete(`/posts${DeletedPost.id}`)
-        .then((data) => {
-          setPosts(data.data);
-          // console.log(data.data);
-        })
-        .catch((e) => {
-          console.log("could not delete");
-          console.log(e);
-        });
-    };
-
-    if (DeletedPost != null) {
-      console.log(DeletedPost);
-      deletePost();
-    }
-  }, [DeletedPost]);
-
-  useEffect(() => {
-    const updateFunc = async (obj) => {
-      await api
-        .post("/posts", { data: obj })
-        .then((data) => {
-          console.log(data.status);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    };
-    if (newPost != null) {
-      console.log(newPost);
-      updateFunc({
-        ...newPost,
-        id: posts.length != 0 ? posts[[posts.length - 1]].id + 1 : 1,
-      });
-      let tempPosts = posts;
-      tempPosts.push({
-        ...newPost,
-        id: posts.length != 0 ? posts[[posts.length - 1]].id + 1 : 1,
-      });
-      setPosts(tempPosts);
-      setNewPost(null);
-    }
-    return () => {
-      setNewPost(null);
-    };
-  }, [newPost]);
-
   return (
     <main className="bg-[hsl(var(--background))]  min-h-screen max-w-screen-2xl">
-      <Navbar setSearch={setSearch} />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home posts={posts} FetchErr={FetchErr} IsLoading={IsLoading} />
-          }
-        />
-        <Route path="/updates" element={<Updates />} />
-        <Route
-          path="/create"
-          element={<CreateBlogPage seetNewPost={setNewPost} />}
-        />
-        <Route
-          path="/posts/:id"
-          element={
-            <PostPage
-              posts={posts}
-              setPosts={setPosts}
-              setDeletedPost={setDeletedPost}
-            />
-          }
-        />
-        <Route path="*" element={<Missing />} />
-      </Routes>
-      <Footer />
+      <DataProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/updates" element={<Updates />} />
+          <Route path="/create" element={<CreateBlogPage />} />
+          <Route path="/posts/:id" element={<PostPage />} />
+          <Route path="*" element={<Missing />} />
+        </Routes>
+        <Footer />
+      </DataProvider>
     </main>
   );
 };

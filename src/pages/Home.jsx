@@ -2,9 +2,12 @@ import React from "react";
 import Feed from "../components/Feed";
 import { useNavigate } from "react-router-dom";
 import Hero from "../components/Hero";
+import { useContext } from "react";
+import DataContext from "../context/DataContext";
 
-const Home = ({ posts, FetchErr, IsLoading }) => {
+const Home = () => {
   // posts = [];
+  const { posts, FetchErr, IsLoading } = useContext(DataContext);
   const navigate = useNavigate();
   return (
     <div className="mt-10 pl-7 text-[hsl(var(--foreground))] min-h-screen">
@@ -22,14 +25,14 @@ const Home = ({ posts, FetchErr, IsLoading }) => {
           </h1>
         )}
         {!IsLoading && FetchErr && (
-          <h1 className="text-4xl font-bold text-[hsl(var(--foreground))] break-words overflow-hidden">
+          <h1 className="text-4xl font-bold text-red-600 break-words overflow-hidden">
             {FetchErr}
           </h1>
         )}
         {!IsLoading && !FetchErr && posts.length > 0 ? (
           <Feed posts={posts} />
         ) : (
-          <h1>No posts to show</h1>
+          !IsLoading && !FetchErr && <h1>No posts to show</h1>
         )}
       </div>
     </div>
