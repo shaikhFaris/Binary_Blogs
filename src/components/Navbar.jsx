@@ -35,7 +35,7 @@ const Navbar = () => {
             Pricing
           </li>
           <li className="hover:text-[hsl(var(--foreground))] duration-150">
-            Login
+            <Link to={"/login"}>Login</Link>
           </li>
         </ul>
       </div>
