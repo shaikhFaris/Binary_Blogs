@@ -3,7 +3,7 @@ import Feed from "../components/Feed";
 import { useNavigate } from "react-router-dom";
 import Hero from "../components/Hero";
 
-const Home = ({ posts }) => {
+const Home = ({ posts, FetchErr, IsLoading }) => {
   // posts = [];
   const navigate = useNavigate();
   return (
@@ -16,7 +16,21 @@ const Home = ({ posts }) => {
         Create new blog
       </button>
       <div className="mt-10">
-        {posts.length > 0 ? <Feed posts={posts} /> : <h1>No posts to show</h1>}
+        {!FetchErr && IsLoading && (
+          <h1 className="text-4xl font-bold text-[hsl(var(--foreground))] break-words overflow-hidden">
+            Loading...
+          </h1>
+        )}
+        {!IsLoading && FetchErr && (
+          <h1 className="text-4xl font-bold text-[hsl(var(--foreground))] break-words overflow-hidden">
+            {FetchErr}
+          </h1>
+        )}
+        {!IsLoading && !FetchErr && posts.length > 0 ? (
+          <Feed posts={posts} />
+        ) : (
+          <h1>No posts to show</h1>
+        )}
       </div>
     </div>
   );

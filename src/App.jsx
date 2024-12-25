@@ -8,34 +8,29 @@ import { useState, useEffect } from "react";
 import PostPage from "./pages/PostPage";
 import CreateBlogPage from "./pages/CreateBlogPage";
 import api from "./api/posts.api.js";
+import useAxiosFetch from "./hooks/useAxiosFetch.jsx";
 
 const App = () => {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [newPost, setNewPost] = useState(null);
   const [DeletedPost, setDeletedPost] = useState(null);
+  const { Data, FetchErr, IsLoading } = useAxiosFetch(
+    "http://localhost:3000/posts"
+  );
 
   useEffect(() => {
-    const fetchFunc = async () => {
-      await api
-        .get("/posts")
-        .then((data) => {
-          console.log("get\n" + data);
-          if (data.status == 200) {
-            setPosts(data.data);
-          }
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    };
-    fetchFunc();
-  }, []);
+    setPosts(Data);
+  }, [Data]);
+
   useEffect(() => {
     const deletePost = async () => {
       await api
-        .delete(`/posts:${DeletedPost.id}`)
-        .then((data) => setPosts(data.data))
+        .delete(`/posts${DeletedPost.id}`)
+        .then((data) => {
+          setPosts(data.data);
+          // console.log(data.data);
+        })
         .catch((e) => {
           console.log("could not delete");
           console.log(e);
@@ -82,7 +77,12 @@ const App = () => {
     <main className="bg-[hsl(var(--background))]  min-h-screen max-w-screen-2xl">
       <Navbar setSearch={setSearch} />
       <Routes>
-        <Route path="/" element={<Home posts={posts} />} />
+        <Route
+          path="/"
+          element={
+            <Home posts={posts} FetchErr={FetchErr} IsLoading={IsLoading} />
+          }
+        />
         <Route path="/updates" element={<Updates />} />
         <Route
           path="/create"
