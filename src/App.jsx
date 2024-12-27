@@ -9,6 +9,7 @@ import PostPage from "./pages/PostPage";
 import CreateBlogPage from "./pages/CreateBlogPage";
 import { DataProvider } from "./context/DataContext.jsx";
 import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 
 const App = () => {
   return (
@@ -19,8 +20,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/updates" element={<Updates />} />
           <Route path="/create" element={<CreateBlogPage />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/posts/:id" element={<PostPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="*" element={<Missing />} />
         </Routes>
         <Footer />
