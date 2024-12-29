@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { reqLogger_middleware } from "./middleware/eventLogger.js";
+import registerRoute from "./routes/register.route.js";
+import mongoose from "mongoose";
 const app = express();
 const PORT = 3000;
 
@@ -61,12 +63,22 @@ let data = [
     body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!",
   },
 ];
+try {
+  mongoose.connect("mongodb://localhost:27017/Binary-Blogs");
+  console.log("connected to DB");
+} catch (error) {
+  console.log(error);
+}
 
 // logger
 app.use(reqLogger_middleware);
 
+// cors
 app.use(cors());
+
+// to parse body
 app.use(express.json());
+
 // This is setting for get request
 app.get("/posts", (req, res) => {
   res.json(data);
@@ -85,10 +97,7 @@ app.delete("/posts:id", (req, res) => {
   res.status(201).json(data);
 });
 
-app.post("/register", (req, res) => {
-  console.log(req.body);
-  res.status(201).json("created");
-});
+app.use("/register", registerRoute);
 
 app.all("*", (req, res) => {
   res.sendStatus(404);

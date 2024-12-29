@@ -54,7 +54,7 @@ const RegisterForm = () => {
 
   useEffect(() => {
     const result = EMAIL_REGEX.test(email);
-    console.log(result);
+    // console.log(result);
     setvalidEmail(result);
   }, [email]);
 
@@ -73,15 +73,16 @@ const RegisterForm = () => {
       );
       return;
     }
-    const data = { username: user, password: pass, email: email };
+    const data = { username: user, email: email, password: pass };
     await axios
       .post(REGISTER_URL, data)
       .then((response) => {
-        console.log(response);
         setsuccess(true);
       })
       .catch((e) => {
-        setErrMsg(e.message);
+        if (e.status === 409) setErrMsg("User or email already registered.");
+        if (e.status === 500) setErrMsg("Server problem. Please try later.");
+        if (e.status === 400) setErrMsg("Invalid entry.");
       });
   };
 
