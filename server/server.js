@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { reqLogger_middleware } from "./middleware/eventLogger.js";
 const app = express();
 const PORT = 3000;
 
@@ -61,6 +62,9 @@ let data = [
   },
 ];
 
+// logger
+app.use(reqLogger_middleware);
+
 app.use(cors());
 app.use(express.json());
 // This is setting for get request
@@ -84,5 +88,9 @@ app.delete("/posts:id", (req, res) => {
 app.post("/register", (req, res) => {
   console.log(req.body);
   res.status(201).json("created");
+});
+
+app.all("*", (req, res) => {
+  res.sendStatus(404);
 });
 app.listen(3000);
