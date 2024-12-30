@@ -9,8 +9,7 @@ const authJWT = (req, res, next) => {
   jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded) => {
     if (err) return res.sendStatus(403); //invalid token
     console.log(decoded);
-
-    // req.user = decoded.email;
+    req.user = decoded.email;
     next();
   });
 };
