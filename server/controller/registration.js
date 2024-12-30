@@ -27,6 +27,7 @@ const registration = async (req, res) => {
       username: username,
       email: email,
       hashedPassword: hashpass,
+      refreshToken: null,
     });
     res.sendStatus(201);
   } catch (error) {

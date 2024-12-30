@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { reqLogger_middleware } from "./middleware/eventLogger.js";
 import registerRoute from "./routes/register.route.js";
+import loginRoute from "./routes/auth.route.js";
 import mongoose from "mongoose";
 const app = express();
 const PORT = 3000;
@@ -98,6 +99,7 @@ app.delete("/posts:id", (req, res) => {
 });
 
 app.use("/register", registerRoute);
+app.use("/login", loginRoute);
 
 app.all("*", (req, res) => {
   res.sendStatus(404);
