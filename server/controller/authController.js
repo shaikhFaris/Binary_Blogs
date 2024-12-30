@@ -25,6 +25,7 @@ const authController = async (req, res) => {
     return;
   }
   try {
+    // dont remove await from here
     const ifPassCorrect = await bcrypt.compare(
       password,
       alreadyUser.hashedPassword
@@ -48,11 +49,21 @@ const authController = async (req, res) => {
           { _id: alreadyUser.id },
           { refreshToken: refreshToken }
         );
-        res.status(200).json("user logged in");
       } catch (e) {
         console.log(e);
         res.sendStatus(500);
+        return;
       }
+
+      res.cookie("jwt", refreshToken, {
+        httpOnly: true,
+        secure: true, // Ensures cookie is sent only over HTTPS
+        sameSite: "strict", // Prevents CSRF by restricting cross-origin requests
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      res.status(200).json(accessToken);
+
+      // if password is wrong
     } else {
       res.sendStatus(401);
     }

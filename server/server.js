@@ -4,6 +4,8 @@ import { reqLogger_middleware } from "./middleware/eventLogger.js";
 import registerRoute from "./routes/register.route.js";
 import loginRoute from "./routes/auth.route.js";
 import mongoose from "mongoose";
+import authJWT from "./middleware/authJWT.js";
+import cookieParser from "cookie-parser";
 const app = express();
 const PORT = 3000;
 
@@ -80,6 +82,15 @@ app.use(cors());
 // to parse body
 app.use(express.json());
 
+app.use(cookieParser());
+
+app.use("/register", registerRoute);
+
+app.use("/login", loginRoute);
+
+// jwt verification middleware for below routes which are protected
+app.use(authJWT);
+
 // This is setting for get request
 app.get("/posts", (req, res) => {
   res.json(data);
@@ -97,9 +108,6 @@ app.delete("/posts:id", (req, res) => {
   );
   res.status(201).json(data);
 });
-
-app.use("/register", registerRoute);
-app.use("/login", loginRoute);
 
 app.all("*", (req, res) => {
   res.sendStatus(404);
