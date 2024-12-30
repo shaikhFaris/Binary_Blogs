@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import { reqLogger_middleware } from "./middleware/eventLogger.js";
 import registerRoute from "./routes/register.route.js";
+import refreshRoute from "./routes/refresh.route.js";
+import logoutRoute from "./routes/logout.route.js";
 import loginRoute from "./routes/auth.route.js";
 import mongoose from "mongoose";
 import authJWT from "./middleware/authJWT.js";
@@ -88,8 +90,13 @@ app.use("/register", registerRoute);
 
 app.use("/login", loginRoute);
 
+app.use("/refresh", refreshRoute);
+
 // jwt verification middleware for below routes which are protected
 app.use(authJWT);
+
+//for logout and to delete refreshToken
+app.use("/logout", logoutRoute);
 
 // This is setting for get request
 app.get("/posts", (req, res) => {
