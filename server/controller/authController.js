@@ -60,6 +60,7 @@ const authController = async (req, res) => {
         secure: true, // Ensures cookie is sent only over HTTPS
         sameSite: "strict", // Prevents CSRF by restricting cross-origin requests
         maxAge: 24 * 60 * 60 * 1000,
+        //   secure:true // for production
       });
       res.status(200).json(accessToken);
 
