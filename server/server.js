@@ -78,8 +78,21 @@ try {
 // logger
 app.use(reqLogger_middleware);
 
-// cors
-app.use(cors());
+// cors: timestamp: 2:47:00
+const whiteList = ["https://www.mydomain.com", "https://www.google.co.in"]; // for prod modify this
+const corsOptions = {
+  origin: (origin, callback) => {
+    //for prod remove this !origin from if statement
+    if (!origin || whiteList.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by cors"));
+    }
+  },
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 // to parse body
 app.use(express.json());
