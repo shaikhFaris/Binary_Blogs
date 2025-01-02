@@ -23,7 +23,11 @@ try {
 app.use(reqLogger_middleware);
 
 // cors: timestamp: 2:47:00
-const whiteList = ["https://www.mydomain.com", "https://www.google.co.in"]; // for prod modify this
+const whiteList = [
+  "https://www.mydomain.com",
+  "https://www.google.co.in",
+  "http://localhost:5173",
+]; // for prod modify this
 const corsOptions = {
   origin: (origin, callback) => {
     //for prod remove this !origin from if statement
@@ -33,6 +37,7 @@ const corsOptions = {
       callback(new Error("Not allowed by cors"));
     }
   },
+  credentials: true,
   optionsSuccessStatus: 200,
 };
 

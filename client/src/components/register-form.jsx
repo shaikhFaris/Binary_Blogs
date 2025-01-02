@@ -75,7 +75,10 @@ const RegisterForm = () => {
     }
     const data = { username: user, email: email, password: pass };
     await axios
-      .post(REGISTER_URL, data)
+      .post(REGISTER_URL, data, {
+        headers: "application/json",
+        withCredentials: true,
+      })
       .then((response) => {
         setsuccess(true);
       })
