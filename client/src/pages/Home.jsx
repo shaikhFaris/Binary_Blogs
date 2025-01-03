@@ -4,9 +4,16 @@ import { useNavigate } from "react-router-dom";
 import Hero from "../components/Hero";
 import { useContext } from "react";
 import DataContext from "../context/DataContext";
+import { useEffect } from "react";
+import AuthContext from "../context/AuthProvider";
 
 const Home = () => {
   // posts = [];
+  const { auth } = useContext(AuthContext);
+  useEffect(() => {
+    console.log(auth);
+  }, []);
+
   const { posts, FetchErr, IsLoading } = useContext(DataContext);
   const navigate = useNavigate();
   return (

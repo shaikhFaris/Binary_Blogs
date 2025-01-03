@@ -10,6 +10,7 @@ import CreateBlogPage from "./pages/CreateBlogPage";
 import { DataProvider } from "./context/DataContext.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import RequireAuth from "./components/RequireAuth.jsx";
 
 const App = () => {
   return (
@@ -18,11 +19,17 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/updates" element={<Updates />} />
-          <Route path="/create" element={<CreateBlogPage />} />
-          <Route path="/posts/:id" element={<PostPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/updates" element={<Updates />} />
           <Route path="/register" element={<Register />} />
+
+          {/* protected routes */}
+          <Route element={<RequireAuth />}>
+            <Route path="/create" element={<CreateBlogPage />} />
+            <Route path="/posts/:id" element={<PostPage />} />
+          </Route>
+
+          {/* Not found rout */}
           <Route path="*" element={<Missing />} />
         </Routes>
         <Footer />
