@@ -1,10 +1,8 @@
 import { MdOutlineLightMode } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import DataContext from "../context/DataContext";
 
 const Navbar = () => {
-  const { setSearch } = useContext(DataContext);
   const handleMode = () => {
     const mode = document.querySelector("html").className;
     if (mode == "light") {
@@ -44,7 +42,7 @@ const Navbar = () => {
           className="border bg-[hsl(var(--input))] border-[hsl(var(--border))] rounded-[0.5rem] py-2 hover:bg-[hsl(var(--card))] hover:text-[hsl(var(--card-foreground))] text-sm focus:outline-none flex-grow duration-200 text-[hsl(var(--secondary-foreground))] pl-2"
           type="search"
           placeholder="Search blogs..."
-          onChange={(e) => setSearch(e.target.value)}
+          // onChange={(e) => setSearch(e.target.value)}
         />
         <button className="border border-[hsl(var(--border))] p-2 rounded-[var(--radius)] hover:bg-[hsl(var(--secondary))]">
           <MdOutlineLightMode size={25} onClick={handleMode} />

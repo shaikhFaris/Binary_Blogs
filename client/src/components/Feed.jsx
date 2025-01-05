@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
-const Feed = ({ posts }) => {
+const Feed = ({ blogs }) => {
   return (
     <div className="border flex flex-wrap border-[hsl(var(--border))] rounded-[var(--radius)] justify-evenly">
-      {posts.map((element) => {
+      {blogs.map((element) => {
         return (
           <div
             key={element.id}
             className="flex w-3/12 flex-col border border-[hsl(var(--border))] rounded-[var(--radius)] p-3 m-4"
           >
             <h1 className="text-xl mb-4">
-              <Link className="hover:underline" to={`/posts/${element.id}`}>
+              <Link className="hover:underline" to={`/blogs/${element.id}`}>
                 {element.title}
               </Link>
             </h1>

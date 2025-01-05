@@ -7,8 +7,7 @@ const authJWT = (req, res, next) => {
   // console.log(authHeader); //format: Bearer token
   const token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded) => {
-    if (err) return res.sendStatus(403); //invalid token
-    // console.log(decoded);
+    if (err) return res.sendStatus(403); //invalid token or expired
     req.user = decoded.email;
     next();
   });

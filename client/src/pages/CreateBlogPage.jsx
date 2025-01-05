@@ -1,12 +1,8 @@
 import { useState } from "react";
 import Hero from "../components/Hero";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import DataContext from "../context/DataContext";
 
 const CreateBlogPage = () => {
-  const { setNewPost } = useContext(DataContext);
-
   const navigate = useNavigate();
   const [post, setpost] = useState({
     id: null,
@@ -22,7 +18,7 @@ const CreateBlogPage = () => {
         onSubmit={(e) => {
           e.preventDefault();
           console.log(post);
-          setNewPost({ ...post, datetime: new Date().toUTCString() });
+          // setNewPost({ ...post, datetime: new Date().toUTCString() });
           navigate("/");
         }}
       >
