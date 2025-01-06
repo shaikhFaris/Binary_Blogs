@@ -23,6 +23,7 @@ const refreshTokenController = async (req, res) => {
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, decoded) => {
     if (err) return res.sendStatus(403); //invalid token
     if (err || alreadyUser.email !== decoded.email) return res.sendStatus(403);
+
     const accessToken = jwt.sign(
       { email: decoded.email },
       process.env.ACCESS_TOKEN,
@@ -30,7 +31,7 @@ const refreshTokenController = async (req, res) => {
         expiresIn: "30s",
       }
     );
-    res.json(accessToken);
+    res.json({ accessToken: accessToken });
   });
 };
 export default refreshTokenController;

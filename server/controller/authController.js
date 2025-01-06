@@ -13,6 +13,7 @@ const authController = async (req, res) => {
     res.sendStatus(400);
     return;
   }
+
   try {
     alreadyUser = await userModel.findOne({ email: email });
   } catch (error) {
