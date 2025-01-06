@@ -10,10 +10,11 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import RequireAuth from "./components/RequireAuth.jsx";
 import BlogsPage from "./pages/BlogsPage.jsx";
+import SelectedBlog from "./pages/SelectedBlog.jsx";
 
 const App = () => {
   return (
-    <main className="bg-[hsl(var(--background))] w-full min-h-screen max-w-screen-2xl overflow-hidden border border-[hsl(var(--border))] ">
+    <main className="bg-[hsl(var(--background))] w-full min-h-screen max-w-screen-2xl border border-[hsl(var(--border))] ">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -25,6 +26,7 @@ const App = () => {
         <Route element={<RequireAuth />}>
           <Route path="/create" element={<CreateBlogPage />} />
           <Route path="/blogs" element={<BlogsPage />} />
+          <Route path="/blogs/:id" element={<SelectedBlog />} />
         </Route>
 
         {/* Not found rout */}

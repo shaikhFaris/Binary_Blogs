@@ -1,8 +1,10 @@
 import { MdOutlineLightMode } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
+import AuthContext from "../context/AuthProvider";
 
 const Navbar = () => {
+  const { auth } = useContext(AuthContext);
   const handleMode = () => {
     const mode = document.querySelector("html").className;
     if (mode == "light") {
@@ -13,13 +15,11 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full border border-[hsl(var(--border))] rounded-[0.5em] text-[hsl(var(--foreground))] flex justify-between items-center pl-4 pr-4">
+    <div className="backdrop-blur-lg sticky top-1 z-50 w-full  bg-transparent border border-[hsl(var(--border))] rounded-[0.9em] text-[hsl(var(--foreground))] flex justify-between items-center px-4 shadow-md dark:shadow-none">
       <div className="flex items-center">
-        <img src="/logo.png" alt="logo" className="w-20 h-20 rounded-full " />
-        <h1 className="text-2xl font-bold ">Binary Blogs</h1>
-      </div>
-      <div className=" flex-grow flex justify-center">
-        <ul className="flex text-zinc-400 items-center text-base gap-10 font-medium ">
+        <img src="/logo.png" alt="logo" className="w-16 h-16 rounded-full" />
+        <h1 className="text-2xl font-bold mr-12">Binary Blogs</h1>
+        <ul className="flex text-zinc-400 items-center text-sm gap-10 font-medium">
           <li className="hover:text-[hsl(var(--foreground))] duration-150">
             <Link to={"/"}>Home</Link>
           </li>
@@ -27,14 +27,16 @@ const Navbar = () => {
             Blogs
           </li>
           <li className="hover:text-[hsl(var(--foreground))] duration-150">
-            Community
+            Community ▼
           </li>
           <li className="hover:text-[hsl(var(--foreground))] duration-150">
             Pricing
           </li>
-          <li className="hover:text-[hsl(var(--foreground))] duration-150">
-            <Link to={"/login"}>Login</Link>
-          </li>
+          {!auth?.email && (
+            <li className="hover:text-[hsl(var(--foreground))] duration-150">
+              <Link to={"/login"}>Login</Link>
+            </li>
+          )}
         </ul>
       </div>
       <div className="flex items-center gap-2 w-[23%] ">

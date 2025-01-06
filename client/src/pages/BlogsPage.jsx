@@ -2,6 +2,7 @@ import Feed from "../components/Feed";
 import { useContext, useEffect, useState } from "react";
 import BlogsContext from "../context/blogsProvider";
 import usePrivateAxios from "../hooks/usePrivateAxios";
+import Hero from "../components/Hero";
 
 const BlogsPage = () => {
   const { blogs, setBlogs } = useContext(BlogsContext);
@@ -17,7 +18,7 @@ const BlogsPage = () => {
         });
         console.log(response.data);
 
-        setBlogs(response.data);
+        setBlogs(response.data.blogs);
       } catch (err) {
         if (err.name === "CanceledError") {
           console.log("Request canceled:", err.message);
@@ -34,14 +35,16 @@ const BlogsPage = () => {
 
   return (
     <div className="mt-10 pl-7 text-[hsl(var(--foreground))] min-h-screen">
-      Hello
-      {blogs.length > 0 ? (
-        <div>
-          <Feed blogs={blogs} />
-        </div>
-      ) : (
-        <div>No blogs</div>
-      )}
+      <Hero heading="My Blogs" />
+      <div>
+        {blogs.length > 0 ? (
+          <div className="mt-10">
+            <Feed blogs={blogs} />
+          </div>
+        ) : (
+          <div>No blogs</div>
+        )}
+      </div>
     </div>
   );
 };
