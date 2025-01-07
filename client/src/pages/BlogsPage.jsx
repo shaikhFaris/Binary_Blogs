@@ -17,8 +17,7 @@ const BlogsPage = () => {
           signal: controller.signal,
         });
         console.log(response.data);
-
-        setBlogs(response.data.blogs);
+        setBlogs(response.data.blogs); // important
       } catch (err) {
         if (err.name === "CanceledError") {
           console.log("Request canceled:", err.message);
@@ -35,7 +34,9 @@ const BlogsPage = () => {
 
   return (
     <div className="mt-10 pl-7 text-[hsl(var(--foreground))] min-h-screen">
-      <Hero heading="My Blogs" />
+      <div className="text-[hsl(var(--blue-foreground))]">
+        <Hero heading="My Blogs" />
+      </div>
       <div>
         {blogs.length > 0 ? (
           <div className="mt-10">
