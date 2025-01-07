@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
+import { v4 } from "uuid";
 
 const postsSchema = new mongoose.Schema(
   {
     email: { type: String, required: true },
     blogs: [
       {
+        blogId: { type: String, default: v4, immutable: true },
         title: { type: String, required: true, trim: true },
         content: { type: String, required: true },
         tags: [{ type: String }],

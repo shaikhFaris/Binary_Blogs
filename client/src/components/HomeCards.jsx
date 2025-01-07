@@ -55,9 +55,9 @@ const HomeCards3 = () => {
       onClick={() => navigate("/blogs")}
     >
       <div className={`flex w-full items-center justify-start gap-3 mb-1`}>
-        <RiDashboardFill className="text-5xl text-blue-500" />
+        <RiDashboardFill className="text-5xl text-[hsl(var(--blue-foreground))]" />
         <h2
-          className={`font-sans font-semibold text-2xl text-blue-500 hover:cursor-pointer `}
+          className={`font-sans font-semibold text-2xl text-[hsl(var(--blue-foreground))] hover:cursor-pointer `}
           onClick={() => navigate("/blogs")}
         >
           My Blogs

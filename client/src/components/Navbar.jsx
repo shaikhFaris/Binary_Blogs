@@ -18,7 +18,9 @@ const Navbar = () => {
     <div className="backdrop-blur-lg sticky top-1 z-50 w-full  bg-transparent border border-[hsl(var(--border))] rounded-[0.9em] text-[hsl(var(--foreground))] flex justify-between items-center px-4 shadow-md dark:shadow-none">
       <div className="flex items-center">
         <img src="/logo.png" alt="logo" className="w-16 h-16 rounded-full" />
-        <h1 className="text-2xl font-bold mr-12">Binary Blogs</h1>
+        <h1 className="aniamted-gradient text-3xl font-semibold mr-12">
+          Binary Blogs
+        </h1>
         <ul className="flex text-zinc-400 items-center text-sm gap-10 font-medium">
           <li className="hover:text-[hsl(var(--foreground))] duration-150">
             <Link to={"/"}>Home</Link>
