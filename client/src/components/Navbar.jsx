@@ -15,7 +15,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="backdrop-blur-lg sticky top-1 z-50 w-full  bg-transparent border border-[hsl(var(--border))] rounded-[0.9em] text-[hsl(var(--foreground))] flex justify-between items-center px-4 shadow-md dark:shadow-none">
+    <div
+      className="backdrop-blur-lg sticky top-1 z-50 w-full  bg-transparent border border-[hsl(var(--border))] rounded-[0.9em] text-[hsl(var(--foreground))] flex justify-between items-center px-4 shadow-md dark:shadow-none"
+      id="navbar"
+    >
       <div className="flex items-center">
         <img src="/logo.png" alt="logo" className="w-16 h-16 rounded-full" />
         <h1 className="aniamted-gradient text-3xl font-semibold mr-12">
