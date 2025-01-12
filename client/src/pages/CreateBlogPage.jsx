@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Hero from "../components/Hero";
+import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 
-const CreateBlogPage = () => {
+const CreateBlogPage = ({ sethideFooter }) => {
+  const titleRef = useRef();
   const navigate = useNavigate();
   const [post, setpost] = useState({
     id: null,
@@ -10,11 +12,17 @@ const CreateBlogPage = () => {
     datetime: "",
     body: "",
   });
+
+  useEffect(() => {
+    titleRef?.current.focus();
+  }, []);
+
   return (
-    <div className="mt-10 pl-7 text-[hsl(var(--foreground))] min-h-screen">
-      <Hero heading="Create a new blog." />
+    // let's add a sidebar
+    <div className="text-[hsl(var(--foreground))] min-h-screen flex gap-1">
+      <Sidebar sethideFooter={sethideFooter} />
       <form
-        className="mt-7 flex flex-col gap-5"
+        className="flex flex-col gap-5 w-full pl-8 mt-16"
         onSubmit={(e) => {
           e.preventDefault();
           console.log(post);
@@ -23,16 +31,18 @@ const CreateBlogPage = () => {
         }}
       >
         <input
-          className="border bg-[hsl(var(--input))] border-[hsl(var(--border))] rounded-[0.5rem] py-2 hover:bg-[hsl(var(--card))] hover:text-[hsl(var(--card-foreground))] text-lg focus:outline-none duration-200 text-[hsl(var(--secondary-foreground))] pl-5 w-2/3 h-12"
+          ref={titleRef}
+          className="max-w-[90%] border p-2 bg-transparent pr-3 outline-none text-4xl font-semibold placeholder-zinc-700"
           type="text"
           minLength={5}
-          maxLength={10}
-          placeholder="Enter blog title"
+          maxLength={50}
+          // autoCorrect=,
+          placeholder="Blog title..."
           onChange={(e) => setpost({ ...post, title: e.target.value })}
         />
         <textarea
           minLength={10}
-          className="border bg-[hsl(var(--input))] border-[hsl(var(--border))] rounded-[0.5rem] py-2 hover:bg-[hsl(var(--card))] hover:text-[hsl(var(--card-foreground))] text-lg focus:outline-none duration-200 text-[hsl(var(--secondary-foreground))] pl-5 w-2/3 min-h-32"
+          className="max-w-[90%] bg-transparent border focus:border-collapse pr-3 outline-none font-semibold placeholder-zinc-700"
           placeholder="Enter blog body"
           onChange={(e) => setpost({ ...post, body: e.target.value })}
         />

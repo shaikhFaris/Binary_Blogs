@@ -62,7 +62,6 @@ const LoginForm = () => {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data);
         const accessToken = response?.data;
         setAuth({ email, accessToken });
         setemail("");
