@@ -21,8 +21,8 @@ const Sidebar = ({ sethideFooter }) => {
     <div
       className={`sticky left-0 py-2 overflow-scroll dark:shadow-none border-[hsl(var(--border))] rounded-xl ${
         CollapseSidebar
-          ? "w-10 pl-2  mr-20"
-          : "w-[30%] pl-3 pr-3 border-t border-r shadow-md border-b"
+          ? "xl:w-10 pl-2 pr-10 flex mr-20"
+          : "xl:w-[30%] lg:w-1/3 pl-3 pr-3 border-t border-r shadow-md border-b"
       } transition-all duration-500`}
       style={{
         top: navbarHeight + "px",
@@ -37,9 +37,16 @@ const Sidebar = ({ sethideFooter }) => {
         )}
         <div
           className={`flex items-center gap-2 ${
-            CollapseSidebar ? "flex-col-reverse text-3xl" : "text-3xl"
+            CollapseSidebar ? "flex-col-reverse text-3xl gap-6" : "text-3xl"
           }`}
         >
+          {CollapseSidebar && (
+            <FaCodepen className=" hover:scale-110 duration-150" />
+          )}
+          {CollapseSidebar && (
+            <HiOutlineDocumentPlus className=" hover:scale-110 duration-150" />
+          )}
+
           <GiBlackHoleBolas className=" hover:scale-110 duration-150" />
           <TbLayoutSidebarLeftCollapseFilled
             className=" hover:scale-110 duration-150"
@@ -47,7 +54,9 @@ const Sidebar = ({ sethideFooter }) => {
           />
         </div>
       </div>
-      <hr className="border border-[hsl(var(--border))] mb-2" />
+      {!CollapseSidebar && (
+        <hr className="border border-[hsl(var(--border))] mb-2" />
+      )}
       <div
         className={`transition-all flex flex-col duration-500 ${
           CollapseSidebar ? "opacity-0 scale-0" : "opacity-100 scale-100"

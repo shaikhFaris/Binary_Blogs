@@ -19,10 +19,10 @@ const CreateBlogPage = ({ sethideFooter }) => {
 
   return (
     // let's add a sidebar
-    <div className="mt-5 text-[hsl(var(--foreground))] min-h-screen flex gap-1">
+    <div className="text-[hsl(var(--foreground))] min-h-screen flex gap-1">
       <Sidebar sethideFooter={sethideFooter} />
       <form
-        className="flex flex-col gap-5 w-full pl-8"
+        className="flex flex-col gap-5 w-full pl-8 mt-16"
         onSubmit={(e) => {
           e.preventDefault();
           console.log(post);
@@ -32,16 +32,17 @@ const CreateBlogPage = ({ sethideFooter }) => {
       >
         <input
           ref={titleRef}
-          className="max-w-[85%] min-h-16 bg-transparent  pr-3 outline-none text-4xl font-semibold placeholder-zinc-700"
+          className="max-w-[90%] border p-2 bg-transparent pr-3 outline-none text-4xl font-semibold placeholder-zinc-700"
           type="text"
           minLength={5}
           maxLength={50}
-          placeholder="Enter blog title..."
+          // autoCorrect=,
+          placeholder="Blog title..."
           onChange={(e) => setpost({ ...post, title: e.target.value })}
         />
         <textarea
           minLength={10}
-          className="max-w-[85%] bg-transparent focus:border-collapse pr-3 outline-none font-semibold placeholder-zinc-700"
+          className="max-w-[90%] bg-transparent border focus:border-collapse pr-3 outline-none font-semibold placeholder-zinc-700"
           placeholder="Enter blog body"
           onChange={(e) => setpost({ ...post, body: e.target.value })}
         />
