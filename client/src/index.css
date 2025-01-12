@@ -116,3 +116,24 @@
     background-position: 0 50%;
   } */
 }
+.scrollBar-div{
+  overflow-x: hidden;
+}
+.scrollBar-div::-webkit-scrollbar {
+  display: block;
+  background: hsl(var(--accent));
+  border-radius: 10px;
+  width: 7px;
+}
+.scrollBar-div::-webkit-scrollbar-track {
+  /* box-shadow: inset 0 0 5px grey;  */
+  border-radius: 10px;
+}
+.scrollBar-div::-webkit-scrollbar-thumb {
+  background: hsl(var(--border)); 
+  border-radius: 10px;
+}
+.dark .scrollBar-div::-webkit-scrollbar-thumb {
+  background: rgb(88, 87, 87); 
+  border-radius: 10px;
+}

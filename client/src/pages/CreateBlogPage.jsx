@@ -3,7 +3,7 @@ import Hero from "../components/Hero";
 import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 
-const CreateBlogPage = () => {
+const CreateBlogPage = ({ sethideFooter }) => {
   const titleRef = useRef();
   const navigate = useNavigate();
   const [post, setpost] = useState({
@@ -20,7 +20,7 @@ const CreateBlogPage = () => {
   return (
     // let's add a sidebar
     <div className="mt-5 text-[hsl(var(--foreground))] min-h-screen flex gap-1">
-      <Sidebar />
+      <Sidebar sethideFooter={sethideFooter} />
       <form
         className="flex flex-col gap-5 w-full pl-8"
         onSubmit={(e) => {
