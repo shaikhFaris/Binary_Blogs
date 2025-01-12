@@ -6,13 +6,13 @@ const HomeCards1 = () => {
   const navigate = useNavigate();
   return (
     <div
-      className={`m-2 ml-0 w-1/3 min-h-[23vh] shadow-lg border rounded-xl p-2 dark:border-green-900 hover:border-green-400 dark:hover:border-green-400 duration-150`}
+      className={`m-2 ml-0 w-full xl:w-1/3 xl:min-h-[23vh] shadow-lg border rounded-xl p-2 dark:border-green-900 hover:border-green-400 dark:hover:border-green-400 duration-150`}
       onClick={() => navigate("/create")}
     >
       <div className={`flex w-full items-center justify-start gap-3 mb-1`}>
-        <MdCreateNewFolder className="text-5xl text-green-500" />
+        <MdCreateNewFolder className=" text-3xl xl:text-5xl text-green-500" />
         <h2
-          className={`font-sans font-semibold text-2xl text-green-500 hover:cursor-pointer `}
+          className={`font-sans font-semibold text-xl  xl:text-2xl text-green-500 hover:cursor-pointer `}
         >
           Create a new blog
         </h2>
@@ -29,13 +29,13 @@ const HomeCards2 = () => {
 
   return (
     <div
-      className={`m-2 ml-0 w-1/3 min-h-[23vh] shadow-lg border rounded-xl p-2 dark:border-violet-950 hover:border-violet-400 dark:hover:border-violet-400 duration-150`}
+      className={`m-2 ml-0 w-full xl:w-1/3 xl:min-h-[23vh] shadow-lg border rounded-xl p-2 dark:border-violet-950 hover:border-violet-400 dark:hover:border-violet-400 duration-150`}
       onClick={() => navigate("/dashboard")}
     >
       <div className={`flex w-full items-center justify-start gap-3 mb-1`}>
-        <RiDashboard3Line className="text-5xl text-violet-500" />
+        <RiDashboard3Line className="text-3xl text-violet-500" />
         <h2
-          className={`font-sans font-semibold text-2xl text-violet-500 hover:cursor-pointer `}
+          className={`font-sans font-semibold text-xl xl:text-2xl text-violet-500 hover:cursor-pointer `}
         >
           Dashboard
         </h2>
@@ -51,11 +51,11 @@ const HomeCards3 = () => {
   const navigate = useNavigate();
   return (
     <div
-      className={`m-2 ml-0 w-1/3 min-h-[23vh] shadow-lg border rounded-xl p-2 dark:border-blue-950 hover:border-blue-400 dark:hover:border-blue-400 duration-150`}
+      className={`m-2 ml-0 w-full xl:w-1/3 xl:min-h-[23vh] shadow-lg border rounded-xl p-2 dark:border-blue-950 hover:border-blue-400 dark:hover:border-blue-400 duration-150`}
       onClick={() => navigate("/blogs")}
     >
       <div className={`flex w-full items-center justify-start gap-3 mb-1`}>
-        <RiDashboardFill className="text-5xl text-[hsl(var(--blue-foreground))]" />
+        <RiDashboardFill className="text-3xl xl:text-5xl text-[hsl(var(--blue-foreground))]" />
         <h2
           className={`font-sans font-semibold text-2xl text-[hsl(var(--blue-foreground))] hover:cursor-pointer `}
           onClick={() => navigate("/blogs")}

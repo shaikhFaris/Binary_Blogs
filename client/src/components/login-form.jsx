@@ -81,7 +81,7 @@ const LoginForm = () => {
     <>
       {!auth?.email ? (
         <form
-          className="w-1/3 border border-[hsl(var(--border))] gap-5 items-start p-5 rounded-[var(--radius)] flex flex-col"
+          className="w-full m-2 lg:m-0 lg:w-1/3 md:w-1/2 border border-[hsl(var(--border))] gap-5 items-start p-5 rounded-[var(--radius)] flex flex-col"
           onSubmit={handleSubmit}
         >
           {" "}
@@ -94,7 +94,7 @@ const LoginForm = () => {
           </p>
           <div>
             <h1 className="text-2xl font-semibold">Login</h1>
-            <p className="text-sm text-zinc-400 mt-2">
+            <p className="text-xs xl:text-sm text-zinc-400 mt-2">
               Enter your email below to login to your account
             </p>
           </div>
