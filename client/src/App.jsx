@@ -12,12 +12,23 @@ import RequireAuth from "./components/RequireAuth.jsx";
 import BlogsPage from "./pages/BlogsPage.jsx";
 import SelectedBlog from "./pages/SelectedBlog.jsx";
 import { useState } from "react";
+import OptionsBar from "./components/OptionsBar.jsx";
 
 const App = () => {
   const [hideFooter, sethideFooter] = useState(false);
+  const [smallDeviceSidebar, setSmallDeviceSidebar] = useState(false);
   return (
-    <main className="bg-[hsl(var(--background))] w-full min-h-screen max-w-screen-2xl border border-[hsl(var(--border))] ">
-      <Navbar />
+    <main className="bg-[hsl(var(--background))] w-full min-h-screen max-w-screen-2xl border border-[hsl(var(--border))]">
+      <Navbar
+        setSmallDeviceSidebar={setSmallDeviceSidebar}
+        smallDeviceSidebar={smallDeviceSidebar}
+      />
+      {
+        <OptionsBar
+          smallDeviceSidebar={smallDeviceSidebar}
+          setSmallDeviceSidebar={setSmallDeviceSidebar}
+        />
+      }
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -25,14 +36,14 @@ const App = () => {
         <Route path="/register" element={<Register />} />
 
         {/* protected routes */}
-        {/* <Route element={<RequireAuth />}> */}
-        <Route
-          path="/create"
-          element={<CreateBlogPage sethideFooter={sethideFooter} />}
-        />
-        <Route path="/blogs" element={<BlogsPage />} />
-        <Route path="/blogs/:id" element={<SelectedBlog />} />
-        {/* </Route> */}
+        <Route element={<RequireAuth />}>
+          <Route
+            path="/create"
+            element={<CreateBlogPage sethideFooter={sethideFooter} />}
+          />
+          <Route path="/blogs" element={<BlogsPage />} />
+          <Route path="/blogs/:id" element={<SelectedBlog />} />
+        </Route>
 
         {/* Not found rout */}
         <Route path="*" element={<Missing />} />

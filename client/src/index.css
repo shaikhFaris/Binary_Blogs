@@ -137,3 +137,6 @@
   background: rgb(88, 87, 87); 
   border-radius: 10px;
 }
+.scroll-locked {
+  overflow: hidden;
+}
