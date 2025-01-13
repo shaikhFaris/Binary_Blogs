@@ -79,37 +79,55 @@ const SelectedBlog = () => {
   }, []);
 
   return (
-    <div className="pl-7 text-[hsl(var(--foreground))] min-h-screen overflow-hidden">
-      <div className="mt-10 flex w-full justify-between items-center ">
+    <div className="px-3 xl:pr-0 xl:pl-7 text-[hsl(var(--foreground))] min-h-screen overflow-hidden">
+      <div className="mt-5 xl:mt-10 xl:flex w-full justify-between items-center ">
         <h1
-          className={`jersey-font text-[hsl(var(--blue-foreground))] text-5xl leading-12 w-2/3`}
+          className={`text-2xl jersey-font text-[hsl(var(--blue-foreground))] xl:text-5xl leading-12 xl:w-2/3`}
         >
           {selectedBlog?.title}
         </h1>
-        <p className="text-xs mr-4 text-zinc-600 cursor-default hover:text-zinc-400 duration-150">
+        <p className="text-xs xl:mr-4 text-zinc-600 cursor-default lg:hover:text-zinc-400 duration-150">
           Published at: {selectedBlog?.publishedAt}
         </p>
       </div>
-      <div className="mt-5">
+      <div className="mt-3 xl:mt-5">
         <Markdown
           components={{
             h1: ({ node, ...props }) => (
-              <h1 className="text-5xl mt-5 mb-3" {...props} />
+              <h1
+                className="text-2xl mb-1 mt-3 xl:text-5xl xl:mt-5 xl:mb-3"
+                {...props}
+              />
             ),
             h2: ({ node, ...props }) => (
-              <h2 className="text-4xl mt-5 mb-2" {...props} />
+              <h2
+                className="text-xl mb-1 mt-3 xl:text-4xl xl:mt-5 xl:mb-2"
+                {...props}
+              />
             ),
             h3: ({ node, ...props }) => (
-              <h3 className="text-3xl mt-5 mb-2" {...props} />
+              <h3
+                className="text-lg mb-1 mt-3 xl:text-3xl xl:mt-5 xl:mb-2"
+                {...props}
+              />
             ),
             h4: ({ node, ...props }) => (
-              <h4 className="text-2xl mt-5 mb-2 " {...props} />
+              <h4
+                className=" xl:text-2xl mb-1 mt-3 xl:mt-5 xl:mb-2 "
+                {...props}
+              />
             ),
             h5: ({ node, ...props }) => (
-              <h5 className="text-xl mt-5 mb-2 " {...props} />
+              <h5
+                className="xl:text-xl mb-1 mt-3 xl:mt-5 xl:mb-2 "
+                {...props}
+              />
             ),
             h6: ({ node, ...props }) => (
-              <h6 className="text-lg  mt-5 mb-2" {...props} />
+              <h6
+                className="xl:text-lg mb-1 mt-3  xl:mt-5 xl:mb-2"
+                {...props}
+              />
             ),
             strong: ({ node, ...props }) => (
               <strong
@@ -144,13 +162,13 @@ const SelectedBlog = () => {
             ),
             p: ({ node, ...props }) => (
               <p
-                className="text-zinc-900 dark:text-zinc-300 break-all mb-7 max-w-[87%] "
+                className="text-xs mb-4 w-full lg:text-base text-zinc-900 dark:text-zinc-400 break-all xl:mb-7 xl:max-w-[87%] "
                 {...props}
               />
             ),
             pre: ({ node, ...props }) => (
               <pre
-                className="border border-[hsl(var(--border))] bg-[hsl(var(--blue-background))] p-5 rounded-lg inline-flex min-w-[50%] max-w-[85%] overflow-auto mt-2 mb-5"
+                className="p-3 w-full text-xs lg:text-base border border-[hsl(var(--border))] bg-[hsl(var(--blue-background))] lg:p-5 rounded-lg inline-flex lg:min-w-[50%] lg:max-w-[85%] overflow-auto mt-2 mb-5"
                 {...props}
               />
             ),
@@ -168,7 +186,7 @@ const SelectedBlog = () => {
             ),
             hr: ({ node, ...props }) => (
               <hr
-                className="border-[hsl(var(--foreground))] my-10 w-2/3 mx-auto"
+                className="my-4 border-[hsl(var(--foreground))] xl:my-10 xl:w-2/3 mx-auto"
                 {...props}
               />
             ),

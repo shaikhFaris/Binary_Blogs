@@ -17,7 +17,7 @@ const HomeCards1 = () => {
           Create a new blog
         </h2>
       </div>
-      <p className="text-sm font-light p-1 text-zinc-500">
+      <p className="text-xs xl:text-sm font-light p-1 text-zinc-500">
         hare your thoughts, ideas, and knowledge with the world! Click below to
         create a new post and let your voice be heard.{" "}
       </p>
@@ -40,7 +40,7 @@ const HomeCards2 = () => {
           Dashboard
         </h2>
       </div>
-      <p className="text-sm font-light p-1 text-zinc-500">
+      <p className="text-xs xl:text-sm font-light p-1 text-zinc-500">
         Manage your posts, track engagement, and stay organized all in one
         place. Your dashboard is your command center.
       </p>
@@ -63,7 +63,7 @@ const HomeCards3 = () => {
           My Blogs
         </h2>
       </div>
-      <p className="text-sm font-light p-1 text-zinc-500">
+      <p className="text-xs xl:text-sm font-light p-1 text-zinc-500">
         Explore all your published posts in one place. Edit, delete, or share
         your content effortlessly. Your stories, ready to shine.
       </p>

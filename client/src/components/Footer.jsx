@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
-    <footer className=" bg-[hsl(var(--background))] text-[hsl(var(--foreground))] border-t border-[hsl(var(--border))] mt-10">
+    <footer className=" bg-[hsl(var(--background))] text-[hsl(var(--foreground))] border-t border-[hsl(var(--border))] mt-5 lg:mt-10">
       <div className="max-w-screen-2xl mx-auto px-6 py-8 md:flex md:items-center md:justify-between">
         {/* Left Section */}
         <div className="mb-4 md:mb-0 text-center md:text-left">
