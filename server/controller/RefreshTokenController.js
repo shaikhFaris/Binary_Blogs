@@ -31,7 +31,7 @@ const refreshTokenController = async (req, res) => {
         expiresIn: "30s",
       }
     );
-    res.json({ accessToken: accessToken });
+    res.json({ accessToken: accessToken, email: decoded.email });
   });
 };
 export default refreshTokenController;

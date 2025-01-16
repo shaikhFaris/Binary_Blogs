@@ -21,7 +21,7 @@ const Sidebar = ({ sethideFooter }) => {
     <div
       className={`sticky left-0 py-2 overflow-scroll dark:shadow-none border-[hsl(var(--border))] rounded-xl ${
         CollapseSidebar
-          ? "xl:w-10 pl-2 pr-10 flex mr-20"
+          ? "xl:w-10 pl-2 pr-10 flex "
           : "xl:w-[30%] lg:w-1/3 pl-3 pr-3 border-t border-r shadow-md border-b"
       } transition-all duration-500`}
       style={{

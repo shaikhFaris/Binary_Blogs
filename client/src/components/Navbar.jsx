@@ -42,7 +42,13 @@ const Navbar = ({ smallDeviceSidebar, setSmallDeviceSidebar }) => {
           <li className="hover:text-[hsl(var(--foreground))] duration-150">
             Pricing
           </li>
-          {!auth?.email && (
+          {auth?.email && auth?.email && (
+            <li className="hover:text-[hsl(var(--foreground))] duration-150">
+              <Link to={"/logout"}>logout</Link>
+            </li>
+          )}
+
+          {(!auth?.email || !auth?.email) && (
             <li className="hover:text-[hsl(var(--foreground))] duration-150">
               <Link to={"/login"}>Login</Link>
             </li>
