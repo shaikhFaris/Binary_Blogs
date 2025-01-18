@@ -13,6 +13,8 @@ import BlogsPage from "./pages/BlogsPage.jsx";
 import SelectedBlog from "./pages/SelectedBlog.jsx";
 import { useState } from "react";
 import OptionsBar from "./components/OptionsBar.jsx";
+import PersistLogin from "./components/PersistLogin.jsx";
+import Logout from "./components/Logout.jsx";
 
 const App = () => {
   const [hideFooter, sethideFooter] = useState(false);
@@ -36,13 +38,16 @@ const App = () => {
         <Route path="/register" element={<Register />} />
 
         {/* protected routes */}
-        <Route element={<RequireAuth />}>
-          <Route
-            path="/create"
-            element={<CreateBlogPage sethideFooter={sethideFooter} />}
-          />
-          <Route path="/blogs" element={<BlogsPage />} />
-          <Route path="/blogs/:id" element={<SelectedBlog />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth />}>
+            <Route
+              path="/create"
+              element={<CreateBlogPage sethideFooter={sethideFooter} />}
+            />
+            <Route path="/blogs" element={<BlogsPage />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/blogs/:id" element={<SelectedBlog />} />
+          </Route>
         </Route>
 
         {/* Not found rout */}

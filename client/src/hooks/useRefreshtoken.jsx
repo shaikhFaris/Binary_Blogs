@@ -8,14 +8,23 @@ const useRefreshtoken = () => {
     const response = await axios
       .get("/refresh", { withCredentials: true })
       .then((response) => {
+        if (!response?.data.accessToken) return;
         setAuth((prev) => {
-          return { ...prev, accessToken: response.data.accessToken };
+          return {
+            ...prev,
+            accessToken: response.data.accessToken,
+            email: response.data.email,
+          };
         });
         return response;
       })
       .catch((e) => {
+        if (e.status === 403) {
+          setAuth({});
+        }
         console.log(e);
       });
+    if (!response?.data.accessToken) return;
     return response.data.accessToken;
   };
   return refreshToken;

@@ -12,7 +12,7 @@ const Feed = ({ blogs }) => {
         return (
           <div
             key={index}
-            className="flex justify-around bg-[hsl(var(--blue-background))] w-3/12 flex-col border border-[hsl(var(--border))] rounded-[var(--radius)] p-5 m-4"
+            className="flex justify-around bg-[hsl(var(--blue-background))] xl:w-3/12 flex-col border border-[hsl(var(--border))] rounded-[var(--radius)] p-5 m-4"
           >
             <h1 className="text-xl mb-4">
               <Link

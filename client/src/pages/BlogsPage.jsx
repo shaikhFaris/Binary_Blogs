@@ -33,13 +33,13 @@ const BlogsPage = () => {
   }, []);
 
   return (
-    <div className="mt-10 pl-7 text-[hsl(var(--foreground))] min-h-screen">
+    <div className="mt-5 px-3 xl:mt-10 xl:px-7 text-[hsl(var(--foreground))] min-h-screen">
       <div className="text-[hsl(var(--blue-foreground))]">
         <Hero heading="My Blogs" />
       </div>
       <div>
         {blogs.length > 0 ? (
-          <div className="mt-10">
+          <div className="mt-5 xl:mt-10">
             <Feed blogs={blogs} />
           </div>
         ) : (

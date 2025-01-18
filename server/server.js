@@ -27,6 +27,7 @@ const whiteList = [
   "https://www.mydomain.com",
   "https://www.google.co.in",
   "http://localhost:5173",
+  "http://192.168.225.223:5173",
 ]; // for prod modify this
 const corsOptions = {
   origin: (origin, callback) => {
