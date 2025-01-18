@@ -6,10 +6,10 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 import { GiBlackHoleBolas } from "react-icons/gi";
 
-const Sidebar = ({ sethideFooter }) => {
+const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
   const navigate = useNavigate();
-  const [CollapseSidebar, setCollapseSidebar] = useState(false);
-  const [navbarHeight, setnavbarHeight] = useState(false);
+  const [navbarHeight, setnavbarHeight] = useState();
+
   useEffect(() => {
     sethideFooter(true);
     setnavbarHeight(document.querySelector("#navbar").clientHeight + 21);
