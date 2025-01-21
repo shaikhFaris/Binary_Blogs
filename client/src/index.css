@@ -8,6 +8,7 @@
   padding: 0;
   margin: 0;
   font-family: "Poppins", "Courier New";
+  box-sizing: border-box;
 }
 
 @layer base {
@@ -86,7 +87,6 @@
 .aniamted-gradient {
   background: linear-gradient(
     to right,
-    black,
     black,
     #f4f4f5,
     hsl(217.2 91.2% 59.8%),
