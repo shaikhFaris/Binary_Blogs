@@ -36,7 +36,7 @@ const Navbar = ({ smallDeviceSidebar, setSmallDeviceSidebar }) => {
           <li className="hover:text-[hsl(var(--foreground))] duration-150">
             <Link to={"/"}>Home</Link>
           </li>
-          <li className="hover:text-[hsl(var(--foreground))] duration-150">
+          <li className="hover:text-[hsl(var(--foreground))] duration-150 cursor-pointer">
             Trending
           </li>
           <li

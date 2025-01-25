@@ -63,6 +63,7 @@ app.use("/logout", logoutRoute);
 
 // This is setting for get request
 app.use("/posts", userPostsRoute);
+
 // app.post("/posts", (req, res) => {
 //   if (req.body != null) {
 //     data.push(req.body.data);

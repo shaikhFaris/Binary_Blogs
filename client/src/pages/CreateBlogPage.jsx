@@ -12,14 +12,15 @@ const CreateBlogPage = ({ sethideFooter }) => {
   const navigate = useNavigate();
   const [CollapseSidebar, setCollapseSidebar] = useState(false);
   const [togglePreview, settogglePreview] = useState(false);
-  const [post, setpost] = useState({
-    id: null,
-    title: "",
-    datetime: "",
-    body: "",
-  });
   const [navbarHeight, setnavbarHeight] = useState();
   const [blogBody, setblogBody] = useState(``);
+  const [DraftBlogs, setDraftBlogs] = useState({
+    blogId: "",
+    title: "",
+    content: ``,
+    tags: [],
+    category: "",
+  });
 
   useEffect(() => {
     titleRef?.current.focus();
@@ -35,6 +36,15 @@ const CreateBlogPage = ({ sethideFooter }) => {
     textarea.style.height = `${textarea.scrollHeight}px`; // Adjust to scroll height
   };
 
+  const handleSubmitDraft = (e) => {
+    e.preventDefault();
+    console.log(e.nativeEvent.submitter.name);
+    if (e.nativeEvent.submitter.name == "draft") {
+    }
+    setDraftBlogs({ ...DraftBlogs, content: `${blogBody}` });
+    console.log(DraftBlogs);
+  };
+
   return (
     // let's add a sidebar
     <div className="text-[hsl(var(--foreground))] min-h-screen flex gap-1 mb-5">
@@ -45,13 +55,9 @@ const CreateBlogPage = ({ sethideFooter }) => {
       />
       <form
         className="flex flex-col gap-2 w-full xl:pl-8 mt-6 "
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log(post);
-          // setNewPost({ ...post, datetime: new Date().toUTCString() });
-          navigate("/");
-        }}
+        onSubmit={handleSubmitDraft}
       >
+        {/* preview div */}
         <div
           className={`absolute right-0 p-2 pr-3 ${
             togglePreview && "border p-0 shadow-md dark:shadow-none"
@@ -92,6 +98,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
             settogglePreview={settogglePreview}
           />
         </div>
+
         <input
           ref={titleRef}
           className={`max-w-[90%] p-2 bg-transparent pr-3 outline-none xl:text-5xl font-semibold dark:text-zinc-200 placeholder-zinc-700 ${
@@ -99,10 +106,13 @@ const CreateBlogPage = ({ sethideFooter }) => {
           }`}
           type="text"
           minLength={5}
+          required
           maxLength={50}
           // autoCorrect=,
           placeholder="Blog title..."
-          onChange={(e) => setpost({ ...post, title: e.target.value })}
+          onChange={(e) =>
+            setDraftBlogs({ ...DraftBlogs, title: e.target.value })
+          }
         />
         <textarea
           ref={bodyRef}
@@ -113,12 +123,22 @@ const CreateBlogPage = ({ sethideFooter }) => {
           placeholder="Write blog body in mardkdown..."
           onChange={handleBlogChange}
         />
-        <button
-          className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
-          type="submit"
-        >
-          Create new blog
-        </button>
+        <div className="flex lg:gap-5">
+          <button
+            className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
+            type="submit"
+            name="publish"
+          >
+            Publish
+          </button>
+          <button
+            name="draft"
+            className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
+            type="submit"
+          >
+            Save as draft
+          </button>
+        </div>
       </form>
     </div>
   );

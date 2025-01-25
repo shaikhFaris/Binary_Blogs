@@ -53,7 +53,7 @@ const Preview = ({ togglePreview, settogglePreview, blogBody }) => {
           exit={{ width: 0, opacity: 0 }}
         >
           <Markdown
-            className={"overflow-hidden"}
+            className={"md-div overflow-hidden"}
             remarkPlugins={[remarkBreaks]} // Enable single line breaks
             components={{
               h1: ({ node, ...props }) => (
@@ -125,13 +125,13 @@ const Preview = ({ togglePreview, settogglePreview, blogBody }) => {
               ),
               p: ({ node, ...props }) => (
                 <p
-                  className="text-xs mb-4 w-full lg:text-base text-zinc-900 dark:text-zinc-400 break-all xl:mb-7 xl:max-w-[87%] "
+                  className="text-xs mb-4 w-full lg:text-base text-zinc-900 dark:text-zinc-400 break-all xl:mb-7"
                   {...props}
                 />
               ),
               pre: ({ node, ...props }) => (
                 <pre
-                  className="p-3 w-full text-xs lg:text-base border border-[hsl(var(--border))] bg-[hsl(var(--blue-background))] lg:p-5 rounded-lg inline-flex lg:min-w-[50%] lg:max-w-[85%] overflow-auto mt-2 mb-5"
+                  className="pre-div p-3 w-full text-xs lg:text-base border border-[hsl(var(--border))] bg-[hsl(var(--blue-background))] lg:p-5 rounded-lg inline-flex lg:min-w-[50%] overflow-auto mt-2 mb-5"
                   {...props}
                 />
               ),
