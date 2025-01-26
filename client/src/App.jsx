@@ -32,13 +32,13 @@ const App = () => {
         />
       }
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/updates" element={<Updates />} />
         <Route path="/register" element={<Register />} />
 
         {/* protected routes */}
         <Route element={<PersistLogin />}>
+          <Route path="/" element={<Home />} />
           <Route element={<RequireAuth />}>
             <Route
               path="/create"

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useContext, useRef, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import Hero from "../components/Hero";
 import Sidebar from "../components/Sidebar";
@@ -21,7 +21,6 @@ const CreateBlogPage = ({ sethideFooter }) => {
     tags: [],
     category: "",
   });
-
   useEffect(() => {
     titleRef?.current.focus();
     setnavbarHeight(document.querySelector("#navbar").clientHeight + 21);

@@ -11,7 +11,10 @@ import usePrivateAxios from "../hooks/usePrivateAxios";
 // import useFetchBlogs from "../hooks/useFetchBlogs";
 
 const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
-  const { blogs, setBlogs } = useContext(BlogsContext);
+  const { blogs, setBlogs, selectedBlog, setSelectedBlog } =
+    useContext(BlogsContext);
+  const [draftBlogs, setdraftBlogs] = useState([]);
+
   // const [publishedBlogs, setpublishedBlogs] = useState([]);
   const axiosPrivate = usePrivateAxios();
   // const getBlogs = useFetchBlogs();
@@ -29,6 +32,7 @@ const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
         });
         // console.log(response.data);
         setBlogs(response.data.blogs); // important
+        setdraftBlogs(response.data.drafts);
       } catch (err) {
         if (err.name === "CanceledError") {
           console.log("Request canceled:", err.message);
@@ -38,8 +42,6 @@ const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
       }
     };
     getBlogs();
-    // console.log(blogs);
-    console.log(navbarHeight);
     return () => {
       sethideFooter(false);
       controller.abort();
@@ -94,41 +96,47 @@ const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
         <div>
           <h2 className="mt-2 mb-1 text-sm font-medium">My Drafts</h2>
           <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400">
-            <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-              <HiOutlineDocumentText className="inline-flex text-lg" /> This is
-              my first blog
-            </li>
-            <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-              <HiOutlineDocumentText className="inline-flex text-lg" /> This is
-              my first blog
-            </li>
-            <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-              <HiOutlineDocumentText className="inline-flex text-lg" /> This is
-              my first blog
-            </li>
-            <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-              <HiOutlineDocumentText className="inline-flex text-lg" /> This is
-              my first blog
-            </li>
-            <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-              <HiOutlineDocumentText className="inline-flex text-lg" /> This is
-              my first blog
-            </li>
-            <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-              <HiOutlineDocumentText className="inline-flex text-lg" /> This is
-              my first blog
-            </li>
+            {draftBlogs?.length !== 0 ? (
+              draftBlogs.map((blog, i) => {
+                return (
+                  <li
+                    className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
+                    key={i}
+                    onClick={() => {
+                      setSelectedBlog(blog);
+                      navigate(`/blogs/:${blog.blogId}`);
+                    }}
+                  >
+                    <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
+                    {blog.title.length > 25
+                      ? blog.title.slice(0, 25) + "..."
+                      : blog.title}
+                  </li>
+                );
+              })
+            ) : (
+              <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
+                <HiOutlineDocumentText className="inline-flex text-lg" /> This
+                No drafts
+              </li>
+            )}
           </ul>
         </div>
         <div>
           <h2 className="mt-2 mb-1 text-sm font-medium">Published</h2>
           <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm  text-zinc-800 dark:text-zinc-400">
+            {/* published blogs */}
+
             {blogs?.length !== 0 ? (
               blogs.map((blog, i) => {
                 return (
                   <li
-                    key={i}
                     className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
+                    key={i}
+                    onClick={() => {
+                      setSelectedBlog(blog);
+                      navigate(`/blogs/:${blog.blogId}`);
+                    }}
                   >
                     <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
                     {blog.title.length > 25
