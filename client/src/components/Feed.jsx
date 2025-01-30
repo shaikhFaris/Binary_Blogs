@@ -31,7 +31,7 @@ const Feed = ({ blogs }) => {
               <span className="text-green-400 text-sm font-mono">
                 {element.publishedAt}
               </span>
-              <p className="text-xs text-[#a1a1aa]">
+              <p className="text-xs text-[#a1a1aa] break-all">
                 {element.content
                   ? element.content.length <= 90
                     ? element.content

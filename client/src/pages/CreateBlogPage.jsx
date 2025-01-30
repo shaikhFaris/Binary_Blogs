@@ -25,6 +25,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
   });
   const [Category, setCategory] = useState("");
   const [tags, settags] = useState(["#js", "#webdev", "#react"]);
+  const [currentBlog, setcurrentBlog] = useState({});
 
   // for sidebar and preview
   useEffect(() => {
@@ -48,6 +49,19 @@ const CreateBlogPage = ({ sethideFooter }) => {
     textarea.style.height = "auto"; // Reset height
     textarea.style.height = `${textarea.scrollHeight}px`; // Adjust to scroll height
   };
+
+  useEffect(() => {
+    // console.log(currentBlog);
+    if (currentBlog?.title && currentBlog?.content) {
+      setblogBody(currentBlog.content);
+      setBlogsTobePosted(currentBlog);
+      titleRef.current.value = currentBlog.title;
+      bodyRef.current.value = currentBlog.content;
+      const textarea = bodyRef.current;
+      textarea.style.height = "auto"; // Reset height
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [currentBlog]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,6 +102,8 @@ const CreateBlogPage = ({ sethideFooter }) => {
       onSubmit={handleSubmit}
     >
       <Sidebar
+        currentBlog={currentBlog}
+        setcurrentBlog={setcurrentBlog}
         sethideFooter={sethideFooter}
         CollapseSidebar={CollapseSidebar}
         setCollapseSidebar={setCollapseSidebar}
@@ -154,7 +170,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
           ref={bodyRef}
           required
           minLength={10}
-          className={`xl:text-xl max-w-[90%] p-3 break-all resize-y min-h-[50vh] bg-transparent focus:border-collapse outline-none placeholder-zinc-700 ${
+          className={`xl:text-lg max-w-[90%] p-3 break-all resize-y min-h-[50vh] bg-transparent focus:border-collapse outline-none placeholder-zinc-700 ${
             CollapseSidebar && togglePreview && "max-w-[55%]"
           }`}
           placeholder="Write blog body in mardkdown..."

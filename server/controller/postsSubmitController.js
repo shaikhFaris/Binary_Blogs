@@ -81,6 +81,7 @@ const blogsPublishController = async (req, res) => {
           { email: req.user },
           {
             $push: { blogs: req.body },
+            // $pop:{drafts}
           }
         );
         return res.sendStatus(201);

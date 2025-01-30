@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import BlogsContext from "../context/blogsProvider";
 import { useNavigate } from "react-router-dom";
+import { SlOptionsVertical } from "react-icons/sl";
 import { HiOutlineDocumentText, HiOutlineDocumentPlus } from "react-icons/hi2";
 import { HiOutlineDocumentAdd } from "react-icons/hi";
 import { RiAddFill } from "react-icons/ri";
@@ -12,7 +13,13 @@ import usePrivateAxios from "../hooks/usePrivateAxios";
 
 // import useFetchBlogs from "../hooks/useFetchBlogs";
 
-const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
+const Sidebar = ({
+  sethideFooter,
+  CollapseSidebar,
+  setCollapseSidebar,
+  currentBlog,
+  setcurrentBlog,
+}) => {
   const { blogs, setBlogs, selectedBlog, setSelectedBlog } =
     useContext(BlogsContext);
   const [draftBlogs, setdraftBlogs] = useState([]);
@@ -100,31 +107,41 @@ const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
           <div>
             <div className="flex justify-between items-center pr-3">
               <h2 className="mt-2 mb-1 text-sm font-medium">My Drafts</h2>
-              <HiOutlineDocumentAdd className="text-green-400 text-2xl hover:scale-95 duration-150 " />
+              <HiOutlineDocumentAdd className="text-green-400 text-xl hover:scale-95 duration-150 " />
             </div>
             <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400 ">
               {draftBlogs?.length !== 0 ? (
                 draftBlogs.map((blog, i) => {
                   return (
                     <li
-                      className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
+                      className="w-full flex items-center justify-between p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
                       key={i}
                       onClick={() => {
+                        setcurrentBlog(blog);
                         setSelectedBlog(blog);
-                        navigate(`/blogs/:${blog.blogId}`);
+                        // navigate(`/blogs/:${blog.blogId}`);
                       }}
                     >
-                      <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
-                      {blog.title.length > 25
-                        ? blog.title.slice(0, 25) + "..."
-                        : blog.title}
+                      <div className="inline-flex">
+                        <HiOutlineDocumentText className="mr-1 inline-flex text-lg" />
+                        <span>
+                          {" "}
+                          {blog.title.length > 25
+                            ? blog.title.slice(0, 25) + "..."
+                            : blog.title}
+                        </span>
+                      </div>
+                      <SlOptionsVertical className="inline-flex" />
                     </li>
                   );
                 })
               ) : (
-                <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-                  <HiOutlineDocumentText className="mr-1 inline-flex text-lg" />
-                  Create New draft
+                <li className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 flex items-center justify-between ">
+                  <div className="inline-flex">
+                    <HiOutlineDocumentText className="mr-1 inline-flex text-lg" />
+                    <span>Create New draft</span>
+                  </div>
+                  <SlOptionsVertical className="inline-flex" />
                 </li>
               )}
             </ul>
@@ -142,7 +159,8 @@ const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
                       key={i}
                       onClick={() => {
                         setSelectedBlog(blog);
-                        navigate(`/blogs/:${blog.blogId}`);
+                        setcurrentBlog(blog);
+                        // navigate(`/blogs/:${blog.blogId}`);
                       }}
                     >
                       <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
