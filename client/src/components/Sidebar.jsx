@@ -91,92 +91,100 @@ const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
         <hr className="border border-[hsl(var(--border))] mb-2" />
       )}
       <div
-        className={`transition-all flex flex-col duration-500 ${
+        className={`transition-all h-[90%] flex justify-between flex-col duration-500 ${
           CollapseSidebar ? "opacity-0 scale-0" : "opacity-100 scale-100"
         }`}
       >
+        {/*drafts and published section */}
         <div>
-          <div className="flex justify-between items-center pr-3">
-            <h2 className="mt-2 mb-1 text-sm font-medium">My Drafts</h2>
-            <HiOutlineDocumentAdd className="text-zinc-800 dark:text-zinc-400 text-2xl hover:text-[hsl(var(--foreground))]" />
+          <div>
+            <div className="flex justify-between items-center pr-3">
+              <h2 className="mt-2 mb-1 text-sm font-medium">My Drafts</h2>
+              <HiOutlineDocumentAdd className="text-green-400 text-2xl hover:scale-95 duration-150 " />
+            </div>
+            <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400 ">
+              {draftBlogs?.length !== 0 ? (
+                draftBlogs.map((blog, i) => {
+                  return (
+                    <li
+                      className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
+                      key={i}
+                      onClick={() => {
+                        setSelectedBlog(blog);
+                        navigate(`/blogs/:${blog.blogId}`);
+                      }}
+                    >
+                      <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
+                      {blog.title.length > 25
+                        ? blog.title.slice(0, 25) + "..."
+                        : blog.title}
+                    </li>
+                  );
+                })
+              ) : (
+                <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
+                  <HiOutlineDocumentText className="mr-1 inline-flex text-lg" />
+                  Create New draft
+                </li>
+              )}
+            </ul>
           </div>
-          <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400 ">
-            {draftBlogs?.length !== 0 ? (
-              draftBlogs.map((blog, i) => {
-                return (
-                  <li
-                    className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
-                    key={i}
-                    onClick={() => {
-                      setSelectedBlog(blog);
-                      navigate(`/blogs/:${blog.blogId}`);
-                    }}
-                  >
-                    <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
-                    {blog.title.length > 25
-                      ? blog.title.slice(0, 25) + "..."
-                      : blog.title}
-                  </li>
-                );
-              })
-            ) : (
-              <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-                <HiOutlineDocumentText className="inline-flex text-lg" /> This
-                No drafts
-              </li>
-            )}
-          </ul>
-        </div>
-        <div>
-          <h2 className="mt-2 mb-1 text-sm font-medium">Published</h2>
-          <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm  text-zinc-800 dark:text-zinc-400">
-            {/* published blogs */}
+          <div>
+            <h2 className="mt-2 mb-1 text-sm font-medium">Published</h2>
+            <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm  text-zinc-800 dark:text-zinc-400">
+              {/* published blogs */}
 
-            {blogs?.length !== 0 ? (
-              blogs.map((blog, i) => {
-                return (
-                  <li
-                    className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
-                    key={i}
-                    onClick={() => {
-                      setSelectedBlog(blog);
-                      navigate(`/blogs/:${blog.blogId}`);
-                    }}
-                  >
-                    <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
-                    {blog.title.length > 25
-                      ? blog.title.slice(0, 25) + "..."
-                      : blog.title}
-                  </li>
-                );
-              })
-            ) : (
-              <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-                <HiOutlineDocumentText className="inline-flex text-lg" /> This
-                is my first blog
-              </li>
-            )}
-          </ul>
+              {blogs?.length !== 0 ? (
+                blogs.map((blog, i) => {
+                  return (
+                    <li
+                      className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
+                      key={i}
+                      onClick={() => {
+                        setSelectedBlog(blog);
+                        navigate(`/blogs/:${blog.blogId}`);
+                      }}
+                    >
+                      <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
+                      {blog.title.length > 25
+                        ? blog.title.slice(0, 25) + "..."
+                        : blog.title}
+                    </li>
+                  );
+                })
+              ) : (
+                <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
+                  <HiOutlineDocumentText className="inline-flex text-lg" /> This
+                  is my first blog
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
-        <hr className="border border-[hsl(var(--border))] mt-4 mb-4" />
-        <div className="flex flex-col justify-start gap-1">
-          <button className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium rounded-lg hover:bg-zinc-300 hover:dark:bg-zinc-800">
-            <HiOutlineDocumentPlus className="inline-flex text-xl" /> New Draft
-          </button>
-          <button
-            className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium rounded-lg hover:bg-zinc-200 hover:dark:bg-zinc-800"
-            onClick={() => navigate("/mdEditor")}
-          >
-            <FaCodepen className="inline-flex text-xl" />
-            Md Editor
-          </button>
-          <button
-            className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium rounded-lg hover:bg-zinc-200 hover:dark:bg-zinc-800"
-            onClick={() => navigate("/")}
-          >
-            <MdOutlineKeyboardBackspace className="inline-flex text-xl" /> Back
-            to home
-          </button>
+
+        {/* last section */}
+        <div>
+          <hr className="border border-[hsl(var(--border))] mt-4 mb-4" />
+          <div className="flex flex-col justify-start gap-1">
+            <button className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium rounded-lg hover:bg-zinc-300 hover:dark:bg-zinc-800">
+              <HiOutlineDocumentPlus className="inline-flex text-xl" /> New
+              Draft
+            </button>
+            <button
+              className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium rounded-lg hover:bg-zinc-200 hover:dark:bg-zinc-800"
+              onClick={() => navigate("/mdEditor")}
+            >
+              <FaCodepen className="inline-flex text-xl" />
+              Md Editor
+            </button>
+            <button
+              className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium rounded-lg hover:bg-zinc-200 hover:dark:bg-zinc-800"
+              onClick={() => navigate("/")}
+            >
+              <MdOutlineKeyboardBackspace className="inline-flex text-xl" />{" "}
+              Back to home
+            </button>
+          </div>
         </div>
       </div>
     </div>
