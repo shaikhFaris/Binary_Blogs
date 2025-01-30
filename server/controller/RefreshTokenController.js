@@ -28,7 +28,7 @@ const refreshTokenController = async (req, res) => {
       { email: decoded.email },
       process.env.ACCESS_TOKEN,
       {
-        expiresIn: "30s",
+        expiresIn: "60s",
       }
     );
     res.json({ accessToken: accessToken, email: decoded.email });

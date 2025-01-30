@@ -5,8 +5,11 @@ import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import Preview from "../components/Preview";
 import { VscPreview } from "react-icons/vsc";
+import ConfirmPublishPopUp from "../components/popups/ConfirmPublishPopUp";
+import usePrivateAxios from "../hooks/usePrivateAxios";
 
 const CreateBlogPage = ({ sethideFooter }) => {
+  const axiosPrivate = usePrivateAxios();
   const titleRef = useRef();
   const bodyRef = useRef();
   const navigate = useNavigate();
@@ -14,17 +17,28 @@ const CreateBlogPage = ({ sethideFooter }) => {
   const [togglePreview, settogglePreview] = useState(false);
   const [navbarHeight, setnavbarHeight] = useState();
   const [blogBody, setblogBody] = useState(``);
-  const [DraftBlogs, setDraftBlogs] = useState({
-    blogId: "",
+  const [toggleConfirmPublishPopup, settoggleConfirmPublishPopup] =
+    useState(false);
+  const [BlogsTobePosted, setBlogsTobePosted] = useState({
     title: "",
     content: ``,
-    tags: [],
-    category: "",
   });
+  const [Category, setCategory] = useState("");
+  const [tags, settags] = useState(["#js", "#webdev", "#react"]);
+
+  // for sidebar and preview
   useEffect(() => {
     titleRef?.current.focus();
     setnavbarHeight(document.querySelector("#navbar").clientHeight + 21);
-    console.log(document.querySelector("#navbar").clientHeight + 21);
+    // console.log(document.querySelector("#navbar").clientHeight + 21);
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue =
+        "You have unsaved changes. Please save the changes as draft before leaving?";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
   const handleBlogChange = (e) => {
@@ -35,27 +49,50 @@ const CreateBlogPage = ({ sethideFooter }) => {
     textarea.style.height = `${textarea.scrollHeight}px`; // Adjust to scroll height
   };
 
-  const handleSubmitDraft = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e.nativeEvent.submitter.name);
-    if (e.nativeEvent.submitter.name == "draft") {
+    const controller = new AbortController();
+
+    // if (toggleConfirmPublishPopup) {
+    // console.log(e.nativeEvent.submitter.name);
+    if (e.nativeEvent.submitter.name == "publish") {
+      console.log(BlogsTobePosted);
+      console.log(tags);
+      console.log(Category);
+      console.log("submitted");
+      try {
+        await axiosPrivate.post(
+          "/posts/submit/publishBlogs",
+          {
+            title: BlogsTobePosted?.title,
+            content: BlogsTobePosted?.content,
+            tags: tags || [],
+            category: Category,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
+            withCredentials: true,
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
     }
-    setDraftBlogs({ ...DraftBlogs, content: `${blogBody}` });
-    console.log(DraftBlogs);
   };
 
   return (
     // let's add a sidebar
-    <div className="text-[hsl(var(--foreground))] min-h-screen flex gap-1 mb-5">
+    <form
+      className="text-[hsl(var(--foreground))] min-h-screen flex gap-1 mb-5"
+      onSubmit={handleSubmit}
+    >
       <Sidebar
         sethideFooter={sethideFooter}
         CollapseSidebar={CollapseSidebar}
         setCollapseSidebar={setCollapseSidebar}
       />
-      <form
-        className="flex flex-col gap-2 w-full xl:pl-8 mt-6 "
-        onSubmit={handleSubmitDraft}
-      >
+      <div className="flex flex-col gap-2 w-full xl:pl-8 mt-6 ">
         {/* preview div */}
         <div
           className={`absolute right-0 p-2 pr-3 ${
@@ -110,11 +147,12 @@ const CreateBlogPage = ({ sethideFooter }) => {
           // autoCorrect=,
           placeholder="Blog title..."
           onChange={(e) =>
-            setDraftBlogs({ ...DraftBlogs, title: e.target.value })
+            setBlogsTobePosted({ ...BlogsTobePosted, title: e.target.value })
           }
         />
         <textarea
           ref={bodyRef}
+          required
           minLength={10}
           className={`xl:text-xl max-w-[90%] p-3 break-all resize-y min-h-[50vh] bg-transparent focus:border-collapse outline-none placeholder-zinc-700 ${
             CollapseSidebar && togglePreview && "max-w-[55%]"
@@ -125,8 +163,14 @@ const CreateBlogPage = ({ sethideFooter }) => {
         <div className="flex lg:gap-5">
           <button
             className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
-            type="submit"
-            name="publish"
+            type="button"
+            onClick={() => {
+              settoggleConfirmPublishPopup(true);
+              setBlogsTobePosted({
+                ...BlogsTobePosted,
+                content: `${blogBody}`,
+              });
+            }}
           >
             Publish
           </button>
@@ -138,8 +182,19 @@ const CreateBlogPage = ({ sethideFooter }) => {
             Save as draft
           </button>
         </div>
-      </form>
-    </div>
+      </div>
+      {/* popup */}
+      {toggleConfirmPublishPopup && (
+        <ConfirmPublishPopUp
+          Category={Category}
+          setCategory={setCategory}
+          tags={tags}
+          settags={settags}
+          toggleConfirmPublishPopup={toggleConfirmPublishPopup}
+          settoggleConfirmPublishPopup={settoggleConfirmPublishPopup}
+        />
+      )}
+    </form>
   );
 };
 

@@ -76,6 +76,7 @@ const SelectedBlog = () => {
     }
     return () => {
       controller.abort();
+      setSelectedBlog([]);
     };
   }, []);
 

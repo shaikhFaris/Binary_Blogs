@@ -2,6 +2,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import BlogsContext from "../context/blogsProvider";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineDocumentText, HiOutlineDocumentPlus } from "react-icons/hi2";
+import { HiOutlineDocumentAdd } from "react-icons/hi";
+import { RiAddFill } from "react-icons/ri";
 import { FaCodepen } from "react-icons/fa";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
@@ -94,8 +96,11 @@ const Sidebar = ({ sethideFooter, CollapseSidebar, setCollapseSidebar }) => {
         }`}
       >
         <div>
-          <h2 className="mt-2 mb-1 text-sm font-medium">My Drafts</h2>
-          <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400">
+          <div className="flex justify-between items-center pr-3">
+            <h2 className="mt-2 mb-1 text-sm font-medium">My Drafts</h2>
+            <HiOutlineDocumentAdd className="text-zinc-800 dark:text-zinc-400 text-2xl hover:text-[hsl(var(--foreground))]" />
+          </div>
+          <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400 ">
             {draftBlogs?.length !== 0 ? (
               draftBlogs.map((blog, i) => {
                 return (
