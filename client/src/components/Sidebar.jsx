@@ -14,6 +14,8 @@ import usePrivateAxios from "../hooks/usePrivateAxios";
 // import useFetchBlogs from "../hooks/useFetchBlogs";
 
 const Sidebar = ({
+  draftBlogs,
+  setdraftBlogs,
   sethideFooter,
   CollapseSidebar,
   setCollapseSidebar,
@@ -22,8 +24,6 @@ const Sidebar = ({
 }) => {
   const { blogs, setBlogs, selectedBlog, setSelectedBlog } =
     useContext(BlogsContext);
-  const [draftBlogs, setdraftBlogs] = useState([]);
-
   // const [publishedBlogs, setpublishedBlogs] = useState([]);
   const axiosPrivate = usePrivateAxios();
   // const getBlogs = useFetchBlogs();
@@ -41,7 +41,7 @@ const Sidebar = ({
         });
         // console.log(response.data);
         setBlogs(response.data.blogs); // important
-        setdraftBlogs(response.data.drafts);
+        setdraftBlogs(response.data.drafts); // important
       } catch (err) {
         if (err.name === "CanceledError") {
           console.log("Request canceled:", err.message);

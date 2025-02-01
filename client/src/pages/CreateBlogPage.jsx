@@ -3,16 +3,21 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import Hero from "../components/Hero";
 import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
+import BlogsContext from "../context/blogsProvider";
 import Preview from "../components/Preview";
 import { VscPreview } from "react-icons/vsc";
+import { MdMode } from "react-icons/md";
 import ConfirmPublishPopUp from "../components/popups/ConfirmPublishPopUp";
 import usePrivateAxios from "../hooks/usePrivateAxios";
 
 const CreateBlogPage = ({ sethideFooter }) => {
   const axiosPrivate = usePrivateAxios();
   const titleRef = useRef();
+  // const editBtn = useRef();
   const bodyRef = useRef();
   const navigate = useNavigate();
+  const [draftBlogs, setdraftBlogs] = useState([]);
+  const { blogs, setBlogs } = useContext(BlogsContext);
   const [CollapseSidebar, setCollapseSidebar] = useState(false);
   const [togglePreview, settogglePreview] = useState(false);
   const [navbarHeight, setnavbarHeight] = useState();
@@ -22,10 +27,13 @@ const CreateBlogPage = ({ sethideFooter }) => {
   const [BlogsTobePosted, setBlogsTobePosted] = useState({
     title: "",
     content: ``,
+    editedBlog: null,
   });
   const [Category, setCategory] = useState("");
   const [tags, settags] = useState(["#js", "#webdev", "#react"]);
   const [currentBlog, setcurrentBlog] = useState({});
+  const [editMode, seteditMode] = useState(false);
+  const [NewBlogOrNot, setNewBlogOrNot] = useState(true);
 
   // for sidebar and preview
   useEffect(() => {
@@ -60,8 +68,19 @@ const CreateBlogPage = ({ sethideFooter }) => {
       const textarea = bodyRef.current;
       textarea.style.height = "auto"; // Reset height
       textarea.style.height = `${textarea.scrollHeight}px`;
+      bodyRef.current.disabled = true;
+      titleRef.current.disabled = true;
+      setNewBlogOrNot(false);
     }
   }, [currentBlog]);
+
+  useEffect(() => {
+    if (editMode === true) {
+      bodyRef.current.disabled = false;
+      titleRef.current.disabled = false;
+      // setNewBlogOrNot(true);
+    }
+  }, [editMode]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,12 +89,9 @@ const CreateBlogPage = ({ sethideFooter }) => {
     // if (toggleConfirmPublishPopup) {
     // console.log(e.nativeEvent.submitter.name);
     if (e.nativeEvent.submitter.name == "publish") {
-      console.log(BlogsTobePosted);
-      console.log(tags);
-      console.log(Category);
       console.log("submitted");
       try {
-        await axiosPrivate.post(
+        const response = await axiosPrivate.post(
           "/posts/submit/publishBlogs",
           {
             title: BlogsTobePosted?.title,
@@ -89,6 +105,9 @@ const CreateBlogPage = ({ sethideFooter }) => {
             withCredentials: true,
           }
         );
+        console.log(response.data);
+        setBlogs(response.data.blogs);
+        setdraftBlogs(response.data.drafts);
       } catch (error) {
         console.log(error);
       }
@@ -102,6 +121,8 @@ const CreateBlogPage = ({ sethideFooter }) => {
       onSubmit={handleSubmit}
     >
       <Sidebar
+        draftBlogs={draftBlogs}
+        setdraftBlogs={setdraftBlogs}
         currentBlog={currentBlog}
         setcurrentBlog={setcurrentBlog}
         sethideFooter={sethideFooter}
@@ -124,6 +145,23 @@ const CreateBlogPage = ({ sethideFooter }) => {
             }`}
           >
             <div className="flex gap-5 items-center">
+              {!NewBlogOrNot && (
+                <button
+                  // ref={editBtn}
+                  className={`text-xl hover:bg-zinc-200 rounded-lg hover:scale-110 dark:hover:bg-zinc-800 ${
+                    editMode &&
+                    "text-[hsl(var(--blue-foreground))] scale-110 bg-zinc-200 dark:bg-zinc-800 "
+                  } duration-150 border border-[hsl(var(--border))] p-[6px] `}
+                >
+                  <MdMode
+                    title="edit"
+                    // className=""
+                    onClick={() => {
+                      seteditMode(!editMode);
+                    }}
+                  />
+                </button>
+              )}
               <VscPreview
                 title="preview"
                 className=" text-3xl hover:scale-110 duration-150 "
@@ -131,6 +169,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
                   settogglePreview(!togglePreview);
                 }}
               />
+
               {togglePreview && (
                 <span className="text-4xl font-medium">Preview</span>
               )}
@@ -176,28 +215,31 @@ const CreateBlogPage = ({ sethideFooter }) => {
           placeholder="Write blog body in mardkdown..."
           onChange={handleBlogChange}
         />
-        <div className="flex lg:gap-5">
-          <button
-            className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
-            type="button"
-            onClick={() => {
-              settoggleConfirmPublishPopup(true);
-              setBlogsTobePosted({
-                ...BlogsTobePosted,
-                content: `${blogBody}`,
-              });
-            }}
-          >
-            Publish
-          </button>
-          <button
-            name="draft"
-            className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
-            type="submit"
-          >
-            Save as draft
-          </button>
-        </div>
+        {/* buttons */}
+        {(NewBlogOrNot || editMode) && (
+          <div className="flex lg:gap-5">
+            <button
+              className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
+              type="button"
+              onClick={() => {
+                settoggleConfirmPublishPopup(true);
+                setBlogsTobePosted({
+                  ...BlogsTobePosted,
+                  content: `${blogBody}`,
+                });
+              }}
+            >
+              Publish
+            </button>
+            <button
+              name="draft"
+              className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
+              type="submit"
+            >
+              Save as draft
+            </button>
+          </div>
+        )}
       </div>
       {/* popup */}
       {toggleConfirmPublishPopup && (

@@ -25,14 +25,42 @@ const draftSubmitController = async (req, res) => {
         return res.sendStatus(500);
       }
     } else {
+      // editing an existing drafting
+      if (req.body.editBlog) {
+        // console.log(req.body.editBlog);
+        try {
+          const updatedBlog = await postsModel.findOneAndUpdate(
+            { "drafts.blogId": req.body.editBlog }, // Find the document with matching `blogId`
+            {
+              $set: {
+                "drafts.$.title": req.body.title,
+                "drafts.$.content": req.body.content, // Content is a string
+              },
+            }, // Update the `content` of the matched object
+            { new: true } // Return updated document
+          );
+          // console.log(updatedBlog);
+          return res.json(updatedBlog);
+        } catch (error) {
+          console.log(error);
+          return res.sendStatus(500);
+        }
+      }
+
+      // pushing a new draft to array
       try {
-        await postsModel.findOneAndUpdate(
+        const updatedBlog = await postsModel.findOneAndUpdate(
           { email: req.user },
           {
-            $push: { drafts: req.body },
+            $push: {
+              drafts: {
+                title: req.body.title,
+                content: req.body.content,
+              },
+            },
           }
         );
-        return res.sendStatus(201);
+        return res.status(201).json(updatedBlog);
       } catch (error) {
         console.log(error);
         return res.sendStatus(500);
@@ -77,14 +105,22 @@ const blogsPublishController = async (req, res) => {
       }
     } else {
       try {
-        await postsModel.findOneAndUpdate(
+        const updatedBlog = await postsModel.findOneAndUpdate(
           { email: req.user },
           {
-            $push: { blogs: req.body },
+            $push: {
+              blogs: {
+                title: req.body.title,
+                content: req.body.content,
+                tags: req.body.tags,
+                category: req.body.category,
+              },
+            },
             // $pop:{drafts}
-          }
+          },
+          { new: true }
         );
-        return res.sendStatus(201);
+        return res.status(201).json(updatedBlog);
       } catch (error) {
         console.log(error);
         return res.sendStatus(500);
