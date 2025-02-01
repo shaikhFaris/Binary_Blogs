@@ -2,46 +2,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import Markdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 
-const test = `
-# Heading
-## Heading
-### Heading
-#### Heading
-##### Heading
-###### Heading
-
-**Bold Text** or __Bold \n
-*Italic Text* or _Italic Text_\n
-***Bold and Italic*** or ___Bold and Italic___
-
-> “I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best.”
-
-- Item 1
-- Item 2
-  - Subitem 2.1
-  - Subitem 2.2
-
-1. Item 1
-2. Item 2
-   1. Subitem 2.1
-   2. Subitem 2.2
-
-[Clickable Link](https://example.com)
-
-\`\`\`javascript
-console.log("Hello, World!"); console.log(" break-words break-wordsHello, World!"); cconsole.log("Hello, World!");onsole.log("Hello, World!");
-console.log("Hello, World!");
-
-console.log("Hello, World!");
-\`\`\`
-
-This is a paraThis is a paraThisppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppparaThispppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a paraThis is a para
-
-This is \`inline code\`.
-
----
-`;
-
 const Preview = ({ togglePreview, settogglePreview, blogBody }) => {
   return (
     <AnimatePresence>

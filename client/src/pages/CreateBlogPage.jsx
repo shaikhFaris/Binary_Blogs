@@ -13,7 +13,6 @@ import usePrivateAxios from "../hooks/usePrivateAxios";
 const CreateBlogPage = ({ sethideFooter }) => {
   const axiosPrivate = usePrivateAxios();
   const titleRef = useRef();
-  // const editBtn = useRef();
   const bodyRef = useRef();
   const navigate = useNavigate();
   const [draftBlogs, setdraftBlogs] = useState([]);
@@ -37,6 +36,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
 
   // for sidebar and preview
   useEffect(() => {
+    setcurrentBlog(BlogsTobePosted);
     titleRef?.current.focus();
     setnavbarHeight(document.querySelector("#navbar").clientHeight + 21);
     // console.log(document.querySelector("#navbar").clientHeight + 21);
@@ -58,6 +58,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
     textarea.style.height = `${textarea.scrollHeight}px`; // Adjust to scroll height
   };
 
+  // for editing and opening a new blog when mounted
   useEffect(() => {
     // console.log(currentBlog);
     if (currentBlog?.title && currentBlog?.content) {
@@ -71,6 +72,21 @@ const CreateBlogPage = ({ sethideFooter }) => {
       bodyRef.current.disabled = true;
       titleRef.current.disabled = true;
       setNewBlogOrNot(false);
+    }
+    if (
+      currentBlog?.title?.length === 0 &&
+      currentBlog?.content?.length === 0
+    ) {
+      setblogBody(currentBlog.content);
+      setBlogsTobePosted(currentBlog);
+      titleRef.current.value = currentBlog.title;
+      bodyRef.current.value = currentBlog.content;
+      const textarea = bodyRef.current;
+      textarea.style.height = "auto"; // Reset height
+      textarea.style.height = `${textarea.scrollHeight}px`;
+      bodyRef.current.disabled = false;
+      titleRef.current.disabled = false;
+      setNewBlogOrNot(true);
     }
   }, [currentBlog]);
 
@@ -126,6 +142,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
         currentBlog={currentBlog}
         setcurrentBlog={setcurrentBlog}
         sethideFooter={sethideFooter}
+        BlogsTobePosted={BlogsTobePosted}
         CollapseSidebar={CollapseSidebar}
         setCollapseSidebar={setCollapseSidebar}
       />
@@ -145,7 +162,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
             }`}
           >
             <div className="flex gap-5 items-center">
-              {!NewBlogOrNot && (
+              {!NewBlogOrNot && currentBlog?.title?.length > 0 && (
                 <button
                   // ref={editBtn}
                   className={`text-xl hover:bg-zinc-200 rounded-lg hover:scale-110 dark:hover:bg-zinc-800 ${

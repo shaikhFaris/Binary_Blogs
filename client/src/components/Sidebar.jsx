@@ -21,6 +21,7 @@ const Sidebar = ({
   setCollapseSidebar,
   currentBlog,
   setcurrentBlog,
+  BlogsTobePosted,
 }) => {
   const { blogs, setBlogs, selectedBlog, setSelectedBlog } =
     useContext(BlogsContext);
@@ -33,6 +34,7 @@ const Sidebar = ({
   useEffect(() => {
     sethideFooter(true);
     setnavbarHeight(document.querySelector("#navbar").clientHeight + 21);
+
     const controller = new AbortController();
     const getBlogs = async () => {
       try {
@@ -41,7 +43,8 @@ const Sidebar = ({
         });
         // console.log(response.data);
         setBlogs(response.data.blogs); // important
-        setdraftBlogs(response.data.drafts); // important
+        const tempDrafts = [BlogsTobePosted, ...response.data.drafts];
+        setdraftBlogs(tempDrafts); // important
       } catch (err) {
         if (err.name === "CanceledError") {
           console.log("Request canceled:", err.message);
@@ -125,10 +128,11 @@ const Sidebar = ({
                       <div className="inline-flex">
                         <HiOutlineDocumentText className="mr-1 inline-flex text-lg" />
                         <span>
-                          {" "}
-                          {blog.title.length > 25
-                            ? blog.title.slice(0, 25) + "..."
-                            : blog.title}
+                          {blog?.title?.length !== 0
+                            ? blog?.title?.length > 25
+                              ? blog.title.slice(0, 25) + "..."
+                              : blog.title
+                            : "No title"}
                         </span>
                       </div>
                       <SlOptionsVertical className="inline-flex" />
@@ -158,7 +162,7 @@ const Sidebar = ({
                       className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
                       key={i}
                       onClick={() => {
-                        setSelectedBlog(blog);
+                        // setSelectedBlog(blog);
                         setcurrentBlog(blog);
                         // navigate(`/blogs/:${blog.blogId}`);
                       }}
