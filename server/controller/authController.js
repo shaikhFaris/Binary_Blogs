@@ -36,7 +36,7 @@ const authController = async (req, res) => {
       const accessToken = jwt.sign(
         { email: alreadyUser.email },
         process.env.ACCESS_TOKEN,
-        { expiresIn: "30s" }
+        { expiresIn: "60s" }
       );
       const refreshToken = jwt.sign(
         { email: alreadyUser.email },
