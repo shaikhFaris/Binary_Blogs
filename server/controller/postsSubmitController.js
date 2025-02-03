@@ -7,8 +7,9 @@ const draftSubmitController = async (req, res) => {
   try {
     const userPosts = await postsModel.findOne({ email: req.user });
     if (!userPosts) {
+      //creating a new entry in db
       try {
-        await postsModel.create({
+        const updatedBlog = await postsModel.create({
           email: req.user,
           blogs: [],
           drafts: [
@@ -19,18 +20,17 @@ const draftSubmitController = async (req, res) => {
           ],
           author: "John Doe",
         });
-        return res.sendStatus(201);
+        return res.status(201).json(updatedBlog);
       } catch (error) {
         console.log(error);
         return res.sendStatus(500);
       }
     } else {
-      // editing an existing drafting
-      if (req.body.editBlog) {
-        // console.log(req.body.editBlog);
+      // editing an existing draft
+      if (req.body?.editedBlog && req.body?.editedBlog?.length !== 0) {
         try {
           const updatedBlog = await postsModel.findOneAndUpdate(
-            { "drafts.blogId": req.body.editBlog }, // Find the document with matching `blogId`
+            { "drafts.blogId": req.body.editedBlog }, // Find the document with matching `blogId`
             {
               $set: {
                 "drafts.$.title": req.body.title,
@@ -39,7 +39,7 @@ const draftSubmitController = async (req, res) => {
             }, // Update the `content` of the matched object
             { new: true } // Return updated document
           );
-          // console.log(updatedBlog);
+          console.log(updatedBlog);
           return res.json(updatedBlog);
         } catch (error) {
           console.log(error);
@@ -58,7 +58,8 @@ const draftSubmitController = async (req, res) => {
                 content: req.body.content,
               },
             },
-          }
+          },
+          { new: true }
         );
         return res.status(201).json(updatedBlog);
       } catch (error) {
@@ -104,6 +105,14 @@ const blogsPublishController = async (req, res) => {
         return res.sendStatus(500);
       }
     } else {
+      // for editing a blog
+      // try {
+
+      // } catch (error) {
+
+      // }
+
+      // updating the blogs array
       try {
         const updatedBlog = await postsModel.findOneAndUpdate(
           { email: req.user },

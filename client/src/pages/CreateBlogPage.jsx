@@ -26,7 +26,6 @@ const CreateBlogPage = ({ sethideFooter }) => {
   const [BlogsTobePosted, setBlogsTobePosted] = useState({
     title: "",
     content: ``,
-    editedBlog: null,
   });
   const [Category, setCategory] = useState("");
   const [tags, settags] = useState(["#js", "#webdev", "#react"]);
@@ -53,6 +52,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
   const handleBlogChange = (e) => {
     console.log(e.target.value);
     setblogBody(`${e.target.value}`);
+    setBlogsTobePosted({ ...BlogsTobePosted, content: e.target.value });
     const textarea = bodyRef.current;
     textarea.style.height = "auto"; // Reset height
     textarea.style.height = `${textarea.scrollHeight}px`; // Adjust to scroll height
@@ -60,10 +60,15 @@ const CreateBlogPage = ({ sethideFooter }) => {
 
   // for editing and opening a new blog when mounted
   useEffect(() => {
-    // console.log(currentBlog);
+    // publihed or drafts editing
     if (currentBlog?.title && currentBlog?.content) {
       setblogBody(currentBlog.content);
-      setBlogsTobePosted(currentBlog);
+      setBlogsTobePosted({
+        ...BlogsTobePosted,
+        title: currentBlog.title,
+        content: currentBlog.content,
+        // editedBlog: currentBlog.blogId,
+      });
       titleRef.current.value = currentBlog.title;
       bodyRef.current.value = currentBlog.content;
       const textarea = bodyRef.current;
@@ -78,7 +83,11 @@ const CreateBlogPage = ({ sethideFooter }) => {
       currentBlog?.content?.length === 0
     ) {
       setblogBody(currentBlog.content);
-      setBlogsTobePosted(currentBlog);
+      setBlogsTobePosted({
+        ...BlogsTobePosted,
+        title: currentBlog.title,
+        content: currentBlog.content,
+      });
       titleRef.current.value = currentBlog.title;
       bodyRef.current.value = currentBlog.content;
       const textarea = bodyRef.current;
@@ -100,11 +109,11 @@ const CreateBlogPage = ({ sethideFooter }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const controller = new AbortController();
-
     // if (toggleConfirmPublishPopup) {
     // console.log(e.nativeEvent.submitter.name);
     if (e.nativeEvent.submitter.name == "publish") {
+      const controller = new AbortController();
+
       console.log("submitted");
       try {
         const response = await axiosPrivate.post(
@@ -121,6 +130,32 @@ const CreateBlogPage = ({ sethideFooter }) => {
             withCredentials: true,
           }
         );
+        setBlogs(response.data.blogs);
+        setdraftBlogs(response.data.drafts);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (e.nativeEvent.submitter.name == "draft") {
+      const controller = new AbortController();
+      console.log("draft submitted");
+      console.log(BlogsTobePosted);
+
+      try {
+        const response = await axiosPrivate.post(
+          "/posts/submit/drafts",
+          {
+            title: BlogsTobePosted?.title,
+            content: BlogsTobePosted?.content,
+            editedBlog: currentBlog?.blogId,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
+            withCredentials: true,
+          }
+        );
         console.log(response.data);
         setBlogs(response.data.blogs);
         setdraftBlogs(response.data.drafts);
@@ -129,6 +164,10 @@ const CreateBlogPage = ({ sethideFooter }) => {
       }
     }
   };
+
+  // useEffect(() => {
+  //   console.log(draftBlogs);
+  // }, [draftBlogs]);
 
   return (
     // let's add a sidebar
