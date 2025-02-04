@@ -32,6 +32,11 @@ const CreateBlogPage = ({ sethideFooter }) => {
   const [currentBlog, setcurrentBlog] = useState({});
   const [editMode, seteditMode] = useState(false);
   const [NewBlogOrNot, setNewBlogOrNot] = useState(true);
+  const [ToBeDeletedElement, setToBeDeletedElement] = useState({
+    blogId: "",
+    title: "",
+  });
+  const [ToggleDelete, setToggleDelete] = useState(false);
 
   // for sidebar and preview
   useEffect(() => {
@@ -165,9 +170,16 @@ const CreateBlogPage = ({ sethideFooter }) => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(draftBlogs);
-  // }, [draftBlogs]);
+  useEffect(() => {
+    if (toggleConfirmPublishPopup) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      document.body.style.overflow = "hidden";
+    } else {
+      console.log("auto");
+
+      document.body.style.overflow = "auto";
+    }
+  }, [toggleConfirmPublishPopup]);
 
   return (
     // let's add a sidebar
@@ -184,8 +196,10 @@ const CreateBlogPage = ({ sethideFooter }) => {
         BlogsTobePosted={BlogsTobePosted}
         CollapseSidebar={CollapseSidebar}
         setCollapseSidebar={setCollapseSidebar}
+        setToBeDeletedElement={setToBeDeletedElement}
+        setToggleDelete={setToggleDelete}
       />
-      <div className="flex flex-col gap-2 w-full xl:pl-8 mt-6 ">
+      <div className="flex flex-col gap-2 w-full xl:pl-8 mt-6">
         {/* preview div */}
         <div
           className={`absolute right-0 p-2 pr-3 ${
@@ -196,7 +210,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
           }}
         >
           <div
-            className={`flex items-center ${
+            className={`flex items-center  ${
               togglePreview && "m-3 justify-between"
             }`}
           >
