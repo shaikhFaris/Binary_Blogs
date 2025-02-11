@@ -4,9 +4,9 @@ const Logout = () => {
   const navigate = useNavigate();
   const logout = useLogout();
   return (
-    <div>
+    <div className="min-h-screen flex items-center justify-center">
       <button
-        className="bg-inherit text-white border mt-5 text-7xl"
+        className="bg-inherit text-white border text-7xl"
         onClick={() => {
           logout();
           navigate("/");

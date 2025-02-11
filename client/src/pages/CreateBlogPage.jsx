@@ -9,6 +9,7 @@ import { VscPreview } from "react-icons/vsc";
 import { MdMode } from "react-icons/md";
 import ConfirmPublishPopUp from "../components/popups/ConfirmPublishPopUp";
 import usePrivateAxios from "../hooks/usePrivateAxios";
+import SubmissionPopups from "../components/popups/SubmissionPopups";
 
 const CreateBlogPage = ({ sethideFooter }) => {
   const axiosPrivate = usePrivateAxios();
@@ -37,6 +38,10 @@ const CreateBlogPage = ({ sethideFooter }) => {
     title: "",
   });
   const [ToggleDelete, setToggleDelete] = useState(false);
+  const [toggleSubmissionPopup, settoggleSubmissionPopup] = useState({
+    check: false,
+    stringValue: "",
+  });
 
   // for sidebar and preview
   useEffect(() => {
@@ -137,6 +142,12 @@ const CreateBlogPage = ({ sethideFooter }) => {
         );
         setBlogs(response.data.blogs);
         setdraftBlogs(response.data.drafts);
+        settoggleConfirmPublishPopup(false);
+        seteditMode(false);
+        settoggleSubmissionPopup({
+          check: true,
+          stringValue: "Blog published",
+        });
       } catch (error) {
         console.log(error);
       }
@@ -164,6 +175,11 @@ const CreateBlogPage = ({ sethideFooter }) => {
         console.log(response.data);
         setBlogs(response.data.blogs);
         setdraftBlogs(response.data.drafts);
+        seteditMode(false);
+        settoggleSubmissionPopup({
+          check: true,
+          stringValue: "Draft submitted",
+        });
       } catch (error) {
         console.log(error);
       }
@@ -320,6 +336,12 @@ const CreateBlogPage = ({ sethideFooter }) => {
           settags={settags}
           toggleConfirmPublishPopup={toggleConfirmPublishPopup}
           settoggleConfirmPublishPopup={settoggleConfirmPublishPopup}
+        />
+      )}
+      {toggleSubmissionPopup.check && (
+        <SubmissionPopups
+          toggleSubmissionPopup={toggleSubmissionPopup}
+          settoggleSubmissionPopup={settoggleSubmissionPopup}
         />
       )}
     </form>
