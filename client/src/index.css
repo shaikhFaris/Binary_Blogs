@@ -320,3 +320,18 @@
     transform: translateX(-100%);
   }
 }
+
+/* stars */
+.bubbles{
+  animation:bubbles-animation linear infinite;
+  animation-duration:calc(500s/var(--time));
+  animation-delay: var(--delay);
+}
+@keyframes bubbles-animation {
+  0% {
+    transform: translateX(100vw); /* Start from the right */
+  }
+  100% {
+    transform: translateX(0); /* Move to the left */
+  }
+}
