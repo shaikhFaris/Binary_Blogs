@@ -286,17 +286,12 @@
 
  /* video player */
 .player-wrapper {
-  width: 80vw;
-  height: 80vh;
-  border-radius: 15px;
-  /* border: 2px solid red; */
-  overflow: hidden;
   position: relative;
   /* Player ratio: 100 / (1280 / 720) */
   /* padding-top: 56.25%;  */
 }
 
-.react-player {
+.player-wrapper .react-player {
   position: absolute;
   top: 0;
   left: 0;
@@ -326,6 +321,8 @@
   animation:bubbles-animation linear infinite;
   animation-duration:calc(500s/var(--time));
   animation-delay: var(--delay);
+  width: var(--size);
+  height: var(--size);
 }
 @keyframes bubbles-animation {
   0% {
