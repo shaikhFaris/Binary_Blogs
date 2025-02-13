@@ -22,6 +22,8 @@ const Sidebar = ({
   currentBlog,
   setcurrentBlog,
   BlogsTobePosted,
+  setToBeDeletedElement,
+  setToggleDelete,
 }) => {
   const { blogs, setBlogs, selectedBlog, setSelectedBlog } =
     useContext(BlogsContext);
@@ -30,11 +32,11 @@ const Sidebar = ({
   // const getBlogs = useFetchBlogs();
   const navigate = useNavigate();
   const [navbarHeight, setnavbarHeight] = useState();
+  const [OptionsToggle, setOptionsToggle] = useState([]);
 
   useEffect(() => {
     sethideFooter(true);
     setnavbarHeight(document.querySelector("#navbar").clientHeight + 21);
-
     const controller = new AbortController();
     const getBlogs = async () => {
       try {
@@ -59,6 +61,14 @@ const Sidebar = ({
       controller.abort();
     };
   }, []);
+
+  useEffect(() => {
+    const tempArr = [];
+    for (let i = 0; i < draftBlogs.length; i++) {
+      tempArr.push(false);
+    }
+    setOptionsToggle(tempArr);
+  }, [draftBlogs, blogs]);
 
   return (
     <div
@@ -112,7 +122,7 @@ const Sidebar = ({
               <h2 className="mt-2 mb-1 text-sm font-medium">My Drafts</h2>
               <HiOutlineDocumentAdd className="text-green-400 text-xl hover:scale-95 duration-150 " />
             </div>
-            <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400 ">
+            <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400 pb-5 ">
               {draftBlogs?.length !== 0 ? (
                 draftBlogs.map((blog, i) => {
                   return (
@@ -135,7 +145,47 @@ const Sidebar = ({
                             : "No title"}
                         </span>
                       </div>
-                      <SlOptionsVertical className="inline-flex" />
+                      <div className="relative inline-flex">
+                        <SlOptionsVertical
+                          className="inline-flex text-lg duration-150 hover:text-[hsl(var(--foreground))] "
+                          onMouseEnter={() =>
+                            setOptionsToggle((prev) =>
+                              prev.map((val, index) =>
+                                index === i ? true : false
+                              )
+                            )
+                          }
+                          onMouseLeave={() => {
+                            setTimeout(() => {}, 2000);
+                            setOptionsToggle((prev) => prev.map(() => false));
+                          }}
+                        />
+                        {OptionsToggle[i] && (
+                          <div
+                            className="absolute border font-medium border-[hsl(var(--border))] rounded-lg top-3 right-3 px-7 py-2 bg-[hsl(var(--background))] text-[hsl(var(--destructive))] hover:bg-[hsl(var(--destructive))] hover:text-[hsl(var(--destructive-foreground))] "
+                            onMouseEnter={() =>
+                              setOptionsToggle((prev) =>
+                                prev.map((val, index) =>
+                                  index === i ? true : false
+                                )
+                              )
+                            }
+                            onMouseLeave={() => {
+                              setTimeout(() => {}, 2000);
+                              setOptionsToggle((prev) => prev.map(() => false));
+                            }}
+                            onClick={() => {
+                              setToBeDeletedElement({
+                                title: blog.title,
+                                blogId: blog.blogId,
+                              });
+                              setToggleDelete(true);
+                            }}
+                          >
+                            delete
+                          </div>
+                        )}
+                      </div>
                     </li>
                   );
                 })

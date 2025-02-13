@@ -15,16 +15,20 @@ import { useState } from "react";
 import OptionsBar from "./components/OptionsBar.jsx";
 import PersistLogin from "./components/PersistLogin.jsx";
 import Logout from "./components/Logout.jsx";
+import Capsule from "./components/Capsule.jsx";
 
 const App = () => {
   const [hideFooter, sethideFooter] = useState(false);
+  const [hideNavbar, sethideNavbar] = useState(false);
   const [smallDeviceSidebar, setSmallDeviceSidebar] = useState(false);
   return (
     <main className="bg-[hsl(var(--background))] w-full min-h-screen max-w-screen-2xl border border-[hsl(var(--border))]">
-      <Navbar
-        setSmallDeviceSidebar={setSmallDeviceSidebar}
-        smallDeviceSidebar={smallDeviceSidebar}
-      />
+      {!hideNavbar && (
+        <Navbar
+          setSmallDeviceSidebar={setSmallDeviceSidebar}
+          smallDeviceSidebar={smallDeviceSidebar}
+        />
+      )}
       {
         <OptionsBar
           smallDeviceSidebar={smallDeviceSidebar}
@@ -33,12 +37,13 @@ const App = () => {
       }
       <Routes>
         <Route path="/login" element={<Login />} />
+        {/* <Route path="/credits" element={<Capsule />} /> */}
         <Route path="/updates" element={<Updates />} />
         <Route path="/register" element={<Register />} />
 
         {/* protected routes */}
         <Route element={<PersistLogin />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home sethideNavbar={sethideNavbar} />} />
           <Route element={<RequireAuth />}>
             <Route
               path="/create"

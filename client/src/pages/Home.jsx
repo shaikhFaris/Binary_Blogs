@@ -7,13 +7,15 @@ import { useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import AuthContext from "../context/AuthProvider";
 import { HomeCards1, HomeCards2, HomeCards3 } from "../components/HomeCards";
+import LandingPage from "./LandingPage";
 
-const Home = () => {
+const Home = ({ sethideNavbar }) => {
   const { auth } = useAuth();
+
   return (
-    <div className="mt-5 pl-3 xl:mt-10 xl:pl-7 text-[hsl(var(--foreground))] min-h-screen">
+    <div>
       {auth?.email ? (
-        <div>
+        <div className="mt-5 pl-3 xl:mt-10 xl:pl-7 text-[hsl(var(--foreground))] min-h-screen">
           <div className="text-[hsl(var(--ring))]">
             <Hero heading="Home" />
           </div>
@@ -24,7 +26,7 @@ const Home = () => {
           </div>
         </div>
       ) : (
-        <div>Landing</div>
+        <LandingPage sethideNavbar={sethideNavbar} />
       )}
     </div>
   );

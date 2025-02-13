@@ -25,10 +25,6 @@ const PersistLogin = () => {
       ? verifyRefreshToken()
       : setisLoading(false);
   }, []);
-  // useEffect(() => {
-  //   console.log(isLoading);
-  //   console.log(auth);
-  // }, [isLoading]);
 
   return (
     <>
