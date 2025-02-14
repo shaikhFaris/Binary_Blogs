@@ -10,6 +10,19 @@ import Carousel from "../components/Carousel";
 const LandingPage = ({ sethideNavbar }) => {
   useEffect(() => {
     sethideNavbar(true);
+    console.log(
+      `%c
+██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗
+██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
+██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗  
+██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  
+╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗
+ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
+    `,
+      "color: yellow; font-size: 12px;"
+    );
+    // console.log("%c Please dont hack me", "color: red; font-size: 12px;");
+
     const target_bg = document.querySelector("#target-div");
     const cta_div = document.querySelector("#cta-div");
     if (!target_bg || !cta_div) return; // Ensure the element exists
@@ -59,8 +72,8 @@ const LandingPage = ({ sethideNavbar }) => {
         </div>
       </div>
       {/* react-video player */}
-      <div className="hidden md:flex justify-center">
-        <div className="player-wrapper border-[#4f46e5] [box-shadow:1px_1px_25px_#4f46e5] border rounded-3xl overflow-hidden md:h-[80vh] md:w-[80vw] ">
+      <div className="hidden md:flex  md:mt-4 justify-center">
+        <div className="player-wrapper border [box-shadow:1px_1px_15px_#d4d4d8] dark:border-[#4f46e5] dark:[box-shadow:1px_1px_45px_10px_#4f46e5]  rounded-2xl overflow-hidden md:h-[90vh] md:w-[160vh] ">
           <ReactPlayer
             className="react-player"
             // url="https://www.youtube.com/watch?v=uMQnn8xU7qs&t=16s"
@@ -159,7 +172,7 @@ const LandingPage = ({ sethideNavbar }) => {
           {[...Array(25)].map((_, i) => (
             <span
               key={i}
-              className="bubbles bg-white rounded-full"
+              className="bubbles bg-black dark:bg-white rounded-full"
               style={{
                 "--time": `${Math.floor(Math.random() * 16) + 5}`, // Keep it as a number (no "s")
                 "--delay": `-${(Math.random() * 5).toFixed(2)}s`, // Add "s" unit
@@ -170,18 +183,18 @@ const LandingPage = ({ sethideNavbar }) => {
         </div>
         {/* 
         test */}
-        <div className="absolute bottom-0 left-0 bg-[#3730a3] lg:bg-white/15 bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)]  bg-[size:60px_60px] dark:[mask-image:radial-gradient(60%_35%_at_50%_35%,black,transparent)] md:dark:[mask-image:radial-gradient(30%_40%_at_50%_35%,black,transparent)] group-hover:opacity-0 duration-700"></div>
+        <div className="absolute bottom-0 left-0 bg-[#3730a3] lg:bg-[#818cf8] dark:lg:bg-white/15 bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#4f46e5_1px,transparent_1px),linear-gradient(to_bottom,#4f46e5_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)]  bg-[size:60px_60px] dark:[mask-image:radial-gradient(60%_35%_at_50%_35%,black,transparent)] md:dark:[mask-image:radial-gradient(30%_40%_at_50%_35%,black,transparent)] group-hover:opacity-0 duration-700"></div>
         {/* <div
           className={`absolute bottom-0 left-0 bg-[#3730a3] bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#d4d4d8_1px,transparent_1px),linear-gradient(to_bottom,#d4d4d8_1px,transparent_1px)]  bg-[size:60px_60px] dark:[mask-image:radial-gradient(30%_40%_at_20%_20%,black,transparent)] opacity-0 group-hover:opacity-100 duration-700 `}
         ></div> */}
         <div
-          className={`hidden lg:block absolute bottom-0 left-0 bg-white/15 bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)]  bg-[size:60px_60px] opacity-0 group-hover:opacity-100 duration-700`}
+          className={`hidden lg:block absolute bottom-0 left-0 bg-[#818cf8] dark:bg-white/15 bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#3730a3_1px,transparent_1px),linear-gradient(to_bottom,#3730a3_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)]  bg-[size:60px_60px] opacity-0 group-hover:opacity-100 duration-700`}
           id="target-div"
         ></div>
         {/* 
         test */}
         <div className="relative z-30 w-full">
-          <h1 className="rubik-font md:max-w-md md:mx-auto text-[hsl(var(--foreground))] [text-shadow:1px_1px_10px_black] text-center font-medium text-5xl lg:text-6xl ">
+          <h1 className="rubik-font md:max-w-md md:mx-auto text-white dark:text-[hsl(var(--foreground))] dark:[text-shadow:1px_1px_10px_black] [text-shadow:1px_1px_5px_black]  text-center font-medium text-5xl lg:text-6xl ">
             Unlock a world of insights
           </h1>
           <p className="text-white/60 text-xs md:text-lg mx-auto text-center max-w-[13rem] md:max-w-sm my-5">

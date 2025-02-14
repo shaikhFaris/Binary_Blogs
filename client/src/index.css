@@ -285,17 +285,21 @@
 }
 
  /* video player */
-.player-wrapper {
-  position: relative;
-  /* Player ratio: 100 / (1280 / 720) */
-  /* padding-top: 56.25%;  */
+ .player-wrapper {
+  max-width: 100vw; /* Prevents overflow on smaller screens */
+  max-height: 100vh;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.player-wrapper .react-player {
-  position: absolute;
-  top: 0;
-  left: 0;
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures proper scaling */
 }
+
 
 /* logo carousel */
 .logo-div{
