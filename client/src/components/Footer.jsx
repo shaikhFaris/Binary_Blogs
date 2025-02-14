@@ -15,7 +15,7 @@ const Footer = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className="flex justify-center md:justify-end space-x-6">
+        <div className="text-sm md:text-base flex justify-center md:justify-end space-x-6">
           <Link
             to="/about"
             className="hover:underline underline-offset-4 hover:text-[hsl(var(--primary))]"

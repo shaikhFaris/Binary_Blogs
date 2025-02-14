@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { MdOutlineLightMode } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Navbar_2 = () => {
+  const navigate = useNavigate();
   const handleMode = () => {
     const mode = document.querySelector("html").className;
     if (mode == "light") {
@@ -13,13 +15,16 @@ const Navbar_2 = () => {
   return (
     <div className=" absolute top-0 w-full z-40 flex justify-center overflow-hidden max-w-screen-2xl ">
       <div className=" w-[95%] flex items-center justify-between overflow-hidden">
-        <div className="flex items-center ">
+        <div
+          className="flex items-center cursor-default "
+          onClick={() => navigate("/")}
+        >
           <img
             src="/logo.png"
             alt="logo"
             className="w-12 h-12 xl:w-16 xl:h-16 rounded-full"
           />
-          <h1 className="md:text-2xl text-[hsl(var(--foreground))] xl:text-3xl font-medium xl:mr-12">
+          <h1 className="md:text-2xl cursor-default text-[hsl(var(--foreground))] xl:text-3xl font-medium xl:mr-12">
             Binary Blogs
           </h1>
         </div>

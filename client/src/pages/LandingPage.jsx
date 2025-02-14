@@ -4,7 +4,7 @@ import ReactPlayer from "react-player/lazy";
 import Navbar_2 from "../components/Navbar_2";
 import image from "../assets/image-3-DL8wGSR2.webp";
 import underline from "../assets/pngwing.png";
-
+import { FaArrowUp } from "react-icons/fa";
 import Carousel from "../components/Carousel";
 
 const LandingPage = ({ sethideNavbar }) => {
@@ -47,7 +47,15 @@ const LandingPage = ({ sethideNavbar }) => {
   }, []);
 
   return (
-    <div className="min-h-screen overflow-hidden ">
+    <div className="min-h-screen relative overflow-hidden ">
+      <div
+        className="bg-[hsl(var(--foreground))] z-30 justify-center hover:scale-110 duration-150 transition p-3 bottom-5 lg:bottom-2 right-2 items-center rounded-full fixed overflow-hidden"
+        onClick={() => {
+          scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
+        <FaArrowUp className="text-[hsl(var(--background))] md:text-xl lg:text-2xl" />
+      </div>
       <Navbar_2 />
       <div className="relative h-[80vh] md:h-screen w-full flex justify-center items-center ">
         <div className="absolute bottom-0 -left-2 right-0 -top-1 bg-[linear-gradient(to_right,#d4d4d8_1px,transparent_1px),linear-gradient(to_bottom,#d4d4d8_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)] bg-[size:30px_30px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>

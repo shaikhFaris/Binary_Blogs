@@ -1,6 +1,7 @@
 import { MdOutlineLightMode } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import AuthContext from "../context/AuthProvider";
 import { TbLayoutSidebarLeftCollapse } from "react-icons/tb";
@@ -9,6 +10,7 @@ const Navbar = ({ smallDeviceSidebar, setSmallDeviceSidebar }) => {
   const [communityHover, setcommunityHover] = useState(false);
   const [devsHover, setdevsHover] = useState(false);
   const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleMode = () => {
     const mode = document.querySelector("html").className;
     if (mode == "light") {
@@ -23,7 +25,10 @@ const Navbar = ({ smallDeviceSidebar, setSmallDeviceSidebar }) => {
       className="pr-2 py-2  xl:py-0 backdrop-blur-lg sticky top-1 z-50 w-full  bg-transparent border border-[hsl(var(--border))] rounded-[0.9em] text-[hsl(var(--foreground))] flex justify-between items-center xl:px-4 shadow-md dark:shadow-none overflow-hidden lg:overflow-visible"
       id="navbar"
     >
-      <div className="flex items-center">
+      <div
+        className="flex items-center cursor-default"
+        onClick={() => navigate("/")}
+      >
         <img
           src="/logo.png"
           alt="logo"
