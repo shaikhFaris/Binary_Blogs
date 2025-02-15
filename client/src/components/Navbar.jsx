@@ -117,8 +117,11 @@ const Navbar = ({ smallDeviceSidebar, setSmallDeviceSidebar }) => {
           placeholder="Search blogs..."
           // onChange={(e) => setSearch(e.target.value)}
         />
-        <button className="xl:text-2xl border border-[hsl(var(--border))] p-2 rounded-[var(--radius)] md:hover:bg-[hsl(var(--secondary))]">
-          <MdOutlineLightMode onClick={handleMode} />
+        <button
+          className="lg:text-xl border border-[hsl(var(--border))] p-2 rounded-[var(--radius)] md:hover:bg-[hsl(var(--secondary))]"
+          onClick={handleMode}
+        >
+          <MdOutlineLightMode />
         </button>
         <button
           className={`lg:hidden border ml-2 border-[hsl(var(--border))] ${

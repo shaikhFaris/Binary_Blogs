@@ -218,26 +218,23 @@ const CreateBlogPage = ({ sethideFooter }) => {
       <div className="flex flex-col gap-2 w-full xl:pl-8 mt-6">
         {/* preview div */}
         <div
-          className={`absolute right-0 p-2 pr-3 ${
+          className={`fixed right-0 pr-2 md:p-2 md:pr-3 ${
             togglePreview && "border p-0 shadow-md dark:shadow-none"
           } bg-[hsl(var(--background))] overflow-x-scroll overflow-y-scroll border-[hsl(var(--border))] rounded-xl`}
-          style={{
-            height: `calc(98vh - ${navbarHeight}px)`,
-          }}
         >
           <div
-            className={`flex items-center  ${
+            className={`flex items-center ${
               togglePreview && "m-3 justify-between"
             }`}
           >
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-2 md:gap-3 items-center">
               {!NewBlogOrNot && currentBlog?.title?.length > 0 && (
                 <button
                   // ref={editBtn}
-                  className={`text-xl hover:bg-zinc-200 rounded-lg hover:scale-110 dark:hover:bg-zinc-800 ${
+                  className={`lg:text-xl hover:bg-zinc-200 rounded-lg hover:scale-110 dark:hover:bg-zinc-800 ${
                     editMode &&
                     "text-[hsl(var(--blue-foreground))] scale-110 bg-zinc-200 dark:bg-zinc-800 "
-                  } duration-150 border border-[hsl(var(--border))] p-[6px] `}
+                  } duration-150 border border-[hsl(var(--border))] p-2 `}
                 >
                   <MdMode
                     title="edit"
@@ -248,13 +245,15 @@ const CreateBlogPage = ({ sethideFooter }) => {
                   />
                 </button>
               )}
-              <VscPreview
-                title="preview"
-                className=" text-3xl hover:scale-110 duration-150 "
-                onClick={() => {
-                  settogglePreview(!togglePreview);
-                }}
-              />
+              <button className="lg:text-xl border border-[hsl(var(--border))] hover:scale-110 p-2 rounded-[var(--radius)] duration-150 md:hover:bg-[hsl(var(--secondary))]">
+                <VscPreview
+                  title="preview"
+                  // className=" text-3xl hover:scale-110 duration-150 "
+                  onClick={() => {
+                    settogglePreview(!togglePreview);
+                  }}
+                />
+              </button>
 
               {togglePreview && (
                 <span className="text-4xl font-medium">Preview</span>
@@ -269,11 +268,20 @@ const CreateBlogPage = ({ sethideFooter }) => {
               />
             )}
           </div>
-          <Preview
-            blogBody={blogBody}
-            togglePreview={togglePreview}
-            settogglePreview={settogglePreview}
-          />
+          {togglePreview && (
+            <div
+              className="overflow-x-scroll overflow-y-scroll"
+              style={{
+                height: `calc(85vh - ${navbarHeight}px)`,
+              }}
+            >
+              <Preview
+                blogBody={blogBody}
+                togglePreview={togglePreview}
+                settogglePreview={settogglePreview}
+              />
+            </div>
+          )}
         </div>
 
         <input
