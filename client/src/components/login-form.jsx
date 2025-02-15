@@ -79,7 +79,7 @@ const LoginForm = () => {
 
   return (
     <>
-      {!auth?.email ? (
+      {!auth?.email && !auth.accessToken ? (
         <form
           className="w-full m-2 lg:m-0 lg:w-1/3 md:w-1/2 border border-[hsl(var(--border))] gap-5 items-start p-5 rounded-[var(--radius)] flex flex-col"
           onSubmit={handleSubmit}

@@ -36,13 +36,13 @@ const App = () => {
         />
       }
       <Routes>
-        <Route path="/login" element={<Login />} />
         {/* <Route path="/credits" element={<Capsule />} /> */}
         <Route path="/updates" element={<Updates />} />
         <Route path="/register" element={<Register />} />
 
         {/* protected routes */}
         <Route element={<PersistLogin />}>
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home sethideNavbar={sethideNavbar} />} />
           <Route element={<RequireAuth />}>
             <Route
