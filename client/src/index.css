@@ -336,3 +336,14 @@ video {
     transform: translateX(0); /* Move to the left */
   }
 }
+
+/* HTML: <div class="loader"></div> */
+.loader-form {
+  width: 30px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 5px solid hsl(var(--accent));
+  border-right-color: hsl(Var(--blue-foreground));
+  animation: l2 1s infinite linear;
+}
+@keyframes l2 {to{transform: rotate(1turn)}}

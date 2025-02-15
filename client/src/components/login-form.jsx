@@ -27,6 +27,7 @@ const LoginForm = () => {
   const [validPass, setvalidPass] = useState(false);
 
   const [ErrMsg, setErrMsg] = useState("");
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     if (useRef.current != null) {
@@ -56,6 +57,7 @@ const LoginForm = () => {
       return;
     }
     const data = { email: email, password: pass };
+    setisLoading(true);
     await axios
       .post(LOGIN_URL, data, {
         headers: "application/json",
@@ -66,6 +68,7 @@ const LoginForm = () => {
         setAuth({ email, accessToken });
         setemail("");
         setpasss("");
+        setisLoading(false);
         navigate(from, { replace: true });
       })
       .catch((e) => {
@@ -74,17 +77,24 @@ const LoginForm = () => {
         if (e.status === 400) setErrMsg("Invalid entry.");
         if (e.status === 404) setErrMsg("User not found, Register first.");
         if (e && !e.status) setErrMsg("Network error");
+        setisLoading(false);
       });
+    setisLoading(false);
   };
 
   return (
     <>
       {!auth?.email && !auth.accessToken ? (
         <form
-          className="w-full m-2 lg:m-0 lg:w-1/3 md:w-1/2 border border-[hsl(var(--border))] gap-5 items-start p-5 rounded-[var(--radius)] flex flex-col"
+          className="w-full relative m-2 lg:m-0 lg:w-1/3 md:w-1/2 border border-[hsl(var(--border))] gap-5 items-start p-5 rounded-[var(--radius)] flex flex-col"
           onSubmit={handleSubmit}
         >
           {" "}
+          {isLoading && (
+            // <div className="absolute top-2 left-[50%] -translate-x-[50%] ">
+            <span class="loader-form absolute top-2 right-2 "></span>
+            // </div>
+          )}
           <p
             ref={errRef}
             className={ErrMsg ? "font-sm font-mono text-red-500" : "offscreen"}
@@ -171,7 +181,7 @@ const LoginForm = () => {
             </p>
           </div>
           <button
-            className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary-foreground))]  hover:text-[hsl(var(--primary))] p-[5px] border border-[hsl(var(--border))] rounded-[var(--radius)] w-full font-medium duration-150"
+            className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] lg:hover:bg-[hsl(var(--primary-foreground))]  hover:text-[hsl(var(--primary))] p-[5px] border border-[hsl(var(--border))] rounded-[var(--radius)] w-full font-medium duration-150"
             type="submit"
           >
             Login
@@ -193,6 +203,12 @@ const LoginForm = () => {
         <div className="flex w-full justify-center items-center text-[hsl(var(--foreground))] min-h-screen">
           <div className="w-1/3 border border-[hsl(var(--border))] flex flex-col gap-5 justify-center items-center rounded-[var(--radius)] min-h-[40vh] ">
             <h2 className="text-5xl font-bold text-green-500 ">Logged in</h2>
+            <p
+              className="underline hover:cursor-pointer hover:-translate-y-1 duration-150 text-zinc-500 hover:text-[hsl(var(--foreground))]"
+              onClick={() => navigate("/")}
+            >
+              Home
+            </p>
             <p
               className="underline hover:cursor-pointer hover:-translate-y-1 duration-150 text-zinc-500 hover:text-[hsl(var(--foreground))]"
               onClick={() => navigate(-1)}
