@@ -72,10 +72,10 @@ const Sidebar = ({
 
   return (
     <div
-      className={`sticky left-0 py-2 overflow-scroll dark:shadow-none border-[hsl(var(--border))] rounded-xl ${
+      className={`fixed lg:sticky left-0 lg:py-2 overflow-scroll dark:shadow-none border-[hsl(var(--border))] rounded-xl ${
         CollapseSidebar
-          ? "xl:w-10 pl-2 pr-10 flex "
-          : "w-4/5 lg:w-1/3 xl:w-[30%]  pl-3 pr-3 border-t border-r shadow-md border-b"
+          ? "w-10 bg-transparent lg:pl-2 lg:pr-10 flex "
+          : "w-full bg-[hsl(var(--background))] z-20 md:z-0 lg:w-1/3 xl:w-[30%]  pl-3 pr-3 border-t border-r shadow-md border-b"
       } transition-all duration-500`}
       style={{
         top: navbarHeight + "px",
@@ -89,8 +89,10 @@ const Sidebar = ({
           </h2>
         )}
         <div
-          className={`flex items-center gap-2 ${
-            CollapseSidebar ? "flex-col-reverse text-3xl gap-6" : "text-3xl"
+          className={`flex items-center py-3 rounded-r-lg rounded-b-lg px-1 md:py-0 md:px-0 bg-[hsl(var(--background))] md:border-none border border-[hsl(var(--border))] gap-2 ${
+            CollapseSidebar
+              ? "flex-col-reverse text-3xl gap-6"
+              : "border-none pb-1 text-3xl"
           }`}
         >
           {CollapseSidebar && (

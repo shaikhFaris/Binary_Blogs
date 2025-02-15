@@ -279,7 +279,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
         <input
           ref={titleRef}
           className={`lg:max-w-[90%] p-2 bg-transparent pr-3 outline-none xl:text-5xl font-semibold dark:text-zinc-200 placeholder-zinc-700 ${
-            CollapseSidebar && togglePreview && "lg:max-w-[55%]"
+            CollapseSidebar && togglePreview && "lg:max-w-[56%]"
           }`}
           type="text"
           minLength={5}
@@ -296,7 +296,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
           required
           minLength={10}
           className={`xl:text-lg max-w-[90%] p-3 break-all resize-y min-h-[50vh] bg-transparent focus:border-collapse outline-none placeholder-zinc-700 ${
-            CollapseSidebar && togglePreview && "max-w-[55%]"
+            CollapseSidebar && togglePreview && "max-w-[56%]"
           }`}
           placeholder="Write blog body in mardkdown..."
           onChange={handleBlogChange}
