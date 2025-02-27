@@ -10,6 +10,7 @@ import { MdMode } from "react-icons/md";
 import ConfirmPublishPopUp from "../components/popups/ConfirmPublishPopUp";
 import usePrivateAxios from "../hooks/usePrivateAxios";
 import SubmissionPopups from "../components/popups/SubmissionPopups";
+import ConfirmDelete from "../components/popups/ConfirmDelete";
 
 const CreateBlogPage = ({ sethideFooter }) => {
   const axiosPrivate = usePrivateAxios();
@@ -67,7 +68,6 @@ const CreateBlogPage = ({ sethideFooter }) => {
     textarea.style.height = "auto"; // Reset height
     textarea.style.height = `${textarea.scrollHeight}px`; // Adjust to scroll height
   };
-
   // for editing and opening a new blog when mounted
   useEffect(() => {
     // publihed or drafts editing
@@ -119,8 +119,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (toggleConfirmPublishPopup) {
-    // console.log(e.nativeEvent.submitter.name);
+
     if (e.nativeEvent.submitter.name == "publish") {
       const controller = new AbortController();
 
@@ -184,18 +183,24 @@ const CreateBlogPage = ({ sethideFooter }) => {
         console.log(error);
       }
     }
+
+    if (e.nativeEvent.submitter.name == "delete") {
+      setToBeDeletedElement({ blogId: "", title: "" });
+      setToggleDelete(false);
+      console.log(ToBeDeletedElement);
+    }
   };
 
   useEffect(() => {
-    if (toggleConfirmPublishPopup) {
+    if (toggleConfirmPublishPopup || ToggleDelete) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       document.body.style.overflow = "hidden";
     } else {
-      console.log("auto");
+      // console.log("auto");
 
       document.body.style.overflow = "auto";
     }
-  }, [toggleConfirmPublishPopup]);
+  }, [toggleConfirmPublishPopup, ToggleDelete]);
 
   return (
     // let's add a sidebar
@@ -218,7 +223,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
       <div className="flex flex-col gap-2 w-full xl:pl-8 mt-6">
         {/* preview div */}
         <div
-          className={`fixed right-0 pr-2 md:p-2 md:pr-3 ${
+          className={`fixed right-0 px-2 md:p-2 md:pr-3 ${
             togglePreview && "border p-0 shadow-md dark:shadow-none"
           } bg-[hsl(var(--background))] overflow-x-scroll overflow-y-scroll border-[hsl(var(--border))] rounded-xl`}
         >
@@ -231,7 +236,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
               {!NewBlogOrNot && currentBlog?.title?.length > 0 && (
                 <button
                   // ref={editBtn}
-                  className={`lg:text-xl hover:bg-zinc-200 rounded-lg hover:scale-110 dark:hover:bg-zinc-800 ${
+                  className={`lg:text-xl lg:hover:bg-zinc-200 rounded-lg lg:hover:scale-110 lg:dark:hover:bg-zinc-800 ${
                     editMode &&
                     "text-[hsl(var(--blue-foreground))] scale-110 bg-zinc-200 dark:bg-zinc-800 "
                   } duration-150 border border-[hsl(var(--border))] p-2 `}
@@ -245,7 +250,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
                   />
                 </button>
               )}
-              <button className="lg:text-xl border border-[hsl(var(--border))] hover:scale-110 p-2 rounded-[var(--radius)] duration-150 md:hover:bg-[hsl(var(--secondary))]">
+              <button className="lg:text-xl border border-[hsl(var(--border))] lg:hover:scale-110 p-2 rounded-[var(--radius)] duration-150 md:hover:bg-[hsl(var(--secondary))]">
                 <VscPreview
                   title="preview"
                   // className=" text-3xl hover:scale-110 duration-150 "
@@ -352,6 +357,15 @@ const CreateBlogPage = ({ sethideFooter }) => {
           settoggleSubmissionPopup={settoggleSubmissionPopup}
         />
       )}
+      {ToggleDelete &&
+        ToBeDeletedElement.blogId?.length !== 0 &&
+        ToBeDeletedElement.title?.length !== 0 && (
+          <ConfirmDelete
+            setToggleDelete={setToggleDelete}
+            ToBeDeletedElement={ToBeDeletedElement}
+            setToBeDeletedElement={setToBeDeletedElement}
+          />
+        )}
     </form>
   );
 };

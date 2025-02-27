@@ -9,5 +9,7 @@ const router = express.Router();
 router.get("/", userPostsController);
 router.post("/submit/drafts", draftSubmitController);
 router.post("/submit/publishBlogs", blogsPublishController);
+// router.delete("/submit/drafts", draftSubmitController);
+// router.delete("/submit/publishBlogs", blogsPublishController);
 
 export default router;

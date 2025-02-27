@@ -122,7 +122,7 @@ const Sidebar = ({
           <div>
             <div className="flex justify-between items-center pr-3">
               <h2 className="mt-2 mb-1 text-sm font-medium">My Drafts</h2>
-              <HiOutlineDocumentAdd className="text-green-400 text-xl hover:scale-95 duration-150 " />
+              {/* <HiOutlineDocumentAdd className="text-green-400 text-xl hover:scale-95 duration-150 " /> */}
             </div>
             <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400 pb-5 ">
               {draftBlogs?.length !== 0 ? (
