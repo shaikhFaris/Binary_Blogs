@@ -30,7 +30,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
     content: ``,
   });
   const [Category, setCategory] = useState("");
-  const [tags, settags] = useState(["#js", "#webdev", "#react"]);
+  const [tags, settags] = useState([]);
   const [currentBlog, setcurrentBlog] = useState({});
   const [editMode, seteditMode] = useState(false);
   const [NewBlogOrNot, setNewBlogOrNot] = useState(true);
@@ -61,7 +61,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
   }, []);
 
   const handleBlogChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setblogBody(`${e.target.value}`);
     setBlogsTobePosted({ ...BlogsTobePosted, content: e.target.value });
     const textarea = bodyRef.current;
@@ -120,6 +120,8 @@ const CreateBlogPage = ({ sethideFooter }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // No, you don’t need to call controller.abort() here because the request is not being aborted manually. The AbortController is only useful if you plan to cancel the request at some point, like when a component unmounts or a user navigates away. If you don't intend to abort the request, you can remove controller entirely.
+
     if (e.nativeEvent.submitter.name == "publish") {
       const controller = new AbortController();
 
@@ -139,6 +141,8 @@ const CreateBlogPage = ({ sethideFooter }) => {
             withCredentials: true,
           }
         );
+        console.log(response);
+
         setBlogs(response.data.blogs);
         setdraftBlogs(response.data.drafts);
         settoggleConfirmPublishPopup(false);
@@ -185,9 +189,29 @@ const CreateBlogPage = ({ sethideFooter }) => {
     }
 
     if (e.nativeEvent.submitter.name == "delete") {
+      // const controller = new AbortController();
       setToBeDeletedElement({ blogId: "", title: "" });
       setToggleDelete(false);
       console.log(ToBeDeletedElement);
+      try {
+        const response = await axiosPrivate.delete("posts/submit/drafts", {
+          data: { editedBlog: ToBeDeletedElement.blogId },
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
+        console.log(response);
+        if (response.status === 201) {
+          setBlogs(response.data.blogs);
+          setdraftBlogs(response.data.drafts);
+          settoggleConfirmPublishPopup(false);
+          settoggleSubmissionPopup({
+            check: true,
+            stringValue: "Draft Deleted",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -295,7 +319,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
             CollapseSidebar && togglePreview && "lg:max-w-[56%]"
           }`}
           type="text"
-          minLength={5}
+          minLength={2}
           required
           maxLength={50}
           // autoCorrect=,
@@ -307,7 +331,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
         <textarea
           ref={bodyRef}
           required
-          minLength={10}
+          minLength={1}
           className={`xl:text-lg max-w-[90%] p-3 break-all resize-y min-h-[50vh] bg-transparent focus:border-collapse outline-none placeholder-zinc-700 ${
             CollapseSidebar && togglePreview && "max-w-[56%]"
           }`}

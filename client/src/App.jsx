@@ -16,6 +16,7 @@ import OptionsBar from "./components/OptionsBar.jsx";
 import PersistLogin from "./components/PersistLogin.jsx";
 import Logout from "./components/Logout.jsx";
 import Capsule from "./components/Capsule.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 
 const App = () => {
   const [hideFooter, sethideFooter] = useState(false);
@@ -50,6 +51,7 @@ const App = () => {
               element={<CreateBlogPage sethideFooter={sethideFooter} />}
             />
             <Route path="/blogs" element={<BlogsPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/blogs/:id" element={<SelectedBlog />} />
           </Route>

@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import BlogsContext from "../context/blogsProvider";
 import usePrivateAxios from "../hooks/usePrivateAxios";
 import Hero from "../components/Hero";
+import { Link } from "react-router-dom";
 
 const BlogsPage = () => {
   const { blogs, setBlogs } = useContext(BlogsContext);
@@ -16,7 +17,6 @@ const BlogsPage = () => {
         const response = await axiosPrivate.get("/posts", {
           signal: controller.signal,
         });
-        console.log(response.data);
         setBlogs(response.data.blogs); // important
       } catch (err) {
         if (err.name === "CanceledError") {
@@ -43,7 +43,14 @@ const BlogsPage = () => {
             <Feed blogs={blogs} />
           </div>
         ) : (
-          <div>No blogs</div>
+          <div className="mt-5 xl:mt-10">
+            <h1 className="lg:text-lg">
+              No Published Blogs.{" "}
+              <Link className="underline" to="/create">
+                Create new blog
+              </Link>
+            </h1>
+          </div>
         )}
       </div>
     </div>
