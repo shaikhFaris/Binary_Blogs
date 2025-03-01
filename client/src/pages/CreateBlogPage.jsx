@@ -10,6 +10,7 @@ import { MdMode } from "react-icons/md";
 import ConfirmPublishPopUp from "../components/popups/ConfirmPublishPopUp";
 import usePrivateAxios from "../hooks/usePrivateAxios";
 import SubmissionPopups from "../components/popups/SubmissionPopups";
+import ConfirmDelete from "../components/popups/ConfirmDelete";
 
 const CreateBlogPage = ({ sethideFooter }) => {
   const axiosPrivate = usePrivateAxios();
@@ -29,7 +30,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
     content: ``,
   });
   const [Category, setCategory] = useState("");
-  const [tags, settags] = useState(["#js", "#webdev", "#react"]);
+  const [tags, settags] = useState([]);
   const [currentBlog, setcurrentBlog] = useState({});
   const [editMode, seteditMode] = useState(false);
   const [NewBlogOrNot, setNewBlogOrNot] = useState(true);
@@ -60,14 +61,13 @@ const CreateBlogPage = ({ sethideFooter }) => {
   }, []);
 
   const handleBlogChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setblogBody(`${e.target.value}`);
     setBlogsTobePosted({ ...BlogsTobePosted, content: e.target.value });
     const textarea = bodyRef.current;
     textarea.style.height = "auto"; // Reset height
     textarea.style.height = `${textarea.scrollHeight}px`; // Adjust to scroll height
   };
-
   // for editing and opening a new blog when mounted
   useEffect(() => {
     // publihed or drafts editing
@@ -119,8 +119,9 @@ const CreateBlogPage = ({ sethideFooter }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (toggleConfirmPublishPopup) {
-    // console.log(e.nativeEvent.submitter.name);
+
+    // No, you don’t need to call controller.abort() here because the request is not being aborted manually. The AbortController is only useful if you plan to cancel the request at some point, like when a component unmounts or a user navigates away. If you don't intend to abort the request, you can remove controller entirely.
+
     if (e.nativeEvent.submitter.name == "publish") {
       const controller = new AbortController();
 
@@ -140,6 +141,8 @@ const CreateBlogPage = ({ sethideFooter }) => {
             withCredentials: true,
           }
         );
+        console.log(response);
+
         setBlogs(response.data.blogs);
         setdraftBlogs(response.data.drafts);
         settoggleConfirmPublishPopup(false);
@@ -184,18 +187,44 @@ const CreateBlogPage = ({ sethideFooter }) => {
         console.log(error);
       }
     }
+
+    if (e.nativeEvent.submitter.name == "delete") {
+      // const controller = new AbortController();
+      setToBeDeletedElement({ blogId: "", title: "" });
+      setToggleDelete(false);
+      console.log(ToBeDeletedElement);
+      try {
+        const response = await axiosPrivate.delete("posts/submit/drafts", {
+          data: { editedBlog: ToBeDeletedElement.blogId },
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
+        console.log(response);
+        if (response.status === 201) {
+          setBlogs(response.data.blogs);
+          setdraftBlogs(response.data.drafts);
+          settoggleConfirmPublishPopup(false);
+          settoggleSubmissionPopup({
+            check: true,
+            stringValue: "Draft Deleted",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   useEffect(() => {
-    if (toggleConfirmPublishPopup) {
+    if (toggleConfirmPublishPopup || ToggleDelete) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       document.body.style.overflow = "hidden";
     } else {
-      console.log("auto");
+      // console.log("auto");
 
       document.body.style.overflow = "auto";
     }
-  }, [toggleConfirmPublishPopup]);
+  }, [toggleConfirmPublishPopup, ToggleDelete]);
 
   return (
     // let's add a sidebar
@@ -218,26 +247,23 @@ const CreateBlogPage = ({ sethideFooter }) => {
       <div className="flex flex-col gap-2 w-full xl:pl-8 mt-6">
         {/* preview div */}
         <div
-          className={`absolute right-0 p-2 pr-3 ${
+          className={`fixed right-0 px-2 md:p-2 md:pr-3 ${
             togglePreview && "border p-0 shadow-md dark:shadow-none"
           } bg-[hsl(var(--background))] overflow-x-scroll overflow-y-scroll border-[hsl(var(--border))] rounded-xl`}
-          style={{
-            height: `calc(98vh - ${navbarHeight}px)`,
-          }}
         >
           <div
-            className={`flex items-center  ${
+            className={`flex items-center ${
               togglePreview && "m-3 justify-between"
             }`}
           >
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-2 md:gap-3 items-center">
               {!NewBlogOrNot && currentBlog?.title?.length > 0 && (
                 <button
                   // ref={editBtn}
-                  className={`text-xl hover:bg-zinc-200 rounded-lg hover:scale-110 dark:hover:bg-zinc-800 ${
+                  className={`lg:text-xl lg:hover:bg-zinc-200 rounded-lg lg:hover:scale-110 lg:dark:hover:bg-zinc-800 ${
                     editMode &&
                     "text-[hsl(var(--blue-foreground))] scale-110 bg-zinc-200 dark:bg-zinc-800 "
-                  } duration-150 border border-[hsl(var(--border))] p-[6px] `}
+                  } duration-150 border border-[hsl(var(--border))] p-2 `}
                 >
                   <MdMode
                     title="edit"
@@ -248,13 +274,15 @@ const CreateBlogPage = ({ sethideFooter }) => {
                   />
                 </button>
               )}
-              <VscPreview
-                title="preview"
-                className=" text-3xl hover:scale-110 duration-150 "
-                onClick={() => {
-                  settogglePreview(!togglePreview);
-                }}
-              />
+              <button className="lg:text-xl border border-[hsl(var(--border))] lg:hover:scale-110 p-2 rounded-[var(--radius)] duration-150 md:hover:bg-[hsl(var(--secondary))]">
+                <VscPreview
+                  title="preview"
+                  // className=" text-3xl hover:scale-110 duration-150 "
+                  onClick={() => {
+                    settogglePreview(!togglePreview);
+                  }}
+                />
+              </button>
 
               {togglePreview && (
                 <span className="text-4xl font-medium">Preview</span>
@@ -269,20 +297,29 @@ const CreateBlogPage = ({ sethideFooter }) => {
               />
             )}
           </div>
-          <Preview
-            blogBody={blogBody}
-            togglePreview={togglePreview}
-            settogglePreview={settogglePreview}
-          />
+          {togglePreview && (
+            <div
+              className="overflow-x-scroll overflow-y-scroll"
+              style={{
+                height: `calc(85vh - ${navbarHeight}px)`,
+              }}
+            >
+              <Preview
+                blogBody={blogBody}
+                togglePreview={togglePreview}
+                settogglePreview={settogglePreview}
+              />
+            </div>
+          )}
         </div>
 
         <input
           ref={titleRef}
           className={`lg:max-w-[90%] p-2 bg-transparent pr-3 outline-none xl:text-5xl font-semibold dark:text-zinc-200 placeholder-zinc-700 ${
-            CollapseSidebar && togglePreview && "lg:max-w-[55%]"
+            CollapseSidebar && togglePreview && "lg:max-w-[56%]"
           }`}
           type="text"
-          minLength={5}
+          minLength={2}
           required
           maxLength={50}
           // autoCorrect=,
@@ -294,9 +331,9 @@ const CreateBlogPage = ({ sethideFooter }) => {
         <textarea
           ref={bodyRef}
           required
-          minLength={10}
+          minLength={1}
           className={`xl:text-lg max-w-[90%] p-3 break-all resize-y min-h-[50vh] bg-transparent focus:border-collapse outline-none placeholder-zinc-700 ${
-            CollapseSidebar && togglePreview && "max-w-[55%]"
+            CollapseSidebar && togglePreview && "max-w-[56%]"
           }`}
           placeholder="Write blog body in mardkdown..."
           onChange={handleBlogChange}
@@ -344,6 +381,15 @@ const CreateBlogPage = ({ sethideFooter }) => {
           settoggleSubmissionPopup={settoggleSubmissionPopup}
         />
       )}
+      {ToggleDelete &&
+        ToBeDeletedElement.blogId?.length !== 0 &&
+        ToBeDeletedElement.title?.length !== 0 && (
+          <ConfirmDelete
+            setToggleDelete={setToggleDelete}
+            ToBeDeletedElement={ToBeDeletedElement}
+            setToBeDeletedElement={setToBeDeletedElement}
+          />
+        )}
     </form>
   );
 };

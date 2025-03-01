@@ -92,7 +92,7 @@ const LoginForm = () => {
           {" "}
           {isLoading && (
             // <div className="absolute top-2 left-[50%] -translate-x-[50%] ">
-            <span class="loader-form absolute top-2 right-2 "></span>
+            <span className="loader-form absolute top-2 right-2 "></span>
             // </div>
           )}
           <p

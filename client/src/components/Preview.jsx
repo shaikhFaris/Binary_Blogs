@@ -3,13 +3,18 @@ import Markdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 
 const Preview = ({ togglePreview, settogglePreview, blogBody }) => {
+  const getResponsiveWidth = () => {
+    if (window.innerWidth < 640) return "90vw"; // Small screens (sm)
+    if (window.innerWidth < 1024) return "40vw"; // Medium screens (md)
+    return "40vw"; // Large screens (lg+)
+  };
   return (
     <AnimatePresence>
       {togglePreview && (
         <motion.div
           className="p-3"
           initial={{ width: 0 }}
-          animate={{ width: "40vw" }}
+          animate={{ width: getResponsiveWidth() }}
           exit={{ width: 0, opacity: 0 }}
         >
           <Markdown

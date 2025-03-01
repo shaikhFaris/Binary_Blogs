@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { Suspense, useContext, useEffect, useRef, useState } from "react";
 import BlogsContext from "../context/blogsProvider";
 import { useNavigate } from "react-router-dom";
 import { SlOptionsVertical } from "react-icons/sl";
@@ -72,10 +72,10 @@ const Sidebar = ({
 
   return (
     <div
-      className={`sticky left-0 py-2 overflow-scroll dark:shadow-none border-[hsl(var(--border))] rounded-xl ${
+      className={`fixed lg:sticky left-0 lg:py-2 overflow-scroll dark:shadow-none border-[hsl(var(--border))] rounded-xl ${
         CollapseSidebar
-          ? "xl:w-10 pl-2 pr-10 flex "
-          : "w-4/5 lg:w-1/3 xl:w-[30%]  pl-3 pr-3 border-t border-r shadow-md border-b"
+          ? "w-10 bg-transparent lg:pl-2 lg:pr-10 flex "
+          : "w-full bg-[hsl(var(--background))] z-20 md:z-0 lg:w-1/3 xl:w-[30%]  pl-3 pr-3 border-t border-r shadow-md border-b"
       } transition-all duration-500`}
       style={{
         top: navbarHeight + "px",
@@ -89,8 +89,10 @@ const Sidebar = ({
           </h2>
         )}
         <div
-          className={`flex items-center gap-2 ${
-            CollapseSidebar ? "flex-col-reverse text-3xl gap-6" : "text-3xl"
+          className={`flex items-center py-3 rounded-r-lg rounded-b-lg px-1 md:py-0 md:px-0 bg-[hsl(var(--background))] md:border-none border border-[hsl(var(--border))] gap-2 ${
+            CollapseSidebar
+              ? "flex-col-reverse text-3xl gap-6"
+              : "border-none pb-1 text-3xl"
           }`}
         >
           {CollapseSidebar && (
@@ -120,49 +122,39 @@ const Sidebar = ({
           <div>
             <div className="flex justify-between items-center pr-3">
               <h2 className="mt-2 mb-1 text-sm font-medium">My Drafts</h2>
-              <HiOutlineDocumentAdd className="text-green-400 text-xl hover:scale-95 duration-150 " />
+              {/* <HiOutlineDocumentAdd className="text-green-400 text-xl hover:scale-95 duration-150 " /> */}
             </div>
-            <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400 pb-5 ">
-              {draftBlogs?.length !== 0 ? (
-                draftBlogs.map((blog, i) => {
-                  return (
-                    <li
-                      className="w-full flex items-center justify-between p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
-                      key={i}
-                      onClick={() => {
-                        setcurrentBlog(blog);
-                        setSelectedBlog(blog);
-                        // navigate(`/blogs/:${blog.blogId}`);
-                      }}
-                    >
-                      <div className="inline-flex">
-                        <HiOutlineDocumentText className="mr-1 inline-flex text-lg" />
-                        <span>
-                          {blog?.title?.length !== 0
-                            ? blog?.title?.length > 25
-                              ? blog.title.slice(0, 25) + "..."
-                              : blog.title
-                            : "No title"}
-                        </span>
-                      </div>
-                      <div className="relative inline-flex">
-                        <SlOptionsVertical
-                          className="inline-flex text-lg duration-150 hover:text-[hsl(var(--foreground))] "
-                          onMouseEnter={() =>
-                            setOptionsToggle((prev) =>
-                              prev.map((val, index) =>
-                                index === i ? true : false
-                              )
-                            )
-                          }
-                          onMouseLeave={() => {
-                            setTimeout(() => {}, 2000);
-                            setOptionsToggle((prev) => prev.map(() => false));
-                          }}
-                        />
-                        {OptionsToggle[i] && (
-                          <div
-                            className="absolute border font-medium border-[hsl(var(--border))] rounded-lg top-3 right-3 px-7 py-2 bg-[hsl(var(--background))] text-[hsl(var(--destructive))] hover:bg-[hsl(var(--destructive))] hover:text-[hsl(var(--destructive-foreground))] "
+            <Suspense
+              fallback={
+                <span className="loader-form absolute top-2 right-2"></span>
+              }
+            >
+              <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm text-zinc-800 dark:text-zinc-400 pb-5 ">
+                {draftBlogs?.length !== 0 ? (
+                  draftBlogs.map((blog, i) => {
+                    return (
+                      <li
+                        className="w-full flex items-center justify-between p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
+                        key={i}
+                        onClick={() => {
+                          setcurrentBlog(blog);
+                          setSelectedBlog(blog);
+                          // navigate(`/blogs/:${blog.blogId}`);
+                        }}
+                      >
+                        <div className="inline-flex">
+                          <HiOutlineDocumentText className="mr-1 inline-flex text-lg" />
+                          <span>
+                            {blog?.title?.length !== 0
+                              ? blog?.title?.length > 25
+                                ? blog.title.slice(0, 25) + "..."
+                                : blog.title
+                              : "No title"}
+                          </span>
+                        </div>
+                        <div className="relative inline-flex">
+                          <SlOptionsVertical
+                            className="inline-flex text-lg duration-150 hover:text-[hsl(var(--foreground))] "
                             onMouseEnter={() =>
                               setOptionsToggle((prev) =>
                                 prev.map((val, index) =>
@@ -174,63 +166,86 @@ const Sidebar = ({
                               setTimeout(() => {}, 2000);
                               setOptionsToggle((prev) => prev.map(() => false));
                             }}
-                            onClick={() => {
-                              setToBeDeletedElement({
-                                title: blog.title,
-                                blogId: blog.blogId,
-                              });
-                              setToggleDelete(true);
-                            }}
-                          >
-                            delete
-                          </div>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })
-              ) : (
-                <li className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 flex items-center justify-between ">
-                  <div className="inline-flex">
-                    <HiOutlineDocumentText className="mr-1 inline-flex text-lg" />
-                    <span>Create New draft</span>
-                  </div>
-                  <SlOptionsVertical className="inline-flex" />
-                </li>
-              )}
-            </ul>
+                          />
+                          {OptionsToggle[i] && (
+                            <div
+                              className="absolute border font-medium border-[hsl(var(--border))] rounded-lg top-3 right-3 px-7 py-2 bg-[hsl(var(--background))] text-[hsl(var(--destructive))] hover:bg-[hsl(var(--destructive))] hover:text-[hsl(var(--destructive-foreground))] "
+                              onMouseEnter={() =>
+                                setOptionsToggle((prev) =>
+                                  prev.map((val, index) =>
+                                    index === i ? true : false
+                                  )
+                                )
+                              }
+                              onMouseLeave={() => {
+                                setTimeout(() => {}, 2000);
+                                setOptionsToggle((prev) =>
+                                  prev.map(() => false)
+                                );
+                              }}
+                              onClick={() => {
+                                setToBeDeletedElement({
+                                  title: blog.title,
+                                  blogId: blog.blogId,
+                                });
+                                setToggleDelete(true);
+                              }}
+                            >
+                              delete
+                            </div>
+                          )}
+                        </div>
+                      </li>
+                    );
+                  })
+                ) : (
+                  <li className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 flex items-center justify-between ">
+                    <div className="inline-flex">
+                      <HiOutlineDocumentText className="mr-1 inline-flex text-lg" />
+                      <span>No title</span>
+                    </div>
+                    <SlOptionsVertical className="inline-flex" />
+                  </li>
+                )}
+              </ul>
+            </Suspense>
           </div>
           <div>
             <h2 className="mt-2 mb-1 text-sm font-medium">Published</h2>
-            <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm  text-zinc-800 dark:text-zinc-400">
-              {/* published blogs */}
+            <Suspense
+              fallback={
+                <span className="loader-form absolute top-2 right-2"></span>
+              }
+            >
+              <ul className="scrollBar-div flex pr-2 flex-col gap-1 max-h-[20vh] overflow-scroll text-sm  text-zinc-800 dark:text-zinc-400">
+                {/* published blogs */}
 
-              {blogs?.length !== 0 ? (
-                blogs.map((blog, i) => {
-                  return (
-                    <li
-                      className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
-                      key={i}
-                      onClick={() => {
-                        // setSelectedBlog(blog);
-                        setcurrentBlog(blog);
-                        // navigate(`/blogs/:${blog.blogId}`);
-                      }}
-                    >
-                      <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
-                      {blog.title.length > 25
-                        ? blog.title.slice(0, 25) + "..."
-                        : blog.title}
-                    </li>
-                  );
-                })
-              ) : (
-                <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
-                  <HiOutlineDocumentText className="inline-flex text-lg" /> This
-                  is my first blog
-                </li>
-              )}
-            </ul>
+                {blogs?.length !== 0 ? (
+                  blogs.map((blog, i) => {
+                    return (
+                      <li
+                        className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
+                        key={i}
+                        onClick={() => {
+                          // setSelectedBlog(blog);
+                          setcurrentBlog(blog);
+                          // navigate(`/blogs/:${blog.blogId}`);
+                        }}
+                      >
+                        <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
+                        {blog.title.length > 25
+                          ? blog.title.slice(0, 25) + "..."
+                          : blog.title}
+                      </li>
+                    );
+                  })
+                ) : (
+                  <li className="w-full  p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 ">
+                    No published blogs
+                  </li>
+                )}
+              </ul>
+            </Suspense>
           </div>
         </div>
 

@@ -62,7 +62,7 @@ app.use(authJWT);
 //for logout and to delete refreshToken
 app.use("/logout", logoutRoute);
 
-// This is setting for get request
+// This is setting for request
 app.use("/posts", userPostsRoute);
 
 // app.post("/posts", (req, res) => {

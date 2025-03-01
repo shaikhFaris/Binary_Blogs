@@ -85,8 +85,9 @@ const blogsPublishController = async (req, res) => {
   try {
     const userPosts = await postsModel.findOne({ email: req.user });
     if (!userPosts) {
+      // creating a new entry for thr user
       try {
-        await postsModel.create({
+        const createBlog = await postsModel.create({
           email: req.user,
           blogs: [
             {
@@ -99,19 +100,12 @@ const blogsPublishController = async (req, res) => {
           drafts: [],
           author: "John Doe", // change this afterwards
         });
-        return res.sendStatus(201);
+        return res.status(201).json(createBlog);
       } catch (error) {
         console.log(error);
         return res.sendStatus(500);
       }
     } else {
-      // for editing a blog
-      // try {
-
-      // } catch (error) {
-
-      // }
-
       // updating the blogs array
       try {
         const updatedBlog = await postsModel.findOneAndUpdate(
