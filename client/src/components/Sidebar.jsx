@@ -33,6 +33,7 @@ const Sidebar = ({
   const navigate = useNavigate();
   const [navbarHeight, setnavbarHeight] = useState();
   const [OptionsToggle, setOptionsToggle] = useState([]);
+  const [OptionsTogglePub, setOptionsTogglePub] = useState([]);
 
   useEffect(() => {
     sethideFooter(true);
@@ -63,11 +64,16 @@ const Sidebar = ({
   }, []);
 
   useEffect(() => {
-    const tempArr = [];
+    const tempArr1 = [];
+    const tempArr2 = [];
     for (let i = 0; i < draftBlogs.length; i++) {
-      tempArr.push(false);
+      tempArr1.push(false);
     }
-    setOptionsToggle(tempArr);
+    setOptionsToggle(tempArr1);
+    for (let i = 0; i < blogs.length; i++) {
+      tempArr2.push(false);
+    }
+    setOptionsTogglePub(tempArr2);
   }, [draftBlogs, blogs]);
 
   return (
@@ -187,6 +193,7 @@ const Sidebar = ({
                                 setToBeDeletedElement({
                                   title: blog.title,
                                   blogId: blog.blogId,
+                                  draft: true,
                                 });
                                 setToggleDelete(true);
                               }}
@@ -224,7 +231,7 @@ const Sidebar = ({
                   blogs.map((blog, i) => {
                     return (
                       <li
-                        className="w-full p-2 cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
+                        className="w-full p-2 flex justify-between items-center cursor-default hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg duration-150 "
                         key={i}
                         onClick={() => {
                           // setSelectedBlog(blog);
@@ -232,10 +239,60 @@ const Sidebar = ({
                           // navigate(`/blogs/:${blog.blogId}`);
                         }}
                       >
-                        <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
-                        {blog.title.length > 25
-                          ? blog.title.slice(0, 25) + "..."
-                          : blog.title}
+                        <div className="inline-flex">
+                          <HiOutlineDocumentText className="inline-flex mr-1 text-lg" />
+                          <span>
+                            {blog.title.length > 25
+                              ? blog.title.slice(0, 25) + "..."
+                              : blog.title}
+                          </span>
+                        </div>
+                        <div className="relative inline-flex">
+                          <SlOptionsVertical
+                            className="inline-flex text-lg duration-150 hover:text-[hsl(var(--foreground))] "
+                            onMouseEnter={() =>
+                              setOptionsTogglePub((prev) =>
+                                prev.map((val, index) =>
+                                  index === i ? true : false
+                                )
+                              )
+                            }
+                            onMouseLeave={() => {
+                              setTimeout(() => {}, 2000);
+                              setOptionsTogglePub((prev) =>
+                                prev.map(() => false)
+                              );
+                            }}
+                          />
+                          {OptionsTogglePub[i] && (
+                            <div
+                              className="absolute border font-medium border-[hsl(var(--border))] rounded-lg top-3 right-3 px-7 py-2 bg-[hsl(var(--background))] text-[hsl(var(--destructive))] hover:bg-[hsl(var(--destructive))] hover:text-[hsl(var(--destructive-foreground))] "
+                              onMouseEnter={() =>
+                                setOptionsTogglePub((prev) =>
+                                  prev.map((val, index) =>
+                                    index === i ? true : false
+                                  )
+                                )
+                              }
+                              onMouseLeave={() => {
+                                setTimeout(() => {}, 2000);
+                                setOptionsTogglePub((prev) =>
+                                  prev.map(() => false)
+                                );
+                              }}
+                              onClick={() => {
+                                setToBeDeletedElement({
+                                  title: blog.title,
+                                  blogId: blog.blogId,
+                                  draft: false,
+                                });
+                                setToggleDelete(true);
+                              }}
+                            >
+                              delete
+                            </div>
+                          )}
+                        </div>
                       </li>
                     );
                   })
@@ -256,14 +313,17 @@ const Sidebar = ({
             <button className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium rounded-lg hover:bg-zinc-300 hover:dark:bg-zinc-800">
               <HiOutlineDocumentPlus className="inline-flex text-xl" /> New
               Draft
-            </button>
-            <button
-              className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium rounded-lg hover:bg-zinc-200 hover:dark:bg-zinc-800"
-              onClick={() => navigate("/mdEditor")}
+            </button>{" "}
+            <a
+              href="https://pandao.github.io/editor.md/en.html"
+              target="_blank"
+              className="w-full rounded-lg hover:dark:bg-zinc-800"
             >
-              <FaCodepen className="inline-flex text-xl" />
-              Md Editor
-            </button>
+              <button className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium  hover:bg-zinc-200 ">
+                <FaCodepen className="inline-flex text-xl" />
+                Md Editor
+              </button>
+            </a>
             <button
               className="text-start px-1 py-2 text-sm flex items-center gap-1 font-medium rounded-lg hover:bg-zinc-200 hover:dark:bg-zinc-800"
               onClick={() => navigate("/")}
