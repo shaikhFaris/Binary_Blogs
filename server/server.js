@@ -9,8 +9,17 @@ import userPostsRoute from "./routes/usersPosts.route.js";
 import mongoose from "mongoose";
 import authJWT from "./middleware/authJWT.js";
 import cookieParser from "cookie-parser";
+import { rateLimit } from "express-rate-limit";
 const app = express();
 const PORT = 3000;
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: { error: "Too many requests. Try again later." },
+});
 
 try {
   mongoose.connect("mongodb://localhost:27017/Binary-Blogs");
@@ -26,7 +35,7 @@ app.use(reqLogger_middleware);
 const whiteList = [
   // "https://www.mydomain.com",
   // "https://www.google.co.in",
-  // "http://localhost:5173",
+  "http://localhost:5173",
   // "http://192.168.225.223:5173",
   // "http://192.168.142.223:5173",
 ]; // for prod modify this
@@ -58,11 +67,11 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use("/register", registerRoute);
+app.use("/register", authLimiter, registerRoute);
 
-app.use("/login", loginRoute);
+app.use("/login", authLimiter, loginRoute);
 
-app.use("/refresh", refreshRoute);
+app.use("/refresh", authLimiter, refreshRoute);
 
 // jwt verification middleware for below routes which are protected
 app.use(authJWT);
