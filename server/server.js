@@ -26,9 +26,9 @@ app.use(reqLogger_middleware);
 const whiteList = [
   // "https://www.mydomain.com",
   // "https://www.google.co.in",
-  "http://localhost:5173",
-  "http://192.168.225.223:5173",
-  "http://192.168.142.223:5173",
+  // "http://localhost:5173",
+  // "http://192.168.225.223:5173",
+  // "http://192.168.142.223:5173",
 ]; // for prod modify this
 const corsOptions = {
   origin: (origin, callback) => {
@@ -44,6 +44,14 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use((err, req, res, next) => {
+  if (err.message === "Not allowed by cors") {
+    console.log("blocked by cors" + req.ip);
+    res.status(403).json({ message: "CORS error: Access denied" });
+  } else {
+    next(err); // pass other errors
+  }
+});
 
 // to parse body
 app.use(express.json());
@@ -68,4 +76,5 @@ app.use("/posts", userPostsRoute);
 app.all("*", (req, res) => {
   res.sendStatus(404);
 });
+
 app.listen(3000);
