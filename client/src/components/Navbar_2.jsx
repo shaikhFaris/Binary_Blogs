@@ -29,9 +29,12 @@ const Navbar_2 = () => {
           </h1>
         </div>
         <div className="flex gap-4 overflow-hidden">
-          <button className="bg-transparent backdrop-blur-sm text-xs md:text-base text-zinc-500 lg:hover:text-[hsl(var(--foreground))] lg:hover:bg-[hsl(var(--secondary))] border border-[hsl(var(--border))] py-1 px-2 md:px-4 md:py-[0.4rem] rounded-lg duration-150">
-            <Link to={"/login"}>Login</Link>
-          </button>
+          <Link
+            to={"/login"}
+            className="bg-transparent backdrop-blur-sm text-xs md:text-base text-zinc-500 lg:hover:text-[hsl(var(--foreground))] lg:hover:bg-[hsl(var(--secondary))] border border-[hsl(var(--border))] py-1 px-2 md:px-4 md:py-[0.4rem] rounded-lg duration-150"
+          >
+            Login
+          </Link>
           <button className="bg-transparent backdrop-blur-sm text-zinc-500 lg:hover:text-[hsl(var(--foreground))] lg:hover:bg-[hsl(var(--secondary))] border border-[hsl(var(--border))] p-2 md:p-3 rounded-lg duration-150">
             <MdOutlineLightMode onClick={handleMode} />
           </button>

@@ -65,20 +65,6 @@ app.use("/logout", logoutRoute);
 // This is setting for request
 app.use("/posts", userPostsRoute);
 
-// app.post("/posts", (req, res) => {
-//   if (req.body != null) {
-//     data.push(req.body.data);
-//     res.status(201).json();
-//   }
-// });
-// app.delete("/posts:id", (req, res) => {
-//   data.splice(
-//     data.findIndex((blog) => blog.id.toString() == req.params.id),
-//     1
-//   );
-//   res.status(201).json(data);
-// });
-
 app.all("*", (req, res) => {
   res.sendStatus(404);
 });

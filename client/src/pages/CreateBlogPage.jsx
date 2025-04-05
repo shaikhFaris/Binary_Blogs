@@ -37,6 +37,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
   const [ToBeDeletedElement, setToBeDeletedElement] = useState({
     blogId: "",
     title: "",
+    draft: true,
   });
   const [ToggleDelete, setToggleDelete] = useState(false);
   const [toggleSubmissionPopup, settoggleSubmissionPopup] = useState({
@@ -159,7 +160,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
     if (e.nativeEvent.submitter.name == "draft") {
       const controller = new AbortController();
       console.log("draft submitted");
-      console.log(BlogsTobePosted);
+      // console.log(BlogsTobePosted);
 
       try {
         const response = await axiosPrivate.post(
@@ -175,7 +176,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
             withCredentials: true,
           }
         );
-        console.log(response.data);
+        // console.log(response.data);
         setBlogs(response.data.blogs);
         setdraftBlogs(response.data.drafts);
         seteditMode(false);
@@ -188,9 +189,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
       }
     }
 
-    if (e.nativeEvent.submitter.name == "delete") {
-      // const controller = new AbortController();
-      setToBeDeletedElement({ blogId: "", title: "" });
+    if (e.nativeEvent.submitter.name == "deleteDraft") {
       setToggleDelete(false);
       console.log(ToBeDeletedElement);
       try {
@@ -199,7 +198,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         });
-        console.log(response);
+        // console.log(response);
         if (response.status === 201) {
           setBlogs(response.data.blogs);
           setdraftBlogs(response.data.drafts);
@@ -212,6 +211,35 @@ const CreateBlogPage = ({ sethideFooter }) => {
       } catch (error) {
         console.log(error);
       }
+      setToBeDeletedElement({ blogId: "", title: "" });
+    }
+    // delete published blogs
+    if (e.nativeEvent.submitter.name == "deletePub") {
+      setToggleDelete(false);
+      console.log(ToBeDeletedElement);
+      try {
+        const response = await axiosPrivate.delete(
+          "posts/submit/publishBlogs",
+          {
+            data: { editedBlog: ToBeDeletedElement.blogId },
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
+        // console.log(response);
+        if (response.status === 201) {
+          setBlogs(response.data.blogs);
+          setdraftBlogs(response.data.drafts);
+          settoggleConfirmPublishPopup(false);
+          settoggleSubmissionPopup({
+            check: true,
+            stringValue: "Blog Deleted",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setToBeDeletedElement({ blogId: "", title: "" });
     }
   };
 

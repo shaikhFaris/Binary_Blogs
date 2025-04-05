@@ -7,5 +7,5 @@ export default axios.create({
 export const PrivateAxios = axios.create({
   baseURL: BASE_URL,
   // headers: { "Content-Type": "appilcation/json" },
-  withCredentials: true,
+  withCredentials: true, // send cookies automatically in each req
 });

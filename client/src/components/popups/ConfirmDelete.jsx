@@ -15,7 +15,7 @@ const ConfirmDelete = ({
         <div className="flex justify-center gap-3 items-center">
           <button
             className="border mt-2 font-medium rounded-xl border-[hsl(var(--border))] w-1/3 p-3 text-[hsl(var(--foreground))] hover:bg-[hsl(var(--destructive))] hover:text-[hsl(var(--primary))] duration-150 "
-            name="delete"
+            name={ToBeDeletedElement.draft ? "deleteDraft" : "deletePub"}
             type="submit"
           >
             Confirm Delete
