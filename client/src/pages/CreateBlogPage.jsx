@@ -142,7 +142,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
             withCredentials: true,
           }
         );
-        console.log(response);
+        // console.log(response);
 
         setBlogs(response.data.blogs);
         setdraftBlogs(response.data.drafts);
@@ -191,7 +191,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
 
     if (e.nativeEvent.submitter.name == "deleteDraft") {
       setToggleDelete(false);
-      console.log(ToBeDeletedElement);
+      // console.log(ToBeDeletedElement);
       try {
         const response = await axiosPrivate.delete("posts/submit/drafts", {
           data: { editedBlog: ToBeDeletedElement.blogId },
@@ -216,7 +216,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
     // delete published blogs
     if (e.nativeEvent.submitter.name == "deletePub") {
       setToggleDelete(false);
-      console.log(ToBeDeletedElement);
+      // console.log(ToBeDeletedElement);
       try {
         const response = await axiosPrivate.delete(
           "posts/submit/publishBlogs",

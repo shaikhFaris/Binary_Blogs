@@ -13,7 +13,7 @@ const usePrivateAxios = () => {
       (config) => {
         if (!config.headers["Authorization"]) {
           // thhis is the first attempt of req
-          console.log();
+          // console.log();
 
           config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
         }

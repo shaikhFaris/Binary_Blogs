@@ -22,7 +22,7 @@ const useRefreshtoken = () => {
         if (e.status === 403) {
           setAuth({});
         }
-        console.log(e);
+        // console.log(e);
       });
     if (!response?.data.accessToken) return;
     return response.data.accessToken;

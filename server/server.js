@@ -34,7 +34,7 @@ try {
 app.use(reqLogger_middleware);
 
 // cors: timestamp: 2:47:00
-const whiteList = ["https://binary-blogs-ten.vercel.app/"]; // for prod modify this
+const whiteList = ["https://binary-blogs-ten.vercel.app"]; // for prod modify this
 const corsOptions = {
   origin: (origin, callback) => {
     //for prod remove this !origin from if statement
