@@ -18,8 +18,10 @@ const ConfirmPublishPopUp = ({
 
   return (
     <div className="absolute z-50 h-full w-full bg-transparent backdrop-blur-md flex justify-center items-center text-[hsl(var(--foreground))] ">
-      <div className="shadow-md dark:shadow-none border border-[hsl(var(--border))] lg:h-2/3 lg:w-1/2 bg-[hsl(var(--background))] rounded-xl flex flex-col justify-evenly lg:p-10 relative ">
-        <h1 className="text-4xl font-medium text-center ">Confirm Publish</h1>
+      <div className="shadow-md dark:shadow-none p-5 w-11/12 border border-[hsl(var(--border))] lg:h-2/3 lg:w-1/2 bg-[hsl(var(--background))] rounded-xl flex flex-col justify-evenly lg:p-10 relative ">
+        <h1 className="text-2xl lg:text-4xl mb-3 lg:mb-0 font-medium text-center ">
+          Confirm Publish
+        </h1>
         <div className="absolute top-0 right-0">
           {" "}
           <IoIosCloseCircleOutline
@@ -29,7 +31,7 @@ const ConfirmPublishPopUp = ({
             }}
           />
         </div>
-        <div>
+        <div className="mb-5 lg:mb-0">
           <div className="w-full flex justify-center items-center gap-2">
             <input
               ref={tagsRef}
@@ -66,7 +68,7 @@ const ConfirmPublishPopUp = ({
             </div>
           )}
         </div>
-        <div className="w-full flex justify-center items-center gap-2">
+        <div className="w-full flex justify-center mb-5 lg:mb-0 items-center gap-2">
           <input
             required
             ref={categoryRef}
