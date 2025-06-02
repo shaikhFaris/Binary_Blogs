@@ -30,6 +30,8 @@ try {
   console.log(error);
 }
 
+app.set("trust proxy", true);
+
 // logger
 app.use(reqLogger_middleware);
 
