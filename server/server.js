@@ -15,7 +15,7 @@ const PORT = 3000;
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 5,
+  limit: 15,
   standardHeaders: "draft-8",
   legacyHeaders: false,
   message: { error: "Too many requests. Try again later." },
@@ -71,7 +71,7 @@ app.use("/register", authLimiter, registerRoute);
 
 app.use("/login", authLimiter, loginRoute);
 
-app.use("/refresh", authLimiter, refreshRoute);
+app.use("/refresh", refreshRoute);
 
 // jwt verification middleware for below routes which are protected
 app.use(authJWT);
