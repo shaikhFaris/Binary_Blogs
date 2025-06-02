@@ -50,7 +50,7 @@ const SelectedBlog = () => {
   const axiosPrivate = usePrivateAxios();
   useEffect(() => {
     // console.log(location.pathname.split("/blogs/")[1]);
-    console.log(selectedBlog);
+    // console.log(selectedBlog);
 
     const controller = new AbortController();
     const getBlogs = async () => {

@@ -5,7 +5,7 @@ const SubmissionPopups = ({
   settoggleSubmissionPopup,
 }) => {
   useEffect(() => {
-    console.log(toggleSubmissionPopup);
+    // console.log(toggleSubmissionPopup);
   }, [toggleSubmissionPopup]);
 
   return (
