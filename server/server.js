@@ -9,8 +9,17 @@ import userPostsRoute from "./routes/usersPosts.route.js";
 import mongoose from "mongoose";
 import authJWT from "./middleware/authJWT.js";
 import cookieParser from "cookie-parser";
+import { rateLimit } from "express-rate-limit";
 const app = express();
 const PORT = 3000;
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 15,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: { error: "Too many requests. Try again later." },
+});
 
 try {
   mongoose.connect("mongodb://localhost:27017/Binary-Blogs");
@@ -27,8 +36,8 @@ const whiteList = [
   // "https://www.mydomain.com",
   // "https://www.google.co.in",
   "http://localhost:5173",
-  "http://192.168.225.223:5173",
-  "http://192.168.142.223:5173",
+  // "http://192.168.225.223:5173",
+  // "http://192.168.142.223:5173",
 ]; // for prod modify this
 const corsOptions = {
   origin: (origin, callback) => {
@@ -44,15 +53,23 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use((err, req, res, next) => {
+  if (err.message === "Not allowed by cors") {
+    console.log("blocked by cors" + req.ip);
+    res.status(403).json({ message: "CORS error: Access denied" });
+  } else {
+    next(err); // pass other errors
+  }
+});
 
 // to parse body
 app.use(express.json());
 
 app.use(cookieParser());
 
-app.use("/register", registerRoute);
+app.use("/register", authLimiter, registerRoute);
 
-app.use("/login", loginRoute);
+app.use("/login", authLimiter, loginRoute);
 
 app.use("/refresh", refreshRoute);
 
@@ -68,4 +85,5 @@ app.use("/posts", userPostsRoute);
 app.all("*", (req, res) => {
   res.sendStatus(404);
 });
+
 app.listen(3000);
