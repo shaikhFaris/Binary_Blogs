@@ -29,7 +29,7 @@ const LandingPage = ({ sethideNavbar }) => {
 
     const radialBgFunc = (e) => {
       const { clientX, clientY } = e;
-      console.log(clientX, clientY);
+      // console.log(clientX, clientY);
 
       // Set dynamic mask position
       target_bg.style.setProperty(
@@ -81,7 +81,7 @@ const LandingPage = ({ sethideNavbar }) => {
       </div>
       {/* react-video player */}
       <div className="hidden md:flex  md:mt-4 justify-center">
-        <div className="player-wrapper border [box-shadow:1px_1px_15px_#d4d4d8] dark:border-[#4f46e5] dark:[box-shadow:1px_1px_45px_10px_#4f46e5]  rounded-2xl overflow-hidden md:h-[90vh] md:w-[160vh] ">
+        <div className="player-wrapper border [box-shadow:1px_1px_15px_#d4d4d8] dark:border-[#4f46e5] dark:[box-shadow:1px_1px_45px_10px_#4f46e5] rounded-2xl overflow-hidden md:h-[90vh] md:w-[160vh] ">
           <ReactPlayer
             className="react-player"
             // url="https://www.youtube.com/watch?v=uMQnn8xU7qs&t=16s"
@@ -99,7 +99,7 @@ const LandingPage = ({ sethideNavbar }) => {
       <Carousel />
 
       {/* heading2 */}
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center md:min-h-[60vh] lg:min-h-screen min-h-screen">
         {" "}
         <h1 className="rubik-font text-[hsl(var(--foreground))] p-2 md:p-0 w-full text-7xl lg:text-6xl md:text-5xl xl:w-2/3 md:w-4/5 text-center ">
           Effortless blogging, powered by{" "}
@@ -192,9 +192,6 @@ const LandingPage = ({ sethideNavbar }) => {
         {/* 
         test */}
         <div className="absolute bottom-0 left-0 bg-[#3730a3] lg:bg-[#818cf8] dark:lg:bg-white/15 bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#4f46e5_1px,transparent_1px),linear-gradient(to_bottom,#4f46e5_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)]  bg-[size:60px_60px] dark:[mask-image:radial-gradient(60%_35%_at_50%_35%,black,transparent)] md:dark:[mask-image:radial-gradient(30%_40%_at_50%_35%,black,transparent)] group-hover:opacity-0 duration-700"></div>
-        {/* <div
-          className={`absolute bottom-0 left-0 bg-[#3730a3] bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#d4d4d8_1px,transparent_1px),linear-gradient(to_bottom,#d4d4d8_1px,transparent_1px)]  bg-[size:60px_60px] dark:[mask-image:radial-gradient(30%_40%_at_20%_20%,black,transparent)] opacity-0 group-hover:opacity-100 duration-700 `}
-        ></div> */}
         <div
           className={`hidden lg:block absolute bottom-0 left-0 bg-[#818cf8] dark:bg-white/15 bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#3730a3_1px,transparent_1px),linear-gradient(to_bottom,#3730a3_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)]  bg-[size:60px_60px] opacity-0 group-hover:opacity-100 duration-700`}
           id="target-div"

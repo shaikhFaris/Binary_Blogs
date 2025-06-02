@@ -19,7 +19,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
   const navigate = useNavigate();
   const [draftBlogs, setdraftBlogs] = useState([]);
   const { blogs, setBlogs } = useContext(BlogsContext);
-  const [CollapseSidebar, setCollapseSidebar] = useState(false);
+  const [CollapseSidebar, setCollapseSidebar] = useState(true);
   const [togglePreview, settogglePreview] = useState(false);
   const [navbarHeight, setnavbarHeight] = useState();
   const [blogBody, setblogBody] = useState(``);
@@ -302,7 +302,10 @@ const CreateBlogPage = ({ sethideFooter }) => {
                   />
                 </button>
               )}
-              <button className="lg:text-xl border border-[hsl(var(--border))] lg:hover:scale-110 p-2 rounded-[var(--radius)] duration-150 md:hover:bg-[hsl(var(--secondary))]">
+              <button
+                type="button"
+                className="lg:text-xl border border-[hsl(var(--border))] lg:hover:scale-110 p-2 rounded-[var(--radius)] duration-150 md:hover:bg-[hsl(var(--secondary))]"
+              >
                 <VscPreview
                   title="preview"
                   // className=" text-3xl hover:scale-110 duration-150 "
@@ -343,7 +346,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
 
         <input
           ref={titleRef}
-          className={`lg:max-w-[90%] p-2 bg-transparent pr-3 outline-none xl:text-5xl font-semibold dark:text-zinc-200 placeholder-zinc-700 ${
+          className={`lg:max-w-[90%] p-2 bg-transparent pr-3 text-2xl outline-none xl:text-5xl font-semibold dark:text-zinc-200 placeholder-zinc-700 ${
             CollapseSidebar && togglePreview && "lg:max-w-[56%]"
           }`}
           type="text"
@@ -368,9 +371,9 @@ const CreateBlogPage = ({ sethideFooter }) => {
         />
         {/* buttons */}
         {(NewBlogOrNot || editMode) && (
-          <div className="flex lg:gap-5">
+          <div className="flex mt-5 md:mt-0 justify-center gap-5 md:justify-start lg:gap-5">
             <button
-              className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
+              className="w-1/3 text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] lg:w-2/12 font-medium duration-150"
               type="button"
               onClick={() => {
                 settoggleConfirmPublishPopup(true);
@@ -384,7 +387,7 @@ const CreateBlogPage = ({ sethideFooter }) => {
             </button>
             <button
               name="draft"
-              className=" text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] w-2/12 font-medium duration-150"
+              className="w-1/3 text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] hover:bg-green-600 hover:text-[hsl(var(--primary))] p-2 border border-[hsl(var(--border))] rounded-[var(--radius)] lg:w-2/12 font-medium duration-150"
               type="submit"
             >
               Save as draft

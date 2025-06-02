@@ -2,4 +2,4 @@
 
 <!-- 2. Add handle Delete to delete drafts and published blogs -->
 
-3. Add a rate limiter
+<!-- 3. Add a rate limiter to auth routes -->
