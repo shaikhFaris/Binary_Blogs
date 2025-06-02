@@ -12,6 +12,8 @@ import cookieParser from "cookie-parser";
 import { rateLimit } from "express-rate-limit";
 const app = express();
 const PORT = 3000;
+import dotenv from "dotenv";
+dotenv.config();
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -22,7 +24,7 @@ const authLimiter = rateLimit({
 });
 
 try {
-  mongoose.connect("mongodb://localhost:27017/Binary-Blogs");
+  mongoose.connect(process.env.MONGO_URI);
   console.log("connected to DB");
 } catch (error) {
   console.log(error);
