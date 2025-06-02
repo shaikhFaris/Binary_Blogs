@@ -32,17 +32,11 @@ try {
 app.use(reqLogger_middleware);
 
 // cors: timestamp: 2:47:00
-const whiteList = [
-  // "https://www.mydomain.com",
-  // "https://www.google.co.in",
-  "http://localhost:5173",
-  // "http://192.168.225.223:5173",
-  // "http://192.168.142.223:5173",
-]; // for prod modify this
+const whiteList = ["https://binary-blogs-ten.vercel.app/"]; // for prod modify this
 const corsOptions = {
   origin: (origin, callback) => {
     //for prod remove this !origin from if statement
-    if (!origin || whiteList.indexOf(origin) !== -1) {
+    if (whiteList.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by cors"));

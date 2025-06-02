@@ -22,7 +22,7 @@ const logoutController = async (req, res) => {
     res.clearCookie("jwt", {
       httpOnly: true,
       sameSite: "strict", // Prevents CSRF by restricting cross-origin requests
-      //   secure:true // for production
+      secure: true, // for production
     });
     return res.sendStatus(204);
   }
@@ -33,7 +33,7 @@ const logoutController = async (req, res) => {
   res.clearCookie("jwt", {
     httpOnly: true,
     sameSite: "strict", // Prevents CSRF by restricting cross-origin requests
-    //   secure:true // for production
+    secure: true, // for production
   });
   return res.sendStatus(204);
 };
