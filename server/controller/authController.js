@@ -58,7 +58,7 @@ const authController = async (req, res) => {
 
       res.cookie("jwt", refreshToken, {
         httpOnly: true,
-        sameSite: "strict", // Prevents CSRF by restricting cross-origin requests
+        sameSite: "none", // Prevents CSRF by restricting cross-origin requests. make this none for prod or else strict
         secure: true, // for production
       });
       res.status(200).json(accessToken);
