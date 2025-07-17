@@ -6,8 +6,10 @@ import image from "../assets/image-3-DL8wGSR2.webp";
 import underline from "../assets/pngwing.png";
 import { FaArrowUp } from "react-icons/fa";
 import Carousel from "../components/Carousel";
+import { Link, useNavigate } from "react-router-dom";
 
 const LandingPage = ({ sethideNavbar }) => {
+  const navigate = useNavigate();
   useEffect(() => {
     sethideNavbar(true);
     console.log(
@@ -62,20 +64,25 @@ const LandingPage = ({ sethideNavbar }) => {
         <div className="flex flex-col items-center pt-20 md:pt-10 gap-2 px-3 md:px-0 ">
           <h1 className="rubik-font text-[hsl(var(--foreground))] lg:text-6xl md:text-5xl w-full text-4xl xl:w-2/3 md:w-4/5 z-40 text-center">
             Write Freely, Read Endlessly, Grow{" "}
-            <span className="text-[hsl(var(--blue-foreground))] ">
-              Infinitely.
-            </span>
+            <span className="text-[hsl(var(--blue-foreground))] ">Infinitely.</span>
           </h1>
           <p className="text-500-400 dark:text-zinc-500 max-w-xs md:max-w-none text-xs text-center md:text-base  ">
             Start writing today and share your story with the world!
           </p>
           <div className="text-[hsl(var(--foreground))] flex gap-5 mt-3">
-            <button className="border py-1 px-2 text-sm md:text-base md:py-2 md:px-4 rounded-md dark:font-medium text-[hsl(var(--background))] bg-[hsl(var(--foreground))] z-10 lg:hover:-translate-y-1 duration-150">
+            <button
+              onClick={() => navigate("/register")}
+              className="border py-1 px-2 text-sm md:text-base md:py-2 md:px-4 rounded-md dark:font-medium text-[hsl(var(--background))] bg-[hsl(var(--foreground))] z-10 lg:hover:-translate-y-1 duration-150"
+            >
               Get Started
             </button>
-            <button className="border lg:hover:text-[hsl(var(--background))] duration-150 lg:hover:bg-[hsl(var(--blue-foreground))] py-2 px-4 text-sm md:text-base md:py-2 md:px-4 rounded-md border-[hsl(var(--blue-foreground))] z-10">
+            <a
+              href="https://stackedit.io"
+              target="_blank"
+              className="border lg:hover:text-[hsl(var(--background))] duration-150 lg:hover:bg-[hsl(var(--blue-foreground))] py-2 px-4 text-sm md:text-base md:py-2 md:px-4 rounded-md border-[hsl(var(--blue-foreground))] z-10"
+            >
               Md Editor
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -99,29 +106,24 @@ const LandingPage = ({ sethideNavbar }) => {
       <Carousel />
 
       {/* heading2 */}
-      <div className="flex justify-center items-center md:min-h-[60vh] lg:min-h-screen min-h-screen">
+      <div className="flex justify-center items-center md:min-h-[60vh] lg:min-h-screen min-h-[70vh] ">
         {" "}
-        <h1 className="rubik-font text-[hsl(var(--foreground))] p-2 md:p-0 w-full text-7xl lg:text-6xl md:text-5xl xl:w-2/3 md:w-4/5 text-center ">
+        <h1 className="rubik-font text-[hsl(var(--foreground))] p-2 md:p-0 w-full text-4xl lg:text-6xl md:text-5xl xl:w-2/3 md:w-4/5 text-center ">
           Effortless blogging, powered by{" "}
           <span className="rubik-font relative ">
             Markdown.
-            <img
-              src={underline}
-              alt="underline"
-              className="w-full absolute right-0 "
-            />
+            <img src={underline} alt="underline" className="w-full absolute right-0 " />
           </span>
         </h1>
       </div>
       {/* secgtion2 */}
       <div className="lg:min-h-screen my-12 md:my-0 flex flex-col-reverse md:flex-row justify-between items-center">
-        <div className="w-[25rem] overflow-hidden md:w-6/12">
+        <div className="w-[22rem] overflow-hidden md:w-6/12">
           <img src={image} alt="svg-img" className="my-5 md:my-0" />
         </div>
         <div className="w-full md:w-6/12 p-3 lg:pl-16 flex gap-5 md:gap-10 flex-col justify-around text-[hsl(var(--foreground))] ">
-          <h2 className="text-4xl md:text-6xl text-zinc-700 dark:text-zinc-200 jersey-font ">
-            Why choose us over <br className="hidden md:block" /> other
-            platforms?
+          <h2 className="text-3xl md:text-5xl text-zinc-700 rubik-font dark:text-zinc-200 ">
+            We are built Different.
           </h2>
           <div className="flex">
             <div className="flex flex-col justify-center items-center">
@@ -129,12 +131,8 @@ const LandingPage = ({ sethideNavbar }) => {
               <div className="inline-flex border border-[hsl(var(--border))] h-full" />
             </div>
             <ul className="dark:text-zinc-400 text-zinc-60 text-sm md:text-base 0 md:pl-2 pt-5">
-              <li className="md:p-2 text-nowrap">
-                ✔️ Effortless Markdown Writing.
-              </li>
-              <li className="md:p-2 text-nowrap">
-                ✔️ Lightning-Fast Performance.{" "}
-              </li>
+              <li className="md:p-2 text-nowrap">✔️ Effortless Markdown Writing.</li>
+              <li className="md:p-2 text-nowrap">✔️ Lightning-Fast Performance. </li>
               <li className="md:p-2 text-nowrap">✔️ Dark Mode Support.</li>
               <li className="md:p-2 text-nowrap">✔️ Secure & Resposnive.</li>
               <li className="md:p-2 text-nowrap">
@@ -145,28 +143,20 @@ const LandingPage = ({ sethideNavbar }) => {
         </div>
       </div>
       {/* heading3 */}
-      <div className="flex justify-center items-center min-h-screen ">
+      <div className="flex justify-center items-center  md:min-h-[60vh] lg:min-h-screen min-h-[70vh] ">
         {" "}
-        <h1 className="hidden md:block rubik-font text-[hsl(var(--foreground))] px-2 md:px-0 w-full text-7xl lg:text-6xl md:text-5xl xl:w-2/3 md:w-4/5 text-center ">
+        <h1 className="hidden md:block rubik-font text-[hsl(var(--foreground))] px-2 md:px-0 w-full text-4xl lg:text-6xl md:text-5xl xl:w-2/3 md:w-4/5 text-center ">
           To top it all off, it's completely{" "}
           <span className="rubik-font relative ">
             free of cost.
-            <img
-              src={underline}
-              alt="underline"
-              className="w-full absolute right-0 "
-            />
+            <img src={underline} alt="underline" className="w-full absolute right-0 " />
           </span>
         </h1>
-        <h1 className="md:hidden rubik-font text-[hsl(var(--foreground))] px-2 w-full text-7xl text-center ">
+        <h1 className="md:hidden rubik-font text-[hsl(var(--foreground))] px-2 w-full text-4xl text-center ">
           And the value is greater because <br />
           <span className="rubik-font relative ">
             it's free!
-            <img
-              src={underline}
-              alt="underline"
-              className="w-full absolute right-0 "
-            />
+            <img src={underline} alt="underline" className="w-full absolute right-0 " />
           </span>
         </h1>
       </div>
@@ -191,7 +181,7 @@ const LandingPage = ({ sethideNavbar }) => {
         </div>
         {/* 
         test */}
-        <div className="absolute bottom-0 left-0 bg-[#3730a3] lg:bg-[#818cf8] dark:lg:bg-white/15 bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#4f46e5_1px,transparent_1px),linear-gradient(to_bottom,#4f46e5_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)]  bg-[size:60px_60px] dark:[mask-image:radial-gradient(60%_35%_at_50%_35%,black,transparent)] md:dark:[mask-image:radial-gradient(30%_40%_at_50%_35%,black,transparent)] group-hover:opacity-0 duration-700"></div>
+        <div className="absolute bottom-0 left-0 bg-[#3730a3] dark:bg-white/25 lg:bg-[#818cf8] dark:lg:bg-white/15 bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#4f46e5_1px,transparent_1px),linear-gradient(to_bottom,#4f46e5_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)]  bg-[size:60px_60px] dark:[mask-image:radial-gradient(60%_35%_at_50%_35%,black,transparent)] md:dark:[mask-image:radial-gradient(30%_40%_at_50%_35%,black,transparent)] group-hover:opacity-0 duration-700"></div>
         <div
           className={`hidden lg:block absolute bottom-0 left-0 bg-[#818cf8] dark:bg-white/15 bg-blend-overlay right-0 top-0 bg-[linear-gradient(to_right,#3730a3_1px,transparent_1px),linear-gradient(to_bottom,#3730a3_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#52525b_1px,transparent_1px),linear-gradient(to_bottom,#52525b_1px,transparent_1px)]  bg-[size:60px_60px] opacity-0 group-hover:opacity-100 duration-700`}
           id="target-div"
