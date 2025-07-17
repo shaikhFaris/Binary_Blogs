@@ -50,7 +50,12 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+app.get("/", (req, res) => {
+  res.sendStatus(200);
+});
+
 app.use(cors(corsOptions));
+// middleware to handle cors error
 app.use((err, req, res, next) => {
   if (err.message === "Not allowed by cors") {
     console.log("blocked by cors" + req.ip);
